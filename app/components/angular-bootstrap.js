@@ -4,8 +4,8 @@
  * @author Dennis Sänger, 2013
  */
 define([
-	'angular/angular',
-	'angular-resource/angular-resource'
+	'../components/angular/angular',
+	'../components/angular-resource/angular-resource'
 ], function( angular, resource ) {
  
 
