@@ -4,8 +4,9 @@
  * @author Dennis Sänger, 2013
  */
 define([
+	'jquery',
 	'components/angular/angular'
-], function( angular ) {
+], function( $, angular ) {
  
 	var app = angular.module('app', []);
 
