@@ -4,8 +4,19 @@
  * @author Dennis Sänger, 2013
  */
 define([
-	'ang',
-	'components/angular-resource/angular-resource'
-], function( ang, resource ) {
- 
+	'jquery',
+	'ang/app',
+	'components/angular/angular',
+	'ang/controller'
+], function( $, app, angular ) {
+
+	$(document).ready(function() {
+		
+		console.log('bootstrapping angular...');
+		var $html = $('html');
+		$html.addClass('ng-app="app"');
+		angular.bootstrap( $html, [app['name']] );
+	});
+
+
 });

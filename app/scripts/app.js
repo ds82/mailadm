@@ -4,7 +4,7 @@ require.config({
 		components: '../../components',
 		jquery: 'components/jquery/jquery',
 		bootstrap: 'bootstrap',
-		ang: 'angular/bootstrap',
+		ang: 'angular'
 	},
 	shim: {
 		'bootstrap': {
@@ -15,12 +15,13 @@ require.config({
 			deps: ['jquery'],
 			exports: 'angular'
 		},
+		'components/angular-resource/angular-resource': ['components/angular/angular'],
 		'bootstrap/popover': ['bootstrap/tooltip'],
-		'angular/modules': ['ang']
+		'ang/modules': ['ang/app']
 	}
 });
 
-require(['jquery', 'ang', 'bootstrap', 'angular/modules'], function ( $, ang ) {
+require(['jquery', 'ang/app', 'bootstrap', 'ang/modules'], function ( $, ang ) {
 	'use strict';
 
 	return ang;
