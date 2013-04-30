@@ -1,5 +1,7 @@
 // Generated on 2013-04-24 using generator-webapp 0.1.7
 'use strict';
+
+var path = require('path');
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
 var mountFolder = function (connect, dir) {
     return connect.static(require('path').resolve(dir));
@@ -16,6 +18,8 @@ module.exports = function (grunt) {
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
     grunt.loadNpmTasks('grunt-contrib-watch');
+    //grunt.loadNpmTasks('grunt-express');
+    grunt.loadNpmTasks('grunt-regarde');
 
     // configurable paths
     var yeomanConfig = {
@@ -322,6 +326,11 @@ module.exports = function (grunt) {
         'exec:less' 
     ]);
 
+    grunt.registerTask('express', 'running express', function() {
+        //grunt.log.writeln('');
+        require('./server/main.js').listen(9001);
+    });
+
     grunt.registerTask('server', function (target) {
         if (target === 'dist') {
             return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
@@ -329,6 +338,7 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'clean:server',
+            'express',
             'concurrent:server',
             'livereload-start',
             'connect:livereload',
