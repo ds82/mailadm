@@ -4,12 +4,12 @@ require.config({
 	paths: {
 		components: '../../components',
 		jquery: 'components/jquery/jquery',
-		bootstrap: 'bootstrap',
+		twitter: 'twitter',
 		ang: 'angular',
 		'socketio-client': '../components/socket.io-client/dist/socket.io.min'
 	},
 	shim: {
-		'bootstrap': {
+		'twitter': {
 			deps: ['jquery'],
 			exports: 'jquery'
 		},
@@ -18,7 +18,7 @@ require.config({
 			exports: 'angular'
 		},
 		'components/angular-resource/angular-resource': ['components/angular/angular'],
-		'bootstrap/popover': ['bootstrap/tooltip'],
+		'twitter/popover': ['twitter/tooltip'],
 		'ang/modules': ['ang/app'],
 		'socketio-client': {
 			exports: 'io'
@@ -26,7 +26,7 @@ require.config({
 	}
 });
 
-require(['jquery', 'ang/app', 'bootstrap', 'ang/modules', 'socket'], function ( $, ang ) {
+require(['jquery', 'ang/app', 'twitter', 'ang/modules', 'socket'], function ( $, ang ) {
 	'use strict';
 
 	return ang;

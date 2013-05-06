@@ -9,7 +9,7 @@ define([
 	'components/angular-resource/angular-resource'
 ], function( $, angular ) {
  
-	var app = angular.module('app', ['ngResource']);
+	var app = angular.module( 'app', ['ngResource'] );
+	
 	return app;
-
 });

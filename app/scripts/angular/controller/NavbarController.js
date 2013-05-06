@@ -5,9 +5,9 @@
  */
 define([
 	'jquery', 'ang/app', 'config'
-], function( $, ang, config ) {
+], function( $, app, config ) {
  
-	ang.factory('NavbarService', ['$resource', function( $resource ) {
+	app.factory('NavbarService', ['$resource', function( $resource ) {
 
 		return $resource( config.host + '/navbar', {},
 		{
@@ -18,7 +18,7 @@ define([
 		});
 	}]);
 
-	ang.controller('NavbarController', [ '$scope', 'NavbarService', function( $scope, Navbar ) {
+	app.controller('NavbarController', [ '$scope', 'NavbarService', function( $scope, Navbar ) {
 
 		$scope.navbar = Navbar.query(function() {
 			console.log( $scope.navbar );
