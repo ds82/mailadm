@@ -4,14 +4,12 @@
  * @author Dennis Sänger, 2013
  */
 define([
-	'jquery', 'ang/app'
-], function( $, ang ) {
+	'jquery', 'ang/app', 'config'
+], function( $, ang, config ) {
  
-	var host = 'http://localhost\\:9001';
-
 	ang.factory('NavbarService', ['$resource', function( $resource ) {
 
-		return $resource( host + '/navbar', {},
+		return $resource( config.host + '/navbar', {},
 		{
 			query: {
 				method:'GET',

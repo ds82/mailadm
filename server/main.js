@@ -26,7 +26,7 @@ app.get('/navbar', function (req, res) {
 });
 
 io.sockets.on('connection', function (socket) {
-	socket.emit('test', { hello: 'world' });
+	socket.emit('connected', { hello: 'world' });
 });
 
 exports = module.exports = server;
