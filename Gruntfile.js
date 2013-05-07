@@ -30,18 +30,6 @@ module.exports = function (grunt) {
     grunt.initConfig({
         yeoman: yeomanConfig,
         watch: {
-            coffee: {
-                files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
-                tasks: ['coffee:dist']
-            },
-            coffeeTest: {
-                files: ['test/spec/{,*/}*.coffee'],
-                tasks: ['coffee:test']
-            },
-            compass: {
-                files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-                tasks: ['compass:server']
-            },
             livereload: {
                 files: [
                     '<%= yeoman.app %>/*.html',
@@ -56,51 +44,20 @@ module.exports = function (grunt) {
 
                 files : [ 'less/*.less', 'less/**/*.less' ],
                 tasks : [ 'less' ]
-            },
-            server: {
-                files: [
-                    'server/{,*/}*.js'
-                ],
-                tasks: ['express']
             }
         },
-        connect: {
-            options: {
-                port: 9000,
-                // change this to '0.0.0.0' to access the server from outside
-                hostname: 'localhost'
-            },
+        express: {
             livereload: {
                 options: {
-                    middleware: function (connect) {
-                        return [
-                            lrSnippet,
-                            mountFolder(connect, '.tmp'),
-                            mountFolder(connect, 'app')
-                        ];
-                    }
-                }
-            },
-            test: {
-                options: {
-                    middleware: function (connect) {
-                        return [
-                            mountFolder(connect, '.tmp'),
-                            mountFolder(connect, 'test')
-                        ];
-                    }
-                }
-            },
-            dist: {
-                options: {
-                    middleware: function (connect) {
-                        return [
-                            mountFolder(connect, 'dist')
-                        ];
-                    }
+                    port: 9000,
+                    bases: path.resolve('app'),
+                    monitor: {},
+                    debug: true,
+                    server: path.resolve('./server/main')
                 }
             }
         },
+
         open: {
             server: {
                 path: 'http://localhost:<%= connect.options.port %>'
@@ -138,48 +95,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        coffee: {
-            dist: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= yeoman.app %>/scripts',
-                    src: '{,*/}*.coffee',
-                    dest: '.tmp/scripts',
-                    ext: '.js'
-                }]
-            },
-            test: {
-                files: [{
-                    expand: true,
-                    cwd: 'test/spec',
-                    src: '{,*/}*.coffee',
-                    dest: '.tmp/spec',
-                    ext: '.js'
-                }]
-            }
-        },
-        compass: {
-            options: {
-                sassDir: '<%= yeoman.app %>/styles',
-                cssDir: '.tmp/styles',
-                imagesDir: '<%= yeoman.app %>/images',
-                javascriptsDir: '<%= yeoman.app %>/scripts',
-                fontsDir: '<%= yeoman.app %>/styles/fonts',
-                importPath: 'app/components',
-                relativeAssets: true
-            },
-            dist: {},
-            server: {
-                options: {
-                    debugInfo: true
-                }
-            }
-        },
-        // not used since Uglify task does concat,
-        // but still available if needed
-        /*concat: {
-            dist: {}
-        },*/
         requirejs: {
             dist: {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
@@ -332,26 +247,23 @@ module.exports = function (grunt) {
         'exec:less' 
     ]);
 
-    grunt.registerTask('express', 'running express', function() {
-        //grunt.log.writeln('');
-        require('./server/main.js').listen(9001);
-    });
+    grunt.registerTask('server', ['livereload-start', 'express', 'watch']);
 
-    grunt.registerTask('server', function (target) {
-        if (target === 'dist') {
-            return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
-        }
+    // grunt.registerTask('server', function (target) {
+    //     if (target === 'dist') {
+    //         return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
+    //     }
 
-        grunt.task.run([
-            'clean:server',
-            'express',
-            'concurrent:server',
-            'livereload-start',
-            'connect:livereload',
-            'open',
-            'watch'
-        ]);
-    });
+    //     grunt.task.run([
+    //         'clean:server',
+    //         'express',
+    //         'concurrent:server',
+    //         'livereload-start',
+    //         'connect:livereload',
+    //         'open',
+    //         'watch'
+    //     ]);
+    // });
 
     grunt.registerTask('test', [
         'clean:server',
