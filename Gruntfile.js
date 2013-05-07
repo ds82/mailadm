@@ -47,6 +47,7 @@ module.exports = function (grunt) {
                     '<%= yeoman.app %>/*.html',
                     '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
                     '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
+                    'server/{,*/}*.js',
                     '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
                 ],
                 tasks: ['livereload']
@@ -55,8 +56,13 @@ module.exports = function (grunt) {
 
                 files : [ 'less/*.less', 'less/**/*.less' ],
                 tasks : [ 'less' ]
+            },
+            server: {
+                files: [
+                    'server/{,*/}*.js'
+                ],
+                tasks: ['express']
             }
-
         },
         connect: {
             options: {
