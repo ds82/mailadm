@@ -6,13 +6,13 @@
 	  <div class="control-group">
 	    <label class="control-label" for="firstName">firstname</label>
 	    <div class="controls">
-	      <input type="text" ng-model="people.name.first" />
+	      <input class="span4" type="text" ng-model="people.name.first" />
 	    </div>
 	  </div>
 	  <div class="control-group">
 	    <label class="control-label" for="lastName">lastname</label>
 	    <div class="controls">
-	      <input type="text" ng-model="people.name.last" />
+	      <input class="span4" type="text" ng-model="people.name.last" />
 	    </div>
 	  </div>
 	  <div class="control-group">
@@ -20,7 +20,7 @@
 	    	email
 	   	</label>
 	    <div class="controls" ng-repeat="mail in people.email">
-	      <input type="text" ng-model="mail.address" />
+	      <input class="span4" type="text" ng-model="mail.address" />
 	      <button ng-click="removeEmail($index, people.email)" class="btn"><i class="icon-minus" /></button>
 	      <button ng-show="$last" ng-click="addEmail(people.email)" class="btn"><i class="icon-plus" /></button>
 	    </div>
@@ -30,19 +30,32 @@
 	<legend>address
 		<button ng-click="addAddress()" class="btn"><i class="icon-plus" /></button>
 		<div class="input-append" style="margin-bottom:-5px;">
-		  <input class="span2" type="text" ng-model="searchAddress" bs-typeahead="lookupAddressFn" />
+		  <input class="span3" type="text" ng-model="searchAddress" bs-typeahead="lookupAddressFn" />
 		  <button class="btn" type="button" style="vertical-align:middle;">
 		  	<i class="icon-search" />
 		  </button>
 		</div>		
 	</legend>
-	 <div class="control-group">
+	 <div ng-show="!people.address[0]" class="control-group">
 		 <span class="help-block">
 		 	<i>no address found, add a new one or find an existing</i>
 		</span>
 	</div>
 	<div ng-repeat="addr in people.address">
-		{{addr}}
+		<div class="control-group">
+		  <label class="control-label" for="street">street</label>
+		  <div class="controls">
+		    <input class="span4" type="text" ng-model="addr.street" />
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="street">zip, city</label>
+		  <div class="controls">
+		    <input class="span1" type="text" ng-model="addr.zip" />
+		    <input class="span3" type="text" ng-model="addr.city" />
+		  </div>
+		</div>
+		<hr ng-show="!$last" />
 	</div>
 	</fieldset>
 	<fieldset>

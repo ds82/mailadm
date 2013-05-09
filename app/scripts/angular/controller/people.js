@@ -46,6 +46,12 @@ define([
 		$scope.addEmail = addEmail;
 		$scope.removeEmail = removeEmailByIndex;
 
+		$scope.addAddress = function() {
+			// just push en empty object
+			// the view knows how it looks :)
+			$scope.people.address.push({});
+		};
+
 		$scope.lookupAddressFn = function( q, cb ) {
 			console.log('lookupAddressFn', q );
 			var list = Address.search({ query: q }, function( res ){ 
@@ -62,6 +68,7 @@ define([
 			return true;
 		};
 
+		// ensure at least one email field is present
 		if ( !people.email || people.email.length === 0 )
 			people.email = addEmail( people.email );
 
