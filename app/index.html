@@ -28,7 +28,7 @@
               <div class="nav-collapse collapse">
                 <ul class="nav">
                   <li class="active"><a href="#">Firmen</a></li>
-                  <li><a href="#about">Ansprechpartner</a></li>
+                  <li><a ng-href="#/people">People</a></li>
                   <!-- <li><a href="#contact">Contact</a></li> -->
                 </ul>
               </div><!--/.nav-collapse -->
@@ -36,8 +36,8 @@
           </div>
         </div>
         <div class="container">
-            <div class="hero-unit">
-                <h1>CRM Übersicht</h1>
+            <div class="hero-unit" ng-view>
+<!--                 <h1>CRM Übersicht</h1>
                 <p>You now have</p>
                 <ul>
                     <li>HTML5 Boilerplate</li>
@@ -54,8 +54,10 @@
                 </ul>
                 <p>to get you started.</p>
                 <h3>Enjoy coding! - ds82</h3>
-                <h5>-- powered by yeoman</h5>
+                <h5>-- powered by yeoman</h5> -->
             </div>
+
+
         </div>
 
         <!--[if lt IE 7]>

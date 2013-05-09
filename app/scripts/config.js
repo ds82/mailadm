@@ -8,7 +8,7 @@ define([
 ], function(  ) {
  
 	var Module = {};
-	Module.host = 'http://localhost\\:9001';
+	Module.host = 'http://localhost\\:9000';
 	
 
 	return Module;

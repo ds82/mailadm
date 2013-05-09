@@ -1,0 +1,10 @@
+<h2>People</h2>
+<table class="table table-striped">
+	<tr ng-repeat="p in people">
+		<td>
+			<div class="dropdown"><a ng-href="" bs-dropdown="dropdown"> # </a></div>
+		</td>
+		<td>{{p.name.first}}</td>
+		<td>{{p.name.last}}</td>
+	</tr>
+</table>

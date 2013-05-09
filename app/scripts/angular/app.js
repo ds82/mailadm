@@ -5,11 +5,12 @@
  */
 define([
 	'jquery',
-	'components/angular/angular',
-	'components/angular-resource/angular-resource'
+	'_angular',
+	'angular-resource',
+	'angular-strap'
 ], function( $, angular ) {
  
-	var app = angular.module( 'app', ['ngResource'] );
-	
-	return app;
+	console.log( angular );
+	return angular.module( 'app', ['ngResource', '$strap.directives'] );
+
 });

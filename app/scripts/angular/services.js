@@ -1,9 +1,9 @@
 "use strict";
  /**
- * controller
+ * services
  * @author Dennis Sänger, 2013
  */
 define([
-	'ang/controller/navbar',
-	'ang/controller/people'
+	'ang/services/people',
+	'ang/services/address'
 ], function() {});
