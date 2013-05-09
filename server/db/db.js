@@ -36,18 +36,8 @@ var connected = (function() {
 // 	});
 // });
 
-
-_.people = function( err, cb ) {
+module.exports = function( entity, err, cb ) {
 	connected.then(function( goose ) {
-		console.log('then, calling cb...');
-		cb( goose.models.people );
+		cb( goose.models[entity] );
 	}).done();
 };
-
-_.companies = function( err, cb ) {
-	connected.then(function() {
-		cb( goose.models.companies );
-	});
-};
-
-module.exports = _ ;

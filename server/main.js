@@ -31,15 +31,63 @@ app.get('/navbar', function (req, res) {
 });
 
 app.get('/people', function( req, res ) {
-	console.log( db );
-	db.people( {} , function( q ) {
+	// console.log( db );
+	db( 'people', {} , function( q ) {
 
-		q.find({}).execFind(function( err, data ) {
+		q.find({})
+			.execFind(function( err, data ) {
 		console.log( err, data );
 		res.send( data );
 		res.end();
 	})});
 });
+
+app.get('/people/:id', function( req, res ) {
+
+	// console.log( 'people/id', req.params );
+	db( 'people', {} , function( q ) {
+
+		q.findOne({ _id: req.params.id })
+			.populate('address')
+			.execFind(function( err, data ) {
+				res.send( data.shift() );
+				res.end();
+	})});
+});
+
+var addressSearchFields = ['street', 'zip', 'city', 'country'];
+
+function buildSearchQuery( fields, search ) {
+	
+	var query = [], tmp;
+	for( var j = 0; j < search.length; ++j ) {
+		for( var i = 0; i < fields.length; ++i ) {
+			tmp = {};
+			tmp[(fields[i])] = new RegExp( search[j], 'i');
+			query.push( tmp );
+		}
+	}
+	return query;
+}
+
+
+app.get('/address/search', function( req, res ) {
+
+	var query = req.query.query.split(' ');
+
+	console.log('called /address/search', req.params, query );
+	if ( !query  ) res.send([]);
+
+	db( 'addresses', {} , function( q ) {
+
+		q.find({ $or:buildSearchQuery( addressSearchFields, query ) },
+		function( err, data ) {
+			console.log( err, data );
+			res.send( data );
+			res.end();
+	})});
+});
+
 
 io.sockets.on('connection', function (socket) {
 	socket.emit('connected', { hello: 'world' });
