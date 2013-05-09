@@ -1,0 +1,8 @@
+{
+  "name": "angular-strap",
+  "version": "0.7.3",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mgcrea/angular-strap.git"
+  }
+}
