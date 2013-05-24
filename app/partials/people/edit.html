@@ -15,14 +15,47 @@
 	      <input class="span4" type="text" ng-model="people.name.last" />
 	    </div>
 	  </div>
+	   <label class="control-label" for="lastName">tags</label>
+	  <div class="control-group">
+	    <div class="controls">
+	       <div class="input-append">
+	    	<input ng-model="newTag" class="span2" type="text" />
+			<button ng-click="addTag()" class="btn" type="button">Add</button>
+	      </div>
+		  <div>
+	      <span ng-repeat="tag in people.tags"
+	      	ng-click="removeTag($index)"
+	      	class="label label-info"
+	      	style="margin-right: 5px;"
+	      >
+	      		<i class="icon-remove icon-white"/> 
+	      		{{tag}}
+	      	</span>
+	      </div>
+	    </div>
+	  </div>
 	  <div class="control-group">
 	    <label class="control-label" for="email">
 	    	email
 	   	</label>
+
 	    <div class="controls" ng-repeat="mail in people.email">
-	      <input class="span4" type="text" ng-model="mail.address" />
-	      <button ng-click="removeEmail($index, people.email)" class="btn"><i class="icon-minus" /></button>
-	      <button ng-show="$last" ng-click="addEmail(people.email)" class="btn"><i class="icon-plus" /></button>
+	    	<div class="input-prepend">
+	    	  <div class="btn-group">
+	    	    <button class="btn dropdown-toggle" data-toggle="dropdown">
+	    	      <i class="{{emailTypes[(mail.type)].icon}}" />
+	    	      <span class="caret"></span>
+	    	    </button>
+	    	    <ul class="dropdown-menu">
+	    	      <li ng-repeat="(ek,et) in emailTypes">
+	    	      	<a ng-click="mail.type = ek"><i class="{{et.icon}}" /></a>
+	    	      </li>
+	    	    </ul>
+	    	  </div>
+	    	  <input class="span3" type="text" ng-model="mail.address" />
+		      <button ng-click="removeEmail($index, people.email)" class="btn"><i class="icon-minus" /></button>
+		      <button ng-show="$last" ng-click="addEmail(people.email)" class="btn"><i class="icon-plus" /></button>
+	    	</div>
 	    </div>
 	  </div>
 	</fieldset>
@@ -69,4 +102,4 @@
 
 
 
-{{people}}
+{{people | json}}

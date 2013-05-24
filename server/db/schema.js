@@ -30,6 +30,7 @@ function Schema( goose ) {
 			surname: { type: String },
 			lastname: { type: String }
 		},
+		tags: [String],
 		email: [{
 			type: 'String',
 			address: 'String'

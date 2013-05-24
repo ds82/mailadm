@@ -11,7 +11,7 @@ define([
 
  	function addEmail( list ) {
  		list.push({
- 			type: '',
+ 			type: 'private',
  			address: ''
  		});
  		return list;
@@ -45,6 +45,13 @@ define([
 		$scope.searchAddress = '';
 		$scope.addEmail = addEmail;
 		$scope.removeEmail = removeEmailByIndex;
+		$scope.newTag = '';
+
+		$scope.emailTypes = {
+			'private': { icon: 'icon-home' },
+			'business': { icon: 'icon-briefcase' }
+		};
+
 
 		$scope.addAddress = function() {
 			// just push en empty object
@@ -66,6 +73,15 @@ define([
 				cb( show );
 			});
 			return true;
+		};
+
+		$scope.addTag = function() {
+			$scope.people.tags.push( $scope.newTag );
+			$scope.newTag = '';
+		};
+
+		$scope.removeTag = function( index ) {
+			$scope.people.tags.splice( index, 1 );
 		};
 
 		// ensure at least one email field is present
