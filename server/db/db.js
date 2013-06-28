@@ -1,43 +1,53 @@
 'use strict';
 
-var _				= {},
-	mongoose		= require('mongoose'),
-	goose			= new require('./schema').Schema( mongoose ),
-	q				= require('q');
+var 
+	pub 			= {},
+	_				= {},
+	pg 				= require('pg'),
+	client			= null,
+	db 				= {};
 
-
-
-var connected = (function() {
-	var deferred = q.defer(),
-		db = mongoose.connection;
-
-	mongoose.connect('mongodb://localhost/crm');
-
-	db.on('error', function() {
-		deferred.reject('connection error');
+db.fetchArray = function( q, cb ) {
+	client.query(
+		q,
+		function( err, result ) {
+			console.log('res', err, result );
+			cb( err, result.rows );
 	});
 
-	db.once('open', function() {
-
-		console.log('connected');
-		deferred.resolve( goose );
-	});
-
-	return deferred.promise;
-})();
-
-// tests
-// console.log('runnig tests ...');
-// connected().then(function( goose ) {
-
-// 	goose.models.people.find({}).execFind(function( err, data ) {
-// 		console.log('people:');
-// 		console.log( err, data );
-// 	});
-// });
-
-module.exports = function( entity, err, cb ) {
-	connected.then(function( goose ) {
-		cb( goose.models[entity] );
-	}).done();
 };
+
+db.insert = function( table, fields, values, check, cb ) {
+
+	var f = '(' + fields.join(',') + ')',
+		v = '(\'' + values.join('\', \'') + '\')',
+		q = 'INSERT INTO ' + table + ' ' + f + ' VALUES ' + v;
+	
+	console.log('try to execute query', q );
+	client.query( q, cb );
+};
+
+pub.domains = {};
+pub.domains.get = function( cb ) {
+	db.fetchArray(
+		'SELECT domain FROM domains ORDER BY domain',
+		function(err, res ) {
+			cb( err, res );
+	});
+};
+pub.domains.add = function( data, cb ) {
+
+	db.insert('domains', ['domain'], [data.domain], cb );
+};
+
+
+var connect = function( auth ) {
+	
+	client = new pg.Client( auth );
+	client.connect(function ( res ) {
+		console.log('connected to pg');
+	});
+	return pub;
+};
+
+module.exports = connect;

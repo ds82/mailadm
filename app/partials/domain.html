@@ -1,0 +1,26 @@
+<h2>Domain Liste</h2>
+<table class="table table-hover table-striped">
+	<tr ng-repeat="row in domains">
+		<td>
+			{{row.domain}}
+		</td>
+	</tr>
+</table>
+
+<h2>Domain hinzufügen</h2>
+<form name="domain" class="form-horizontal" ng-submit="addDomain( add )">
+	<div class="control-group">
+		<label class="control-label" for="domain">
+			Domain
+		</label>
+		<div class="controls">
+			<input type="text" placeholder="Domain" ng-model="add.domain">
+		</div>
+	</div>
+	<div class="form-actions">
+		<button type="submit" class="btn btn-primary">Hinzufügen</button>
+	</div>
+</form>
+
+
+{{ domains | json }}

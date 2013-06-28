@@ -14,30 +14,12 @@ define([
 	app.config( function( $routeProvider ) {
 
 		$routeProvider
-			.when('/company', {
-				controller: 'CompanyListController',
-				templateUrl: 'partials/company/list.html',
+			.when('/domain', {
+				controller: 'DomainController',
+				templateUrl: 'partials/domain.html',
 				resolve: {
-					companies: function( CompanyList ) {
-						return CompanyList();
-					}
-				}
-			})
-			.when('/people/edit/:peopleId', {
-				controller: 'PeopleEditController',
-				templateUrl: 'partials/people/edit.html',
-				resolve: {
-					people: function( PeopleFetcher ) {
-						return PeopleFetcher();
-					}
-				}
-			})
-			.when('/people', {
-				controller: 'PeopleListController',
-				templateUrl: 'partials/people/list.html',
-				resolve: {
-					people: function( PeopleList ) {
-						return PeopleList();
+					DomainServiceData: function( DomainServiceLoader ) {
+						return DomainServiceLoader();
 					}
 				}
 			})

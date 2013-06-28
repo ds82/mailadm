@@ -16,7 +16,7 @@
         <!-- endbuild -->
     </head>
     <body ng-controller="AppController">
-        <div class="navbar navbar-inverse navbar-fixed-top" ng-controller="NavbarController">
+        <div class="navbar navbar-inverse navbar-fixed-top">
           <div class="navbar-inner">
             <div class="container">
               <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -24,11 +24,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="brand" href="#">crm</a>
+              <a class="brand" href="#">mailadm</a>
               <div class="nav-collapse collapse">
                 <ul class="nav">
-                  <li class="active"><a ng-href="#/company">Firmen</a></li>
-                  <li><a ng-href="#/people">People</a></li>
+                  <li><a ng-href="#/domain">Domains</a></li>
                   <!-- <li><a href="#contact">Contact</a></li> -->
                 </ul>
               </div><!--/.nav-collapse -->
@@ -37,27 +36,7 @@
         </div>
         <div class="container">
             <div class="hero-unit" ng-view>
-<!--                 <h1>CRM Übersicht</h1>
-                <p>You now have</p>
-                <ul>
-                    <li>HTML5 Boilerplate</li>
-                    <li>Twitter Bootstrap</li>
-                    <li>RequireJS</li>
-                    <li>jQuery</li>
-                    <li>AngularJS</li>
-                </ul>
-                <p>installed and basic configurations for</p>
-                <ul>
-                    <li>Grunt</li>
-                    <li>Bower</li>
-                    <li>jshint</li>
-                </ul>
-                <p>to get you started.</p>
-                <h3>Enjoy coding! - ds82</h3>
-                <h5>-- powered by yeoman</h5> -->
             </div>
-
-
         </div>
 
         <!--[if lt IE 7]>
@@ -65,12 +44,14 @@
         <![endif]-->
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <!--
         <script>
             var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
             (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
             g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
             s.parentNode.insertBefore(g,s)}(document,'script'));
         </script>
+        -->
 
         <!-- build:js scripts/app.js -->
         <script data-main="scripts/main" src="components/requirejs/require-jquery.js"></script>
