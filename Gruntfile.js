@@ -17,9 +17,7 @@ module.exports = function (grunt) {
     // load all grunt tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    //grunt.loadNpmTasks('grunt-express');
-    grunt.loadNpmTasks('grunt-regarde');
+    grunt.loadNpmTasks( 'node-spritesheet' );
 
     // configurable paths
     var yeomanConfig = {
@@ -57,7 +55,21 @@ module.exports = function (grunt) {
                 }
             }
         },
-
+        spritesheet: {
+            compile: {
+                    options: {
+                        // Compiles to bin/assets/images/spritesheets/flags.png
+                        outputImage: 'images/sprite.png',
+                        // Compiles to bin/assets/stylesheets/flags.css
+                        outputCss: 'less/sprite.less',
+                        // Uses this compound selector in the css, e.g. '.flag.my-image {}'
+                        selector: '.sprite'
+                    },
+                    files: {
+                        'app': 'dev/sprites/*'
+                    }
+                }
+        },
         open: {
             server: {
                 path: 'http://localhost:<%= connect.options.port %>'
@@ -239,7 +251,8 @@ module.exports = function (grunt) {
               stdout: false,
               stderr: false
             }
-        }
+        },
+
     });
 
     grunt.renameTask('regarde', 'watch');
