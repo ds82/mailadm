@@ -5,5 +5,6 @@
  */
 define([
 	'ang/services/people',
-	'ang/services/address'
+	'ang/services/address',
+	'ang/services/company'
 ], function() {});

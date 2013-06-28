@@ -55,6 +55,18 @@ app.get('/people/:id', function( req, res ) {
 	})});
 });
 
+app.get('/company', function( req, res ) {
+	// console.log( db );
+	db( 'companies', {} , function( q ) {
+
+		q.find({})
+			.execFind(function( err, data ) {
+		console.log( err, data );
+		res.send( data );
+		res.end();
+	})});
+});
+
 var addressSearchFields = ['street', 'zip', 'city', 'country'];
 
 function buildSearchQuery( fields, search ) {

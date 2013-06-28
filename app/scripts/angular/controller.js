@@ -6,5 +6,6 @@
 define([
 	'ang/controller/app',
 	'ang/controller/navbar',
-	'ang/controller/people'
+	'ang/controller/people',
+	'ang/controller/company'
 ], function() {});

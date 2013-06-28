@@ -14,6 +14,15 @@ define([
 	app.config( function( $routeProvider ) {
 
 		$routeProvider
+			.when('/company', {
+				controller: 'CompanyListController',
+				templateUrl: 'partials/company/list.html',
+				resolve: {
+					companies: function( CompanyList ) {
+						return CompanyList();
+					}
+				}
+			})
 			.when('/people/edit/:peopleId', {
 				controller: 'PeopleEditController',
 				templateUrl: 'partials/people/edit.html',
