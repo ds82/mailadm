@@ -23,6 +23,18 @@ define([
 					}
 				}
 			})
+			.when('/user', {
+				controller: 'UserController',
+				templateUrl: 'partials/user.html',
+				resolve: {
+					UserServiceData: function( UserServiceLoader ) {
+						return UserServiceLoader();
+					},
+					DomainServiceData: function( DomainServiceLoader ) {
+						return DomainServiceLoader();
+					}
+				}
+			})
 		;
 	});
 

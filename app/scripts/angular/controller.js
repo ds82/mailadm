@@ -5,5 +5,6 @@
  */
 define([
 	'ang/controller/app',
-	'ang/controller/domain'
+	'ang/controller/domain',
+	'ang/controller/user'
 ], function() {});

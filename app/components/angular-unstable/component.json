@@ -1,0 +1,8 @@
+{
+  "name": "angular-unstable",
+  "version": "1.1.5",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/johannestroeger/bower-angular-unstable.git"
+  }
+}

@@ -1,0 +1,103 @@
+<h2>Benutzer</h2>
+<table class="table table-hover table-striped">
+	<tr>
+		<th>#</th>
+		<th>aktiv</th>
+		<th>Administrator</th>
+		<th>Benutzer</th>
+		<th>Domains</th>
+	</tr>
+	<tr ng-repeat="row in data">
+		<td>
+			<a href ng-click="edit(row)"><i class="icon-edit"></i></a>
+			<a href ng-click="delete(row)"><i class="icon-remove"></i></a>
+		</td>
+		<td><input type="checkbox" ng-change="set(row)" ng-model="row.enabled" /></td>
+		<td><input type="checkbox" ng-change="set(row)" ng-model="row.is_admin" /></td>
+		<td>{{row.email}}</td>
+		<td>{{row.domains.join(', ')}}</td>
+	</tr>
+</table>
+
+<h2>Benutzer bearbeiten1</h2>
+
+<pre>{{user | json}}</pre>
+
+<form name="userForm" class="form-horizontal" ng-submit="add( user )">
+	<!-- ALERTS -->
+	<div 
+		class="alert alert-block alert-success"
+		ng-show="meta.userCreated"
+		ng-animate="{ show: 'animated pulse' }"
+	>
+	  <button type="button" class="close" ng-click="meta.userCreated=false">&times;</button>
+	  <h4>Benutzer hinzugefügt!</h4>
+	  Der Benutzer wurde erfolgreich hinzugefügt!
+	</div>
+
+	<!-- EMAIL -->
+	<div class="control-group">
+		<label class="control-label" for="email">
+			E-Mail
+		</label>
+		<div class="controls">
+			<input type="text" placeholder="Email" ng-model="user.email" />
+		</div>
+	</div>
+	<!-- PASSWORD -->
+	<div class="control-group" ng-class="{ error: !userForm.plaintext1.$valid }">
+		<label class="control-label" for="password">
+			Passwort
+		</label>
+		<div class="controls">
+			<input
+				type="password"
+				name="plaintext1"
+				placeholder="Passwort"
+				ng-model="user.plaintext1"
+				ng-change="validatePassword( user )"
+				required
+			/>
+		</div>
+	</div>
+
+	<div class="control-group" ng-class="{ error: !userForm.plaintext1.$valid }">
+		<label class="control-label" for="password">
+			Passwort wiederholen
+		</label>
+		<div class="controls">
+			<input
+				type="password"
+				name="plaintext2"
+				placeholder="Passwort wiederholen"
+				ng-model="user.plaintext2"
+				ng-change="validatePassword( user )"
+				required
+			/>
+		</div>
+	</div>
+
+	<!-- DOMAINS -->
+	<div class="control-group">
+		<label class="control-label" for="password">
+			Domains
+		</label>
+		<div class="controls">
+			<select
+				multiple="multiple"
+				ng-model="user.domains"
+				ng-options="d.domain as d.domain for d in domains"
+			></select>
+		</div>
+	</div>
+
+	<!-- SUBMIT -->
+	<div class="form-actions">
+		<button ng-disabled="!userForm.$dirty || userForm.$invalid " type="submit" class="btn btn-primary">Hinzufügen</button>
+	</div>
+</form>
+
+<pre>
+{{ data | json }}
+{{ domains | json }}
+</pre>

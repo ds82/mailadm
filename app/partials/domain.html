@@ -1,26 +1,47 @@
 <h2>Domain Liste</h2>
 <table class="table table-hover table-striped">
+	<tr>
+		<th>#</th>
+		<th>Domain</th>
+		<th>Hauptdomain</th>
+	</tr>
 	<tr ng-repeat="row in domains">
 		<td>
-			{{row.domain}}
+			<a href ng-click="edit(row)"><i class="icon-edit"></i></a>
+			<a href ng-click="delete(row)"><i class="icon-remove"></i></a>
 		</td>
+		<td>{{row.domain}}</td>
+		<td>{{row.parent}}</td>
 	</tr>
 </table>
 
 <h2>Domain hinzufügen</h2>
-<form name="domain" class="form-horizontal" ng-submit="addDomain( add )">
+<form name="domain" class="form-horizontal" ng-submit="save( dom )">
 	<div class="control-group">
 		<label class="control-label" for="domain">
 			Domain
 		</label>
 		<div class="controls">
-			<input type="text" placeholder="Domain" ng-model="add.domain">
+			<input type="text" placeholder="Domain" ng-model="dom.domain">
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="domain">
+			Hauptdomain
+		</label>
+		<div class="controls">
+			<select
+				ng-model="dom.parent"
+				ng-options="d.domain as d.domain for d in domains | parentDomain"
+			></select>
 		</div>
 	</div>
 	<div class="form-actions">
-		<button type="submit" class="btn btn-primary">Hinzufügen</button>
+		<button ng-show="dom._update" type="submit" class="btn btn-primary">Aktualisieren</button>
+		<button ng-hide="dom._update" type="submit" class="btn btn-primary">Hinzufügen</button>
 	</div>
 </form>
 
-
+<pre>
 {{ domains | json }}
+</pre>

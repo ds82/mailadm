@@ -27,9 +27,12 @@ app.options('*', function(req, res) {
 	res.end();
 });
 
+//
+// DOMAIN
+//
 app.get('/domain', function( req, res ) {
 	
-	db.domains.get( function( err, data ) {
+	db.domains.query( function( err, data ) {
 		if ( err ) res.send( err );
 		else res.send( data );
 	});
@@ -37,11 +40,43 @@ app.get('/domain', function( req, res ) {
 
 app.post('/domain/:id', function( req, res ) {
 
-	db.domains.add( req.body, function( err, data ) {
+	db.domains.save( req.body, function( err, data ) {
+		res.send( req.body );
+	});
+});
+
+app.delete('/domain/:id', function( req, res ) {
+	db.domains.delete( req.params.id, function( err, data ) {
 		res.send( data );
 	});
 });
 
+//
+// USER
+//
+
+app.get('/user', function( req, res ) {
+	db.user.query( function( err, data ) {
+		res.send( data );
+	});
+});
+
+app.post('/user/:id', function( req, res ) {
+	db.user.add( req.body, function( err, data ) {
+		res.send( req.body );
+	});
+});
+
+app.delete('/user/:id', function( req, res ) {
+
+	db.user.delete( req.params.id, function( err, data ) {
+		res.send( data );
+	});
+});
+
+//
+// SOCKET
+//
 io.sockets.on('connection', function (socket) {
 	socket.emit('connected', { hello: 'world' });
 });

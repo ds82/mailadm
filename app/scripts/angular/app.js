@@ -6,11 +6,10 @@
 define([
 	'jquery',
 	'_angular',
-	'angular-resource',
-	'angular-strap'
+	'angular-resource'
 ], function( $, angular ) {
  
-	console.log( angular );
-	return angular.module( 'app', ['ngResource', '$strap.directives'] );
+
+	return angular.module( 'app', ['ngResource'] );
 
 });

@@ -1,6 +1,24 @@
+//
+// JS Extensions
+//
+
+// Array Remove - By John Resig (MIT Licensed)
+Array.prototype.remove = function(from, to) {
+	var rest = this.slice((to || from) + 1 || this.length);
+	this.length = from < 0 ? this.length + from : from;
+	return this.push.apply(this, rest);
+};
+
+Array.prototype.delete = function( item ) {
+	var ind = this.indexOf( item );
+	if ( ind > -1 ) return this.remove( ind, ind );
+	else return this;
+};
+
+
 // TODO refactor
 var $components = '../components/',
-	$angdist = $components + 'angular/';
+	$angdist = $components + 'angular-unstable/';
 	//$angdist = '../vendor/angularjs/build/';
 
 
@@ -14,7 +32,7 @@ require.config({
 		ang: 'angular',
 		'angular-resource': $components + 'angular-resource/angular-resource',
 		//'angular-resource': $angdist + 'angular-resource',
-		'angular-strap': '../components/angular-strap/dist/angular-strap',
+		//'angular-strap': '../components/angular-strap/dist/angular-strap',
 		'socketio-client': '../components/socket.io-client/dist/socket.io.min'
 
 	},
@@ -28,7 +46,7 @@ require.config({
 			exports: 'angular'
 		},
 		'angular-resource': ['_angular'],
-		'angular-strap': ['_angular'],
+		//'angular-strap': ['_angular'],
 		'twitter/popover': ['twitter/tooltip'],
 		'ang/modules': ['ang/app'],
 		'socketio-client': {
