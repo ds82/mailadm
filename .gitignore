@@ -3,3 +3,5 @@ dist
 .tmp
 .sass-cache
 *.sublime-*
+
+/server/config.json
