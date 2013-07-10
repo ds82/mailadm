@@ -61,8 +61,10 @@ app.get('/user', function( req, res ) {
 	});
 });
 
-app.post('/user/:id', function( req, res ) {
-	db.user.add( req.body, function( err, data ) {
+app.post('/user/:id?', function( req, res ) {
+
+	console.log('post,user', req.body );
+	db.user.save( req.body, function( err, data ) {
 		res.send( req.body );
 	});
 });
@@ -70,6 +72,28 @@ app.post('/user/:id', function( req, res ) {
 app.delete('/user/:id', function( req, res ) {
 
 	db.user.delete( req.params.id, function( err, data ) {
+		res.send( data );
+	});
+});
+
+
+//
+// ADDRESS
+//
+app.get('/address', function( req, res ) {
+	db.address.query( function( err, data ) {
+		res.send( data );
+	});
+});
+
+app.post('/address/:id?', function( req, res ) {
+	db.address.save( req.body, function( err, data ) {
+		res.send( req.body );
+	});
+});
+
+app.delete('/address/:id', function( req, res ) {
+	db.address.delete( req.params.id, function( err, data ) {
 		res.send( data );
 	});
 });

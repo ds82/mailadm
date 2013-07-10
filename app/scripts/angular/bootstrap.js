@@ -14,6 +14,7 @@ define([
 	app.config( function( $routeProvider ) {
 
 		$routeProvider
+
 			.when('/domain', {
 				controller: 'DomainController',
 				templateUrl: 'partials/domain.html',
@@ -27,6 +28,21 @@ define([
 				controller: 'UserController',
 				templateUrl: 'partials/user.html',
 				resolve: {
+					UserServiceData: function( UserServiceLoader ) {
+						return UserServiceLoader();
+					},
+					DomainServiceData: function( DomainServiceLoader ) {
+						return DomainServiceLoader();
+					}
+				}
+			})
+			.when('/address', {
+				controller: 'AddressController',
+				templateUrl: 'partials/address.html',
+				resolve: {
+					AddressServiceData: function( AddressServiceLoader ) {
+						return AddressServiceLoader();
+					},
 					UserServiceData: function( UserServiceLoader ) {
 						return UserServiceLoader();
 					},

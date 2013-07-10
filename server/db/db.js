@@ -2,10 +2,22 @@
 
 var 
 	pub 			= {},
-	_				= {},
+	priv			= {},
+	_				= require('underscore'),
 	pg 				= require('pg'),
 	client			= null,
 	db 				= {};
+
+var fnMap = {
+	// call the function
+	'function': function( val ) { return val.call({}) },
+	// assume its an array
+	'object': function( val ) { return arr( val )() },
+	// just escape the string
+	'string': function( val ) { return escapeStrig( val ) },
+	'boolean': function( val ) { return val },
+	'undefined': function( val ) { return '\'\'' }
+};
 
 var md5 = function( str ) {
 	return function() {
@@ -14,8 +26,9 @@ var md5 = function( str ) {
 };
 
 var arr = function( ax ) {
+	console.log('arr called with',ax);
 	return function() {
-		'{\'' + ax.join('\', \'') + '\'}';
+		return '\'{"' + ax.join('", "') + '"}\'';
 	};
 };
 
@@ -23,19 +36,41 @@ function escapeStrig( str ) {
 	return '\'' + str + '\'';
 }
 
+function mkValue( val, map ) {
+	
+	map = map || fnMap;
+	var type = typeof( val );
+	return map[type]( val );
+}
+
 function mkSet( field, value, isLast ) {
 	
-	var s = field + ' = ' + escapeStrig( value );
+	var s = field + ' = ' + mkValue( value );
 	if ( !isLast ) s += ', ';
 	return s;
 }
 
 function mkValueArray( values, keys ) {
 
-	var ax = [];
+	console.log('mkValueArray', values, keys );
+	var ax = [], remove = [];
 	for( var i = 0; i < keys.length; ++i ) {
-		ax.push( values[ (keys[i]) ]);
+		var key = keys[i];
+		if ( values[key] ) {
+			ax.push( values[key] );
+		} else {
+			remove.push( key );
+			console.log( '# WARNING, cannot find value for key - the key will be removed!', key );
+		}
 	}
+
+	// remove keys that were not found
+	for( var i = 0; i < remove.length; ++i ) {
+		var ind = keys.indexOf( remove[i] );
+		if ( ind > -1 )
+			keys.splice( ind, 1 );
+	}
+
 	return ax;
 }
 
@@ -64,10 +99,7 @@ db.insert = function( table, fields, values, check, cb ) {
 
 	for ( var i = 0; i < values.length; ++i ) {
 
-		v += ( typeof( values[i] ) === 'string' ) ?
-			escapeStrig( values[i] ) :
-			values[i].call({});
-
+		v += mkValue( values[i] );
 		if ( i < values.length - 1 ) v += ', ';
 	}
 	v += ')';
@@ -85,7 +117,7 @@ db.update = function( table, fields, values, where, val, cb ) {
 	for( var i = 0; i < fields.length; ++i ) {
 		q += mkSet( fields[i], values[i], i+1 === fields.length );
 	}
-	q += ' WHERE ' + where + ' = ' + escapeStrig( val );
+	q += ' WHERE ' + where + ' = ' + mkValue( val );
 	console.log('try to execute query', q );
 	client.query( q, cb );
 };
@@ -130,18 +162,100 @@ pub.domains.delete = function( domain, cb ) {
 //
 // USER
 //
+
+priv.user = {};
+priv.user.fields = {};
+
+priv.user.fields.query = ['email','alias', 'domain', 'maildir','enabled','is_admin','domains','password'];
+priv.user.fields.nopass = _.filter( priv.user.fields.query, function( f ) { return f !== 'password' });
+
 pub.user = {};
 pub.user.query = function( cb ) {
-	db.fetch('users', ['email','password','enabled','is_admin','domains'], 'email', cb );
+	
+	db.fetch('users', priv.user.fields.nopass, 'email', cb );
 };
 
-pub.user.add = function ( user, cb ) {
+pub.user.save = function ( user, cb ) {
 
-	db.insert('users', ['email','password'], [user.email, md5(user.plaintext1)], false, cb );
+	var fields = _.extend([], priv.user.fields.nopass);
+	if ( user._setpw ) {
+		fields = _.extend([], priv.user.fields.query);
+		user.password = md5( user.plaintext1 );
+	}
+	
+	// fix up user maildir
+	user.maildir = user.domain + '/' + user.email + '/';
+
+	var values = mkValueArray( user, fields );
+
+	if ( user._update ) {
+
+		db.update(
+			'users',
+			fields,
+			values,
+			'email',
+			user._id,
+			cb
+		);
+
+	} else {
+		
+		db.insert(
+			'users',
+			fields,
+			values,
+			false,
+			cb
+		);
+	}
 };
 pub.user.delete = function( id, cb ) {
 	db.delete( 'users', 'email', id, cb );
 };
+
+
+//
+// ADDRESS
+//
+
+priv.address = {};
+priv.address.fields = {};
+
+priv.address.fields.query = ['source', 'destination', 'enable_greylisting'];
+
+pub.address = {};
+pub.address.query = function( cb ) {
+	db.fetch('forward', priv.address.fields.query, 'source', cb );
+};
+
+pub.address.save = function( data, cb ) {
+
+	if ( data._update ) {
+
+		db.update(
+			'forward',
+			priv.address.fields.query,
+			mkValueArray( data, priv.address.fields.query ),
+			'source',
+			data._id,
+			cb
+		);
+	} else
+		db.insert(
+			'forward',
+			priv.address.fields.query,
+			mkValueArray( data, priv.address.fields.query ),
+			false,
+			cb
+		);
+};
+
+pub.address.delete = function( id, cb ) {
+
+	db.delete('forward', 'source', id, cb );
+};
+
 
 
 var connect = function( auth ) {

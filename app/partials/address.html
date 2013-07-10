@@ -1,0 +1,88 @@
+<h2>Adressen</h2>
+
+<table class="table table-hover table-striped">
+	<tr>
+		<th>#</th>
+		<th>Adresse</th>
+		<th>Ziel</th>
+		<th>Greylisting</th>
+	</tr>
+	<tr ng-repeat="row in addresses">
+		<td>
+			<a href ng-click="edit(row)"><i class="icon-edit"></i></a>
+			<a href ng-click="delete(row)"><i class="icon-remove"></i></a>
+		</td>
+		<td>{{row.source}}</td>
+		<td>{{row.destination}}</td>
+		<td><i ng-class="{
+			'icon-ok': row.enable_greylisting,
+			'icon-remove': !row.enable_greylisting
+		}"></i></td>
+	</tr>
+</table>
+
+<p><br /></p>
+
+<h2>Adresse hinzufügen/bearbeiten</h2>
+
+<!-- <pre>{{user | json}}</pre> -->
+
+<form name="addressForm" class="form-horizontal" ng-submit="save( address )">
+	<!-- ALERTS -->
+	<div 
+		class="alert alert-block alert-success"
+		ng-show="meta.addressCreated"
+		ng-animate="{ show: 'animated pulse' }"
+	>
+	  <button type="button" class="close" ng-click="meta.addressCreated=false">&times;</button>
+	  <h4>Adresse hinzugefügt!</h4>
+	  Die Adresse wurde eingetragen und der Mailserver nimmt ab sofort Emails an diese Adresse entgegen.
+	</div>
+
+	<!-- SOURCE -->
+	<div class="control-group" ng-class="{ error: !addressForm.alias.$valid }">
+		<label class="control-label" for="email">
+			E-Mail Adresse
+		</label>
+		<div class="controls">
+			<input
+				type="text"
+				placeholder="Alias"
+				name="alias"
+				ng-model="address.alias"
+				ng-pattern="/^([a-z0-9-\.]+|\*)$/"
+				required
+			/> @
+			<select
+				ng-model="address.domain"
+				ng-options="d.domain as d.domain for d in domains"
+				required
+			></select>
+		</div>
+	</div>
+	<!-- DESTINATION -->
+	<div class="control-group">
+		<label class="control-label" for="email">
+			Ziel
+		</label>
+		<div class="controls">
+			<select
+				ng-model="address.destination"
+				ng-options="u.email as u.email for u in users"
+				required
+			></select>
+		</div>
+	</div>
+	<!-- GREYLISTING -->
+	<div class="control-group">
+	    <div class="controls">
+	      <label class="checkbox">
+	        <input type="checkbox" ng-model="address.enable_greylisting" /> Greylisting aktivieren
+	      </label>
+	    </div>
+	  </div>
+	<!-- SUBMIT -->
+	<div class="form-actions">
+		<button ng-disabled="!addressForm.$dirty || addressForm.$invalid " type="submit" class="btn btn-primary">Hinzufügen</button>
+	</div>
+</form>

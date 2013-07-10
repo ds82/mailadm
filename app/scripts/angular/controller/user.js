@@ -9,6 +9,13 @@ define([
 ], function( $, app, config ) {
 	'use strict';
 
+	function fixupUser( user ) {
+		
+		var tmp = user.email.split('@');
+		user.alias = tmp[0];
+		user.domain = tmp[1];
+	}
+
 	app.controller('UserController',[
 		'$scope',
 		'UserService',
@@ -17,26 +24,43 @@ define([
 
 		function( $scope, UserService, data, domains ) {
 
+			function createUser() {
+
+				var user = new UserService();
+				user._setpw = true;
+				user.enabled = true;
+				user.is_admin = false;
+				return user;
+			}
+
 			$scope.data = data;
 			$scope.domains = domains;
-			$scope.user = new UserService();
-
+			
+			$scope.user = createUser();
+			
 			$scope.meta = {};
 			$scope.meta.userCreated = false;
 
 			$scope.edit = function( user ) {
+				
 				// tell server to update user instead of inserting
-				$scope.user._update = true;
+				user._update = true;
+				user._setpw = false;
+
+				user._id = user.email;
 				$scope.user = user;
 			};
 
-			$scope.add = function( user ) {
+			$scope.save = function( user ) {
 
+				fixupUser( user );
 				user.$save(function( res ) {
 					
-					$scope.data.push( user );
+					if ( ! user._update )
+						$scope.data.push( user );
+					
 					$scope.meta.userCreated = true;
-					$scope.user = new UserService();
+					createUser( $scope.user );
 				});
 			};
 

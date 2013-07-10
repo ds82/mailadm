@@ -1,4 +1,9 @@
 <h2>Benutzer</h2>
+<div class="alert alert-block alert-info">
+  Benutzer repräsentieren Mailkonten. Für sie wird automatisch ein Konto angelegt und eine Zieladresse 
+  eingetragen. D.h. durch Anlegen eines Benutzers nimmt der Mailserver automatisch
+  Mails an die Adresse des Benutzer entgegen.
+</div>
 <table class="table table-hover table-striped">
 	<tr>
 		<th>#</th>
@@ -19,11 +24,14 @@
 	</tr>
 </table>
 
-<h2>Benutzer bearbeiten1</h2>
+<p><br /></p>
 
-<pre>{{user | json}}</pre>
+<h2 ng-show="!user._update">Benutzer hinzufügen</h2>
+<h2 ng-show="user._update">Benutzer bearbeiten</h2>
 
-<form name="userForm" class="form-horizontal" ng-submit="add( user )">
+<!-- <pre>{{user | json}}</pre> -->
+
+<form name="userForm" class="form-horizontal" ng-submit="save( user )">
 	<!-- ALERTS -->
 	<div 
 		class="alert alert-block alert-success"
@@ -44,8 +52,17 @@
 			<input type="text" placeholder="Email" ng-model="user.email" />
 		</div>
 	</div>
+	<!-- SET PASSWORD -->
+	<div class="control-group" ng-show="user._update">
+		<label class="control-label" for="email">
+			Passwort setzen
+		</label>
+		<div class="controls">
+			<input type="checkbox" ng-model="user._setpw" />
+		</div>
+	</div>
 	<!-- PASSWORD -->
-	<div class="control-group" ng-class="{ error: !userForm.plaintext1.$valid }">
+	<div class="control-group" ng-show="user._setpw || !user._update" ng-class="{ error: !userForm.plaintext1.$valid }">
 		<label class="control-label" for="password">
 			Passwort
 		</label>
@@ -56,12 +73,11 @@
 				placeholder="Passwort"
 				ng-model="user.plaintext1"
 				ng-change="validatePassword( user )"
-				required
 			/>
 		</div>
 	</div>
 
-	<div class="control-group" ng-class="{ error: !userForm.plaintext1.$valid }">
+	<div class="control-group" ng-show="user._setpw || !user._update" ng-class="{ error: !userForm.plaintext1.$valid }">
 		<label class="control-label" for="password">
 			Passwort wiederholen
 		</label>
@@ -72,7 +88,6 @@
 				placeholder="Passwort wiederholen"
 				ng-model="user.plaintext2"
 				ng-change="validatePassword( user )"
-				required
 			/>
 		</div>
 	</div>
@@ -93,7 +108,8 @@
 
 	<!-- SUBMIT -->
 	<div class="form-actions">
-		<button ng-disabled="!userForm.$dirty || userForm.$invalid " type="submit" class="btn btn-primary">Hinzufügen</button>
+		<button ng-show="user._update" ng-disabled="!userForm.$dirty || userForm.$invalid " type="submit" class="btn btn-primary">Aktualisieren</button>
+		<button ng-show="!user._update" ng-disabled="!userForm.$dirty || userForm.$invalid " type="submit" class="btn btn-primary">Hinzufügen</button>
 	</div>
 </form>
 
