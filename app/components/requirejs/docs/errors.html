@@ -47,6 +47,8 @@
 <ul>
     <li>There was a script error in one of the listed modules. If there is no script error in the browser's error console, and if you are using Firebug, try loading the page in another browser like Chrome or Safari. Sometimes script errors do not show up in Firebug.</li>
     <li>The path configuration for a module is incorrect. Check the "Net" or "Network" tab in the browser's developer tools to see if there was a 404 for an URL that would map to the module name. Make sure the script file is in the right place. In some cases you may need to use the <a href="api.html#config">paths configuration</a> to fix the URL resolution for the script.</li>
+    <li>The paths config was used to set two module IDs to the same file, and that file only has one anonymous module in it. If module IDs "something" and "lib/something" are both configured to point to the same "scripts/libs/something.js" file, and something.js only has
+    one anonymous module in it, this kind of timeout error can occur. The fix is to make sure all module ID references use the same ID (either choose "something" or "lib/something" for all references), or use <a href="api.html#config-map">map config</a>.</li>
 </ul>
 
 </div>
@@ -152,7 +154,8 @@ not scan the factory function for other dependencies. So, either do not pass in 
 <ul>
     <li>Did not call define() to declare a module.</li>
     <li>Or was part of a <a href="api.html#config-shim">shim config</a> that specified
-    a global string property that can be checked for loading, and that check failed.</li>
+    a string <code>exports</code> property that can be checked to verify loading, and that check failed.</li>
+    <li>Or was part of a <a href="api.html#config-shim">shim config</a> that did not set a string value for the <code>exports</code> config option.</li>
 </ul>
 
 <p>Or, if the error shows up only in IE and not in other browsers (which may generate a <a href="#scripterror">Script error</a>, the script probably:</p>

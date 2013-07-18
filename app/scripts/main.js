@@ -26,7 +26,7 @@ require.config({
 	baseUrl: 'scripts/',
 	paths: {
 		components: '../../components',
-		jquery: 'components/jquery/jquery',
+		jquery: '../components/jquery/jquery',
 		twitter: 'twitter',
 		_angular: $angdist + 'angular',
 		ang: 'angular',

@@ -77,7 +77,7 @@ up locations of a group of scripts. All of these capabilities allow you to use s
 
 <p>In general though, it is best to use the baseUrl and "paths" config to set paths for module IDs. By doing so, it gives you more flexibility in renaming and configuring the paths to different locations for optimization builds.</p>
 
-<p>Similarly, to avoid a bunch of configuration, it is best to avoid deep folder hierarchies for scripts, and instead either keep all the scripts in baseUrl, or if you want to separate your library/vendor-supplied code form your app code, use a directory layout like this:</p>
+<p>Similarly, to avoid a bunch of configuration, it is best to avoid deep folder hierarchies for scripts, and instead either keep all the scripts in baseUrl, or if you want to separate your library/vendor-supplied code from your app code, use a directory layout like this:</p>
 
 <ul>
     <li>www/
@@ -503,11 +503,17 @@ This example specifies some dependencies to load as soon as require.js defines r
 
 <p>When run in a browser, <a href="#pathsfallbacks">paths fallbacks</a> can be specified, to allow trying a load from a CDN location, but falling back to a local location if the CDN location fails to load.</p>
 
-<p id="config-shim"><strong><a href="#config-shim">shim</a></strong>: Configure the dependencies and exports for older, traditional "browser globals" scripts that do not use define() to declare the dependencies and set a module value.</p>
+<p id="config-shim"><strong><a href="#config-shim">shim</a></strong>: Configure the dependencies, exports, and custom initialization for older, traditional "browser globals" scripts that do not use define() to declare the dependencies and set a module value.</p>
 
 <p>Here is an example. It requires RequireJS 2.1.0+, and assumes backbone.js, underscore.js and jquery.js have been installed in the baseUrl directory. If not, then you may need to set a paths config for them:</p>
 
 <pre><code>requirejs.config({
+    //Remember: only use shim config for non-AMD scripts,
+    //scripts that do not already call define(). The shim
+    //config will not work correctly if used on AMD scripts,
+    //in particular, the exports and init config will not
+    //be triggered, and the deps config will be confusing
+    //for those cases.
     shim: {
         'backbone': {
             //These script dependencies should be loaded before loading
@@ -532,6 +538,9 @@ This example specifies some dependencies to load as soon as require.js defines r
                 //function arguments. If this function returns a value,
                 //then that value is used as the module export value
                 //instead of the object found via the 'exports' string.
+                //Note: jQuery registers as an AMD module via define(),
+                //so this will not work for jQuery. See notes section
+                //below for an approach for jQuery.
                 return this.Foo.noConflict();
             }
         }
@@ -551,7 +560,7 @@ define(['backbone'], function (Backbone) {
 <p>In RequireJS 2.0.*, the "exports" property in the shim config could have
     been a function instead of a string. In that case, it functioned
 the same as the "init" property as shown above. The "init" pattern is used in
-RequireJS 2.1.0+ so a string value for the exports can be used for
+RequireJS 2.1.0+ so a string value for <code>exports</code> can be used for
 <a href="#config-enforceDefine">enforceDefine</a>, but then allow
 functional work once the library is known to have loaded.</p>
 
@@ -567,7 +576,8 @@ any module value, the shim config can just be an array of dependencies:</p>
 });
 </code></pre>
 
-<p>Note however if you want to get 404 load detection in IE so that you can  use paths fallbacks or errbacks, then a string exports value should be given so the loader can check if the scripts actually loaded:</p>
+<p>Note however if you want to get 404 load detection in IE so that you can  use paths fallbacks or errbacks, then a string exports value should be given so the loader can check if the scripts actually
+loaded (a return from init is <strong>not</strong> used for <code>enforceDefine</code> checking):</p>
 
 <pre><code>requirejs.config({
     shim: {
@@ -600,13 +610,19 @@ any module value, the shim config can just be an array of dependencies:</p>
     AMD module may not be evaluated until after the shimmed code in the build
     executes, and an error will occur. The ultimate fix is to upgrade all the
     shimmed code to have optional AMD define() calls.</li>
+    <li>The init function will <strong>not</strong> be called for AMD modules.
+    For example, you cannot use a shim init function to call jQuery's noConflict.
+    See <a href="jquery.html#noconflictmap">Mapping Modules to use noConflict</a>
+    for an alternate approach to jQuery.</li>
+    <li>Shim config is not supported when running AMD modules in node via RequireJS (it works for optimizer use though). Depending on the module being shimmed, it may fail in Node because Node does not have the same global environment as browsers. As of RequireJS 2.1.7, it will warn you in the console that shim config is not supported, and it may or may not work. If you wish to suppress that message, you can pass <code>requirejs.config({ suppress: { nodeShim: true }});</code>.</li>
 </ul>
 
 <p><b>Important optimizer notes for "shim" config</b>:</p>
 
 <ul>
     <li>You should use the <a href="optimization.html#mainConfigFile">mainConfigFile build option</a> to specify the file where to find the shim config. Otherwise the optimizer will not know of the shim config. The other option is to duplicate the shim config in the build profile.</li>
-    <li>Do not mix CDN loading with shim config in a build. Example scenario: you load jQuery from the CDN but use the shim config to load something like the stock version of Backbone that depends on jQuery. When you do the build, be sure to inline jQuery in the built file and do not load it from the CDN. Otherwise, Backbone will be inlined in the built file and it will execute before the CDN-loaded jQuery will load. This is because the shim config just delays loading of the files until dependencies are loaded, but does not do any auto-wrapping of define. After a build, the dependencies are already inlined, the shim config cannot delay execution of the non-define()'d code until later. define()'d modules do work with CDN loaded code after a build because they properly wrap their source in define factory function that will not execute until dependencies are loaded. So the lesson: shim config is a stop-gap measure for for non-modular code, legacy code. define()'d modules are better.</li>
+    <li>Do not mix CDN loading with shim config in a build. Example scenario: you load jQuery from the CDN but use the shim config to load something like the stock version of Backbone that depends on jQuery. When you do the build, be sure to inline jQuery in the built file and do not load it from the CDN. Otherwise, Backbone will be inlined in the built file and it will execute before the CDN-loaded jQuery will load. This is because the shim config just delays loading of the files until dependencies are loaded, but does not do any auto-wrapping of define. After a build, the dependencies are already inlined, the shim config cannot delay execution of the non-define()'d code until later. define()'d modules do work with CDN loaded code after a build because they properly wrap their source in define factory function that will not execute until dependencies are loaded. So the lesson: shim config is a stop-gap measure for non-modular code, legacy code. define()'d modules are better.</li>
+    <li>For local, multi-file builds, the above CDN advice also applies. For any shimmed script, its dependencies <strong>must</strong> be loaded before the shimmed script executes. This means either building its dependencies directly in the buid layer that includes the shimmed script, or loading its dependencies with a <code>require([], function (){})</code> call, then doing a nested <code>require([])</code> call for the build layer that has the shimmed script.</li>
     <li>If you are using uglifyjs to minify the code, <strong>do not</strong> set the uglify
         option <code>toplevel</code> to true, or if using the command line
         <strong>do not</strong> pass <code>-mt</code>. That option mangles
@@ -700,13 +716,37 @@ define(['module'], function (module) {
 });
 </code></pre>
 
+<p>For passing config to a <a href="#packages">package</a>, target the main module in the package,
+    not the package ID:</p>
+
+<pre><code>requirejs.config({
+    //Pass an API key for use in the pixie package's
+    //main module.
+    config: {
+        'pixie/index': {
+            apiKey: 'XJKDLNS'
+        }
+    },
+    //Set up config for the "pixie" package, whose main
+    //module is the index.js file in the pixie folder.
+    packages: [
+        {
+            name: 'pixie',
+            main: 'index'
+        }
+    ]
+});
+</code></pre>
+
 <p id="config-packages"><strong><a href="#config-packages">packages</a></strong>: configures loading modules from CommonJS packages. See the <a href="#packages">packages topic</a> for more information.</p>
 
 <p id="config-waitSeconds"><strong><a href="#config-waitSeconds">waitSeconds</a></strong>: The number of seconds to wait before giving up on loading a script. Setting it to 0 disables the timeout. The default is 7 seconds.</p>
 
 <p id="config-context"><strong><a href="#config-context">context</a></strong>: A name to give to a loading context. This allows require.js to load multiple versions of modules in a page, as long as each top-level require call specifies a unique context string. To use it correctly, see the <a href="#multiversion">Multiversion Support</a> section.</p>
 
-<p id="config-deps"><strong><a href="#config-deps">deps</a></strong>: An array of dependencies to load. Useful when require is defined as a config object before require.js is loaded, and you want to specify dependencies to load as soon as require() is defined.</p>
+<p id="config-deps"><strong><a href="#config-deps">deps</a></strong>: An array of dependencies to load. Useful when require is defined as a config object before require.js is loaded, and you want to specify dependencies to load as soon as require() is defined. Using deps is just like doing a <code>require([])</code> call, but done as soon as the loader has processed the configuration. <strong>It does not block</strong>
+any other require() calls from starting their requests for modules, it is just a way to specify
+some modules to load asynchronously as part of a config block.</p>
 
 <p id="config-callback"><strong><a href="#config-callback">callback</a></strong>: A function to execute after <strong>deps</strong> have been loaded. Useful when require is defined as a config object before require.js is loaded, and you want to specify a function to require after the configuration's <strong>deps</strong> array has been loaded.</p>
 
@@ -972,7 +1012,7 @@ require(['jquery'], function ($) {
 }, function (err) {
     //The errback, error callback
     //The error has a list of modules that failed
-    var failedId = err.requireModules && err.requireModules[0],
+    var failedId = err.requireModules && err.requireModules[0];
     if (failedId === 'jquery') {
         //undef is function only on the global requirejs object.
         //Use it to clear internal knowledge of jQuery. Any modules
