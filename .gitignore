@@ -5,3 +5,4 @@ dist
 *.sublime-*
 
 /server/config.json
+/.DS_Store

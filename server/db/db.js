@@ -74,20 +74,46 @@ function mkValueArray( values, keys ) {
 	return ax;
 }
 
+//
+// TODO 
+// + what if cond is custom where string
+// 
+function mkWhere( cond ) {
+
+	if ( Object.keys( cond ).length === 0 ) return '';
+	
+	var q = ' WHERE ';
+	for ( var k in cond ) {
+		q += k + ' = ' + mkValue( cond[k] ) + ' AND ';
+	}
+	q = q.substr( 0, q.length - 5 );
+	return q;
+}
+
+
 db.fetchArray = function( q, cb ) {
 	console.log('fetchArray', q );
 	client.query(
 		q,
 		function( err, result ) {
+			
+			result = result || [];
+
 			if ( err ) console.log('ERROR', err );
 			cb( err, result.rows );
 	});
 };
 
-db.fetch = function( table, fields, order, cb ) {
+db.fetch = function( table, fields, order, where, cb ) {
 
 	var f = fields.join(', '),
-		q = 'SELECT '+ f +' FROM '+ table +' ORDER BY ' + order;
+		q = 'SELECT '+ f +' FROM '+ table;
+		
+	q += mkWhere( where );
+	q += ' ORDER BY ' + order;
+
+	//console.log('q', q );
+
 	return db.fetchArray( q, cb );
 };
 
@@ -134,7 +160,7 @@ db.delete = function( table, where, val, cb ) {
 
 pub.domains = {};
 pub.domains.query = function( cb ) {
-	db.fetch( 'domains', ['domain', 'parent'], 'parent,domain', cb );
+	db.fetch( 'domains', ['domain', 'parent'], 'parent,domain', {}, cb );
 };
 pub.domains.save = function( data, cb ) {
 
@@ -172,7 +198,11 @@ priv.user.fields.nopass = _.filter( priv.user.fields.query, function( f ) { retu
 pub.user = {};
 pub.user.query = function( cb ) {
 	
-	db.fetch('users', priv.user.fields.nopass, 'email', cb );
+	db.fetch('users', priv.user.fields.nopass, 'email', {}, cb );
+};
+
+pub.user.get = function( id, cb ) {
+	db.fetch('users', priv.user.fields.nopass, 'email', { email: id }, cb );
 };
 
 pub.user.save = function ( user, cb ) {
@@ -214,6 +244,29 @@ pub.user.delete = function( id, cb ) {
 	db.delete( 'users', 'email', id, cb );
 };
 
+pub.user.auth = function( user, password, cb ) {
+	
+	db.fetch('users', priv.user.fields.query, 'email', {
+		'email': user,
+		'password': md5( password )
+	}, function( err, res ) {
+
+		var user = {};
+		console.log('user.auth', err, res );
+
+		if ( res.length && res.length === 1 ) {
+			
+			user = res.shift();
+			// remove password form result
+			user.password = '';
+			
+			cb( null, user );
+
+		} else {
+			cb( null, false );
+		}
+	});
+};
 
 //
 // ADDRESS
@@ -226,7 +279,7 @@ priv.address.fields.query = ['source', 'destination', 'enable_greylisting'];
 
 pub.address = {};
 pub.address.query = function( cb ) {
-	db.fetch('forward', priv.address.fields.query, 'source', cb );
+	db.fetch('forward', priv.address.fields.query, 'source', {}, cb );
 };
 
 pub.address.save = function( data, cb ) {

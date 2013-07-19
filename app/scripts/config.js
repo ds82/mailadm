@@ -9,7 +9,7 @@ define([
  
 	var Module = {};
 	Module.host = 'http://localhost\\:9000';
-	
+	Module.cleanHost = 'http://localhost:9000';
 
 	return Module;
 });

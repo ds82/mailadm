@@ -34,7 +34,6 @@ require.config({
 		//'angular-resource': $angdist + 'angular-resource',
 		//'angular-strap': '../components/angular-strap/dist/angular-strap',
 		'socketio-client': '../components/socket.io-client/dist/socket.io.min'
-
 	},
 	shim: {
 		'twitter': {
@@ -47,7 +46,7 @@ require.config({
 		},
 		'angular-resource': ['_angular'],
 		//'angular-strap': ['_angular'],
-		'twitter/popover': ['twitter/tooltip'],
+		'components/bootstrap/popover': ['components/bootstrap/tooltip'],
 		'ang/modules': ['ang/app'],
 		'socketio-client': {
 			exports: 'io'

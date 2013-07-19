@@ -7,6 +7,7 @@ define([
 	'jquery',
 	'ang/app',
 	'_angular',
+	'ang/misc/401-interceptor',
 	'ang/controller',
 	'ang/services'
 ], function( $, app, angular ) {
@@ -22,7 +23,9 @@ define([
 					DomainServiceData: function( DomainServiceLoader ) {
 						return DomainServiceLoader();
 					}
-				}
+				},
+				auth: true,
+				showNavigation: true
 			})
 			.when('/user', {
 				controller: 'UserController',
@@ -34,7 +37,10 @@ define([
 					DomainServiceData: function( DomainServiceLoader ) {
 						return DomainServiceLoader();
 					}
-				}
+				},
+				auth: true,
+				showNavigation: true
+
 			})
 			.when('/address', {
 				controller: 'AddressController',
@@ -49,8 +55,22 @@ define([
 					DomainServiceData: function( DomainServiceLoader ) {
 						return DomainServiceLoader();
 					}
-				}
+				},
+				auth: true,
+				showNavigation: true
+
 			})
+			.when('/login', {
+				controller: 'LoginController',
+				templateUrl: 'partials/login.html',
+				resolve: {
+
+				},
+				auth: false,
+				showNavigation: false
+
+			})
+			.otherwise({ redirectTo: '/login' });
 		;
 	});
 

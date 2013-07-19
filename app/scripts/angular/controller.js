@@ -5,6 +5,8 @@
  */
 define([
 	'ang/controller/app',
+	'ang/controller/nav',
+	'ang/controller/login',
 	'ang/controller/domain',
 	'ang/controller/user',
 	'ang/controller/address'

@@ -35,6 +35,10 @@
   },
   "dependencies": {
     "socket.io": "~0.9.14",
-    "express": "~3.2.1"
+    "express": "~3.2.1",
+    "underscore": "~1.5.1",
+    "pg": "~2.1.0",
+    "passport-local": "~0.1.6",
+    "passport": "~0.1.17"
   }
 }
