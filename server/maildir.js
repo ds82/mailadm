@@ -15,10 +15,10 @@ function cmd_exec( cmd, args, cb ) {
       out = '';
 
   child.stdout.on('data', function ( data ) { 
-    out =+ data;
+    out += data;
   });
   child.stdout.on('end', function () { 
-    cb( null, data ); 
+    cb( null, out ); 
   });
 }
 
