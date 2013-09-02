@@ -1,15 +1,18 @@
-"use strict";
+'use strict';
  /**
  * config
  * @author Dennis Sänger, 2013
  */
 define([
-	
-], function(  ) {
+
+], function() {
  
-	var Module = {};
-	Module.host = 'http://localhost\\:9000';
-	Module.cleanHost = 'http://localhost:9000';
+	var Module = {},
+      host = window.location.host;
+	Module.host = 'http://' + host.replace(/:[0-9]+/, '\\$&');
+	Module.cleanHost = 'http://'+host;
+
+  console.log( 'config', Module );
 
 	return Module;
 });
