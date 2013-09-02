@@ -11,7 +11,7 @@ var mod = {};
 module.exports = mod;
 
 function cmd_exec( cmd, args, cb ) {
-  var child = spawn(cmd, args),
+  var child = spawn( cmd, args ),
       out = '';
 
   child.stdout.on('data', function ( data ) { 

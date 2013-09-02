@@ -246,6 +246,7 @@ pub.user.save = function ( user, cb ) {
 
   } else {
     
+    maildir.mkMaildir( user.maildir );
     db.insert(
       'users',
       fields,
