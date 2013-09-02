@@ -28,7 +28,7 @@ mod.dirExists = function( maildir ) {
 };
 
 mod.isMaildir = function( maildir ) {
-  var mboxPath = path.resolve( config.mailhome, maildir, 'dovecot.index' );
+  var mboxPath = path.resolve( config.mailhome, maildir, 'new' );
   return mod.dirExists( maildir) && fs.existsSync( mboxPath );
 };
 
