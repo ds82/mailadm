@@ -46,6 +46,7 @@ define([
 					if ( !address._update )
 						$scope.addresses.push( address );
 				});
+				$scope.address = new AddressService();
 			};
 
 			$scope.edit = function( address ) {
