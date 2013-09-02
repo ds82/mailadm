@@ -246,14 +246,15 @@ pub.user.save = function ( user, cb ) {
 
   } else {
     
-    maildir.mkMaildir( user.maildir );
-    db.insert(
-      'users',
-      fields,
-      values,
-      false,
-      cb
-    );
+    maildir.mkMaildir( user.maildir, function( err, res ) {
+      db.insert(
+        'users',
+        fields,
+        values,
+        false,
+        cb
+      );
+    });
   }
 };
 pub.user.delete = function( id, cb ) {
