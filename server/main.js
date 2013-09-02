@@ -73,6 +73,10 @@ passport.use(new LocalStrategy(
 ));
 
 function ensureAuthenticated(req, res, next) {
+  
+  // disable auth
+  return next();
+
   if (req.isAuthenticated()) { return next(); }
   res.send( 401 );
 }
