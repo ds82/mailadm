@@ -32,9 +32,15 @@ define([
 			domains
 		) {
 
+			function newAddress() {
+				var address = new AddressService();
+				address.enable_greylisting = true;
+				return address;
+			}
+
 			$scope.meta = {};
 			$scope.addresses = addresses;
-			$scope.address = new AddressService();
+			$scope.address = newAddress();
 			$scope.users = users;
 			$scope.domains = domains;
 
@@ -46,7 +52,7 @@ define([
 					if ( !address._update )
 						$scope.addresses.push( address );
 				});
-				$scope.address = new AddressService();
+				$scope.address = newAddress();
 			};
 
 			$scope.edit = function( address ) {
