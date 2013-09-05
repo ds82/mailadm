@@ -52,6 +52,7 @@ define([
 					if ( !address._update )
 						$scope.addresses.push( address );
 				});
+				$scope.meta.addressCreated = true;
 				$scope.address = newAddress();
 			};
 

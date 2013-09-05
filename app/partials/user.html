@@ -31,43 +31,49 @@
 
 <!-- <pre>{{user | json}}</pre> -->
 
-<form name="userForm" class="form-horizontal" ng-submit="save( user )">
-	<!-- ALERTS -->
-	<div 
-		class="alert alert-block alert-success"
-		ng-show="meta.userCreated"
-		ng-animate="{ show: 'animated pulse' }"
-	>
-	  <button type="button" class="close" ng-click="meta.userCreated=false">&times;</button>
-	  <h4>Benutzer hinzugefügt!</h4>
-	  Der Benutzer wurde erfolgreich hinzugefügt!
-	</div>
+<!-- ALERTS -->
+<div 
+	class="alert alert-block alert-success"
+	ng-show="meta.userCreated"
+	ng-animate="{ show: 'animated pulse' }"
+>
+  <button type="button" class="close" ng-click="meta.userCreated=false">&times;</button>
+  <h4>Benutzer hinzugefügt!</h4>
+  Der Benutzer wurde erfolgreich hinzugefügt!
+</div>
 
+<form
+	role="form"
+	name="userForm"
+	class="form-horizontal"
+	ng-submit="save( user )"
+>
 	<!-- EMAIL -->
-	<div class="control-group">
-		<label class="control-label" for="email">
+	<div class="form-group">
+		<label class="control-label col-lg-2" for="email">
 			E-Mail
 		</label>
-		<div class="controls">
-			<input type="text" placeholder="Email" ng-model="user.email" />
+		<div class="col-lg-5">
+			<input class="form-control" type="text" placeholder="Email" ng-model="user.email" />
 		</div>
 	</div>
 	<!-- SET PASSWORD -->
-	<div class="control-group" ng-show="user._update">
-		<label class="control-label" for="email">
+	<div class="form-group" ng-show="user._update">
+		<label class="control-label col-lg-2" for="email">
 			Passwort setzen
 		</label>
-		<div class="controls">
-			<input type="checkbox" ng-model="user._setpw" />
+		<div class="col-lg-5">
+			<input class="form-control" type="checkbox" ng-model="user._setpw" />
 		</div>
 	</div>
 	<!-- PASSWORD -->
-	<div class="control-group" ng-show="user._setpw || !user._update" ng-class="{ error: !userForm.plaintext1.$valid }">
-		<label class="control-label" for="password">
+	<div class="form-group" ng-show="user._setpw || !user._update" ng-class="{ error: !userForm.plaintext1.$valid }">
+		<label class="control-label col-lg-2" for="password">
 			Passwort
 		</label>
-		<div class="controls">
+		<div class="col-lg-5">
 			<input
+				class="form-control"
 				type="password"
 				name="plaintext1"
 				placeholder="Passwort"
@@ -77,12 +83,13 @@
 		</div>
 	</div>
 
-	<div class="control-group" ng-show="user._setpw || !user._update" ng-class="{ error: !userForm.plaintext1.$valid }">
-		<label class="control-label" for="password">
+	<div class="form-group" ng-show="user._setpw || !user._update" ng-class="{ error: !userForm.plaintext1.$valid }">
+		<label class="control-label col-lg-2" for="password">
 			Passwort wiederholen
 		</label>
-		<div class="controls">
+		<div class="col-lg-5">
 			<input
+				class="form-control"
 				type="password"
 				name="plaintext2"
 				placeholder="Passwort wiederholen"
@@ -93,12 +100,13 @@
 	</div>
 
 	<!-- DOMAINS -->
-	<div class="control-group">
-		<label class="control-label" for="password">
+	<div class="form-group">
+		<label class="control-label col-lg-2" for="password">
 			Domains
 		</label>
-		<div class="controls">
+		<div class="col-lg-5">
 			<select
+				class="form-control"
 				multiple="multiple"
 				ng-model="user.domains"
 				ng-options="d.domain as d.domain for d in domains"
@@ -107,9 +115,11 @@
 	</div>
 
 	<!-- SUBMIT -->
-	<div class="form-actions">
-		<button ng-show="user._update" ng-disabled="!userForm.$dirty || userForm.$invalid " type="submit" class="btn btn-primary">Aktualisieren</button>
-		<button ng-show="!user._update" ng-disabled="!userForm.$dirty || userForm.$invalid " type="submit" class="btn btn-primary">Hinzufügen</button>
+	<div class="form-group">
+		<div class="col-lg-5 col-lg-offset-2">
+			<button ng-show="user._update" ng-disabled="!userForm.$dirty || userForm.$invalid " type="submit" class="btn btn-primary">Aktualisieren</button>
+			<button ng-show="!user._update" ng-disabled="!userForm.$dirty || userForm.$invalid " type="submit" class="btn btn-primary">Hinzufügen</button>
+		</div>
 	</div>
 </form>
 

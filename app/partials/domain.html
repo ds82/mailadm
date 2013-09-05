@@ -19,28 +19,31 @@
 
 <h2>Domain hinzufügen</h2>
 <form name="domain" class="form-horizontal" ng-submit="save( dom )">
-	<div class="control-group">
-		<label class="control-label" for="domain">
+	<div class="form-group">
+		<label class="control-label col-lg-2" for="domain">
 			Domain
 		</label>
-		<div class="controls">
-			<input type="text" placeholder="Domain" ng-model="dom.domain">
+		<div class="col-lg-5">
+			<input class="form-control" type="text" placeholder="Domain" ng-model="dom.domain">
 		</div>
 	</div>
-	<div class="control-group">
-		<label class="control-label" for="domain">
+	<div class="form-group">
+		<label class="control-label col-lg-2" for="domain">
 			Hauptdomain
 		</label>
-		<div class="controls">
+		<div class="col-lg-5">
 			<select
+				class="form-control"
 				ng-model="dom.parent"
 				ng-options="d.domain as d.domain for d in domains | parentDomain"
 			></select>
 		</div>
 	</div>
-	<div class="form-actions">
-		<button ng-show="dom._update" type="submit" class="btn btn-primary">Aktualisieren</button>
-		<button ng-hide="dom._update" type="submit" class="btn btn-primary">Hinzufügen</button>
+	<div class="form-group">
+		<div class="col-lg-5 col-lg-offset-2">
+			<button ng-show="dom._update" type="submit" class="btn btn-primary">Aktualisieren</button>
+			<button ng-hide="dom._update" type="submit" class="btn btn-primary">Hinzufügen</button>
+		</div>
 	</div>
 </form>
 
