@@ -91,6 +91,15 @@ function mkWhere( cond ) {
   return q;
 }
 
+function updateOrInsert( update, insert, data, cb ) {
+  if ( data._update ) {
+    return update( data, cb );
+  
+  } else {
+    return insert( data, cb );
+  }
+};
+
 
 db.fetchArray = function( q, cb ) {
   console.log('fetchArray', q );
@@ -328,6 +337,53 @@ pub.address.delete = function( id, cb ) {
 };
 
 
+//
+// BLOCKED
+//
+
+priv.blocked = {};
+priv.blocked.fields = {};
+priv.blocked.fields.query = ['destination','domain'];
+
+pub.blocked = {};
+
+pub.blocked.query = function( cb ) {
+  db.fetch(
+    'blocked',
+    priv.blocked.fields.query,
+    'destination',
+    {},
+    cb
+  );
+};
+
+pub.blocked.insert = function( data, cb ) {
+  db.insert(
+    'blocked',
+    priv.blocked.fields.query,
+    mkValueArray( data, priv.blocked.fields.query ),
+    false,
+    cb
+  );
+};
+
+pub.blocked.update = function( data, cb ) {
+
+};
+
+pub.blocked.save = function( data, cb ) {
+  return updateOrInsert(
+      pub.blocked.update,
+      pub.blocked.insert,
+      data,
+      cb
+  );
+};
+
+pub.blocked.delete = function( id, cb ) {
+
+  db.delete('blocked', 'destination', id, cb );
+};
 
 var connect = function( auth ) {
   
