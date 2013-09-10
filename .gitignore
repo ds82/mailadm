@@ -6,3 +6,4 @@ dist
 
 /server/config.json
 /.DS_Store
+/app/components/.DS_Store
