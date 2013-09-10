@@ -42,5 +42,7 @@ mod.mkMaildir = function( maildir, opts, cb ) {
     cmd_exec( config.maildirmake, [absPath], function( err, res ) {
       cb( err, res )
     });
+  } else {
+    cb( null, {});
   }
 };

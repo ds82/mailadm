@@ -7,7 +7,7 @@ define([
 	'jquery', 'ang/app', 'config'
 ], function( $, app, config ) {
  
-	app.factory('DomainService', [
+	app.factory('DomainResource', [
 		'$resource',
 	function( $resource ) {
 		return $resource( config.host + '/domain/:id', { id: '@domain' }, {
@@ -19,7 +19,7 @@ define([
 	}]);
 
 	app.factory('DomainServiceLoader', [
-		'$q', 'DomainService',
+		'$q', 'DomainResource',
 	function( $q, service ) {
 		return function() {
 

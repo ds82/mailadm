@@ -26,13 +26,13 @@ define([
 
 	app.controller('DomainController',[
 		'$scope',
-		'DomainService',
+		'DomainResource',
 		'DomainServiceData',
 
-	function( $scope, DomainService, domains ) {
+	function( $scope, DomainResource, domains ) {
 		
 		$scope.domains = domains;
-		$scope.dom = new DomainService();
+		$scope.dom = new DomainResource();
 
 		$scope.save = function( domain ) {
 
@@ -41,7 +41,7 @@ define([
 				if ( ! domain._update ) {
 					$scope.domains.push( domain );
 				}
-				$scope.dom = new DomainService();
+				$scope.dom = new DomainResource();
 			});
 		};
 
