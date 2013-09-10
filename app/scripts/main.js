@@ -18,7 +18,7 @@ Array.prototype.delete = function( item ) {
 
 // TODO refactor
 var $components = '../components/',
-	$angdist = $components + 'angular-unstable/';
+	$angdist = $components + 'angular-dev/';
 	//$angdist = '../vendor/angularjs/build/';
 
 
@@ -30,8 +30,9 @@ require.config({
 		twitter: 'twitter',
 		_angular: $angdist + 'angular',
 		ang: 'angular',
-		'angular-resource': $components + 'angular-resource/angular-resource',
-		//'angular-resource': $angdist + 'angular-resource',
+		'angular-resource': $angdist + 'angular-resource',
+		'angular-route': $angdist + 'angular-route',
+		'angular-animate': $angdist + 'angular-animate',
 		//'angular-strap': '../components/angular-strap/dist/angular-strap',
 		'socketio-client': '../components/socket.io-client/dist/socket.io.min'
 	},

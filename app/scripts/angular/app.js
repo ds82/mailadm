@@ -6,10 +6,12 @@
 define([
 	'jquery',
 	'_angular',
-	'angular-resource'
+	'angular-resource',
+  'angular-route',
+  'angular-animate',
 ], function( $, angular ) {
  
 
-	return angular.module( 'app', ['ngResource'] );
+	return angular.module( 'app', ['ngResource', 'ngRoute', 'ngAnimate'] );
 
 });
