@@ -27,6 +27,7 @@ define([
         auth: true,
         showNavigation: true
       })
+      
       .when('/user', {
         controller: 'UserController',
         templateUrl: 'partials/user.html',
@@ -40,8 +41,8 @@ define([
         },
         auth: true,
         showNavigation: true
-
       })
+
       .when('/address', {
         controller: 'AddressController',
         templateUrl: 'partials/address.html',

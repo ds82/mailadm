@@ -4,83 +4,152 @@
  */
 define([
 
-	'jquery', 'ang/app', 'config'
+  'jquery', 'ang/app', 'config'
 
 ], function( $, app, config ) {
-	'use strict';
+  'use strict';
 
-	function fixupUser( user ) {
-		
-		var tmp = user.email.split('@');
-		user.alias = tmp[0];
-		user.domain = tmp[1];
-	}
+  function fixupUser( user ) {
+    
+    var tmp = user.email.split('@');
+    user.alias = tmp[0];
+    user.domain = tmp[1];
+  }
 
-	app.controller('UserController',[
-		'$scope',
-		'UserService',
-		'UserServiceData',
-		'DomainServiceData',
+  function createUser( UserService ) {
 
-		function( $scope, UserService, data, domains ) {
+    var user = new UserService();
+    user._setpw = true;
+    user.enabled = true;
+    user.is_admin = false;
+    return user;
+  }
 
-			function createUser() {
+  app.controller('UserController',[
+    '$scope',
+    'UserService',
+    'UserServiceData',
+    'DomainServiceData',
 
-				var user = new UserService();
-				user._setpw = true;
-				user.enabled = true;
-				user.is_admin = false;
-				return user;
-			}
+    function( $scope, UserService, data, domains ) {
 
-			$scope.data = data;
-			$scope.domains = domains;
-			
-			$scope.user = createUser();
-			
-			$scope.meta = {};
-			$scope.meta.userCreated = false;
+      $scope.data = data;
+      $scope.domains = domains;
+      
+      $scope.meta = {};
+      $scope.meta.userCreated = false;
+      
+      $scope.meta.show = {};
+      $scope.meta.show.userAdd = false;
 
-			$scope.edit = function( user ) {
-				
-				// tell server to update user instead of inserting
-				user._update = true;
-				user._setpw = false;
+      $scope.edit = function( user ) {
+        
+        // tell server to update user instead of inserting
+        user._update = true;
+        user._setpw = false;
 
-				user._id = user.email;
-				$scope.user = user;
-			};
+        user._id = user.email;
+        $scope.user = user;
+      };
 
-			$scope.save = function( user ) {
+      $scope.save = function( user ) {
 
-				fixupUser( user );
-				user.$save(function( res ) {
-					
-					if ( ! user._update )
-						$scope.data.push( user );
-					
-					$scope.meta.userCreated = true;
-					createUser( $scope.user );
-				});
-			};
+        fixupUser( user );
+        user.$save(function( res ) {
+          
+          if ( ! user._update )
+            $scope.data.push( user );
+          
+          $scope.meta.userCreated = true;
+          createUser( $scope.user );
+        });
+      };
 
-			$scope.delete = function( user ) {
-				user.$delete(function( res ) {
-					$scope.data.delete( user );
-				});
-			};
+      $scope.delete = function( user ) {
+        user.$delete(function( res ) {
+          $scope.data.delete( user );
+        });
+      };
 
-			$scope.enable =  function( user ) {
-				console.log('user', user );
-			};
+      $scope.enable =  function( user ) {
+        console.log('user', user );
+      };
 
-			$scope.validatePassword = function( user ) {
+      $scope.validatePassword = function( user ) {
 
-				$scope.userForm.plaintext1.$valid =
-					user.plaintext1.length > 5 &&
-					( user.plaintext1 ===  user.plaintext2 );
-			};
+        $scope.userForm.plaintext1.$valid =
+          user.plaintext1.length > 5 &&
+          ( user.plaintext1 ===  user.plaintext2 );
+      };
 
-		}]);
+      $scope.addUser = function() {
+        $scope.meta.show.userAdd = true;
+      };
+
+      $scope.cancelEditUser = function() {
+        $scope.meta.show.userAdd = false;
+      };
+
+    }]);
+
+
+ app.controller('UserEditController',[
+  '$scope',
+  'UserService',
+  'DomainResource',
+
+  function( $scope, UserResource, DomainResource ) {
+
+    $scope.domains = DomainResource.query();
+    $scope.user = createUser( UserResource );
+    
+    $scope.meta = $scope.meta || {};
+    $scope.meta.userCreated = false;
+
+    $scope.edit = function( user ) {
+      
+      // tell server to update user instead of inserting
+      user._update = true;
+      user._setpw = false;
+
+      user._id = user.email;
+      $scope.user = user;
+    };
+
+    $scope.save = function( user ) {
+
+      fixupUser( user );
+      user.$save(function( res ) {
+        
+        if ( ! user._update )
+          $scope.data.push( user );
+        
+        $scope.meta.userCreated = true;
+        createUser( $scope.user );
+      });
+    };
+
+    $scope.delete = function( user ) {
+      user.$delete(function( res ) {
+        $scope.data.delete( user );
+      });
+    };
+
+    $scope.enable =  function( user ) {
+      console.log('user', user );
+    };
+
+    $scope.validatePassword = function( user ) {
+
+      $scope.userForm.plaintext1.$valid =
+        user.plaintext1.length > 5 &&
+        ( user.plaintext1 ===  user.plaintext2 );
+    };
+
+
+  }]);
+
+
+
 
 });

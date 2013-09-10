@@ -7,6 +7,7 @@ define([
 	'jquery', 'ang/app', 'config'
 ], function( $, app, config ) {
  
+ 	// @todo Refactor name, should be UserResource
 	app.factory('UserService', [
 		'$resource',
 	function( $resource ) {

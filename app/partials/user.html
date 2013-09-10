@@ -1,127 +1,45 @@
-<h2>Benutzer</h2>
-<div class="alert alert-block alert-info">
-  Benutzer repräsentieren Mailkonten. Für sie wird automatisch ein Konto angelegt und eine Zieladresse 
-  eingetragen. D.h. durch Anlegen eines Benutzers nimmt der Mailserver automatisch
-  Mails an die Adresse des Benutzer entgegen.
-</div>
-<table class="table table-hover table-striped">
-	<tr>
-		<th>#</th>
-		<th>aktiv</th>
-		<th>Administrator</th>
-		<th>Benutzer</th>
-		<th>Domains</th>
-	</tr>
-	<tr ng-repeat="row in data">
-		<td>
-			<a href ng-click="edit(row)"><i class="icon-edit"></i></a>
-			<a href ng-click="delete(row)"><i class="icon-remove"></i></a>
-		</td>
-		<td><input type="checkbox" ng-change="set(row)" ng-model="row.enabled" /></td>
-		<td><input type="checkbox" ng-change="set(row)" ng-model="row.is_admin" /></td>
-		<td>{{row.email}}</td>
-		<td>{{row.domains.join(', ')}}</td>
-	</tr>
-</table>
-
-<p><br /></p>
-
-<h2 ng-show="!user._update">Benutzer hinzufügen</h2>
-<h2 ng-show="user._update">Benutzer bearbeiten</h2>
-
-<!-- <pre>{{user | json}}</pre> -->
-
-<!-- ALERTS -->
 <div 
-	class="alert alert-block alert-success"
-	ng-show="meta.userCreated"
-	ng-animate="{ show: 'animated pulse' }"
+  ng-hide="meta.show.userAdd"
 >
-  <button type="button" class="close" ng-click="meta.userCreated=false">&times;</button>
-  <h4>Benutzer hinzugefügt!</h4>
-  Der Benutzer wurde erfolgreich hinzugefügt!
+  <h2>Benutzer</h2>
+  <div class="alert alert-block alert-info">
+    Benutzer repräsentieren Mailkonten. Für sie wird automatisch ein Konto angelegt und eine Zieladresse 
+    eingetragen. D.h. durch Anlegen eines Benutzers nimmt der Mailserver automatisch
+    Mails an die Adresse des Benutzer entgegen.
+  </div>
+  <table class="table table-hover table-striped">
+    <tr>
+      <th>#</th>
+      <th>aktiv</th>
+      <th>Administrator</th>
+      <th>Benutzer</th>
+      <th>Domains</th>
+    </tr>
+    <tr ng-repeat="row in data">
+      <td>
+        <a href ng-click="edit(row)"><i class="glyphicon glyphicon-edit"></i></a>
+        <a href ng-click="delete(row)"><i class="glyphicon glyphicon-remove"></i></a>
+      </td>
+      <td><input type="checkbox" ng-change="set(row)" ng-model="row.enabled" /></td>
+      <td><input type="checkbox" ng-change="set(row)" ng-model="row.is_admin" /></td>
+      <td>{{row.email}}</td>
+      <td>{{row.domains.join(', ')}}</td>
+    </tr>
+  </table>
+
+  <a ng-click="addUser()">
+    <i class="glyphicon glyphicon-plus"/>
+    Benutzer hinzufügen
+  </a>
+
 </div>
-
-<form
-	role="form"
-	name="userForm"
-	class="form-horizontal"
-	ng-submit="save( user )"
+<div
+  ng-animate="{ show: 'animated bounceInRight' }"
+  ng-show="meta.show.userAdd"
+  ng-controller="UserEditController"
+  ng-include="'partials/user-edit.html'"
 >
-	<!-- EMAIL -->
-	<div class="form-group">
-		<label class="control-label col-lg-2" for="email">
-			E-Mail
-		</label>
-		<div class="col-lg-5">
-			<input class="form-control" type="text" placeholder="Email" ng-model="user.email" />
-		</div>
-	</div>
-	<!-- SET PASSWORD -->
-	<div class="form-group" ng-show="user._update">
-		<label class="control-label col-lg-2" for="email">
-			Passwort setzen
-		</label>
-		<div class="col-lg-5">
-			<input class="form-control" type="checkbox" ng-model="user._setpw" />
-		</div>
-	</div>
-	<!-- PASSWORD -->
-	<div class="form-group" ng-show="user._setpw || !user._update" ng-class="{ error: !userForm.plaintext1.$valid }">
-		<label class="control-label col-lg-2" for="password">
-			Passwort
-		</label>
-		<div class="col-lg-5">
-			<input
-				class="form-control"
-				type="password"
-				name="plaintext1"
-				placeholder="Passwort"
-				ng-model="user.plaintext1"
-				ng-change="validatePassword( user )"
-			/>
-		</div>
-	</div>
-
-	<div class="form-group" ng-show="user._setpw || !user._update" ng-class="{ error: !userForm.plaintext1.$valid }">
-		<label class="control-label col-lg-2" for="password">
-			Passwort wiederholen
-		</label>
-		<div class="col-lg-5">
-			<input
-				class="form-control"
-				type="password"
-				name="plaintext2"
-				placeholder="Passwort wiederholen"
-				ng-model="user.plaintext2"
-				ng-change="validatePassword( user )"
-			/>
-		</div>
-	</div>
-
-	<!-- DOMAINS -->
-	<div class="form-group">
-		<label class="control-label col-lg-2" for="password">
-			Domains
-		</label>
-		<div class="col-lg-5">
-			<select
-				class="form-control"
-				multiple="multiple"
-				ng-model="user.domains"
-				ng-options="d.domain as d.domain for d in domains"
-			></select>
-		</div>
-	</div>
-
-	<!-- SUBMIT -->
-	<div class="form-group">
-		<div class="col-lg-5 col-lg-offset-2">
-			<button ng-show="user._update" ng-disabled="!userForm.$dirty || userForm.$invalid " type="submit" class="btn btn-primary">Aktualisieren</button>
-			<button ng-show="!user._update" ng-disabled="!userForm.$dirty || userForm.$invalid " type="submit" class="btn btn-primary">Hinzufügen</button>
-		</div>
-	</div>
-</form>
+</div>
 
 <pre>
 {{ data | json }}
