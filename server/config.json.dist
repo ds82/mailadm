@@ -1,0 +1,5 @@
+{
+  "pg_connect": "pg://user:pw@ip:5432/db",
+  "mailhome": "/home/vmail/",
+  "maildirmake": "/usr/bin/maildirmake.dovecot"
+}
