@@ -1,12 +1,20 @@
-# boilerplate #
+# mailadm #
 
-This is my webapp boilerplate repo. It contains a basic webapp project including bootstrap, requirejs, jquery and angularjs. Packed together with a basic grunt config, bower and jshint you can clone this repo and start coding. 
+Simple webfrontend to manage my mailserver running postfix, dovecot and postgresql.
 
-# tests #
+## run ##
 
-I will add testing frameworks and basic tests to the repo, soon(TM). I will use testacular and jasmine.
+* cp server/config.json.dist server/config.json
+* edit server/config.json and adjust to your setup
+* npm install
+* grunt server
+* open browser and go to localhost:9000
 
-# backend #
+## todo ##
 
-Yes, I'm planing to add backend code as well. 
+A lot. Look at the issue tracker
 
+## why github? ##
+
+Because I love git and needed a place to host this. And I like using the
+issue tracker to keep track of my todos.
