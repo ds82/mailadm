@@ -1,17 +1,17 @@
-"use strict";
+'use strict';
  /**
- * angular-bootstrap
+ * app
  * @author Dennis Sänger, 2013
  */
 define([
-	'jquery',
-	'_angular',
-	'angular-resource',
-  'angular-route',
-  'angular-animate',
-], function( $, angular ) {
- 
+    'jquery',
+    'angularjs',
+    'angular/extensions'
+], function( $, angularjs ) {
 
-	return angular.module( 'app', ['ngResource', 'ngRoute', 'ngAnimate'] );
+    var app = angularjs.module('app', [
+      'ngResource', 'ngRoute', 'ngAnimate'
+    ]);
+    return app;
 
 });

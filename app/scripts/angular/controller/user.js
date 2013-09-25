@@ -4,7 +4,7 @@
  */
 define([
 
-  'jquery', 'ang/app', 'config'
+  'jquery', 'app', 'config'
 
 ], function( $, app, config ) {
   'use strict';

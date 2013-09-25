@@ -1,0 +1,3 @@
+define([
+  'bs/modal'
+], function() {});

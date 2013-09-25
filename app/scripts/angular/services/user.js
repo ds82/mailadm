@@ -4,7 +4,7 @@
  * @author Dennis Sänger, 2013
  */
 define([
-	'jquery', 'ang/app', 'config'
+	'jquery', 'app', 'config'
 ], function( $, app, config ) {
  
  	// @todo Refactor name, should be UserResource

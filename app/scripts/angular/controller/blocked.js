@@ -3,7 +3,7 @@
  * @author Dennis Sänger, 2013
  */
 define([
-  'jquery', 'ang/app'
+  'jquery', 'app'
 ], function( $, app ) {
   'use strict';
 
