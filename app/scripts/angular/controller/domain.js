@@ -13,53 +13,52 @@ define([
 		return function( domains ) {
 			
 			var filtered = [];
+			if ( ! domains ) return filtered;
+
 			for ( var i = 0; i < domains.length; ++i ) {
-				if ( domains[i].parent === domains[i].domain ||
-					 domains[i].parent === '' ||
-					 domains[i].parent == null
-				)
+				if ( !domains[i].parent || 
+						domains[i].parent === domains[i].domain ) {
 					filtered.push( domains[i] );
+				}
 			}
 			return filtered;
 		};
 	});
 
 	app.controller('DomainController',[
-		'$scope',
-		'DomainResource',
-		'DomainServiceData',
+		'$scope', 'DomainResource',
 
-	function( $scope, DomainResource, domains ) {
-		
-		$scope.domains = domains;
-		$scope.dom = new DomainResource();
+		function( $scope, DomainResource ) {
 
-		$scope.save = function( domain ) {
+			$scope.domains = DomainResource.query();
+			$scope.dom = new DomainResource();
 
-			domain.$save( function( res ) {
+			$scope.save = function( domain ) {
 
-				if ( ! domain._update ) {
-					$scope.domains.push( domain );
-				}
-				$scope.dom = new DomainResource();
-			});
-		};
+				domain.$save( function( res ) {
 
-		$scope.edit = function( domain ) {
+					if ( ! domain._update ) {
+						$scope.domains.push( domain );
+					}
+					$scope.dom = new DomainResource();
+				});
+			};
 
-			// save references
-			domain._id = domain.domain;
-			domain._update = true;
+			$scope.edit = function( domain ) {
 
-			$scope.dom = domain;
-		};
+				// save references
+				domain._id = domain.domain;
+				domain._update = true;
 
-		$scope.delete = function( domain ) {
+				$scope.dom = domain;
+			};
 
-			domain.$delete( function( res ) {
-				$scope.domains.delete( domain );
-			});
-		};
+			$scope.delete = function( domain ) {
+
+				domain.$delete( function( res ) {
+					$scope.domains.delete( domain );
+				});
+			};
 
 	}]);
 
