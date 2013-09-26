@@ -3,7 +3,7 @@
 	<tr>
 		<th>#</th>
 		<th>Domain</th>
-		<th>Hauptdomain</th>
+		<th>Subdomains</th>
 	</tr>
 	<tr ng-repeat="row in domains">
 		<td>
@@ -13,7 +13,7 @@
 				<span class="glyphicon glyphicon-remove"></span></a>
 		</td>
 		<td>{{row.domain}}</td>
-		<td>{{row.parent}}</td>
+		<td>{{formatChilds(row.childs)}}</td>
 	</tr>
 </table>
 

@@ -33,6 +33,13 @@ define([
 			$scope.domains = DomainResource.query();
 			$scope.dom = new DomainResource();
 
+			$scope.formatChilds = function( childs ) {
+				var list = childs.map(function( item ) {
+					return item.domain;
+				});
+				return list.join(', ');
+			};
+
 			$scope.save = function( domain ) {
 
 				domain.$save( function( res ) {
