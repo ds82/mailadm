@@ -19,13 +19,13 @@ Array.prototype.delete = function( item ) {
 require.config({
   baseUrl: 'scripts/',
   paths: {
-    '3rd':              'thirdparty',
-    jquery:             'thirdparty/jquery/jquery',
-    angularjs:          'thirdparty/angular-dev/angular',
+    '3rd':              '../thirdparty',
+    jquery:             '../thirdparty/jquery/jquery',
+    angularjs:          '../thirdparty/angular-dev/angular',
     app:                'angular/app',
-    bs:                 'thirdparty/bootstrap/js/',
-    ng:                 'thirdparty/angular-dev/',
-    'socketio-client':  'thirdparty/socket.io-client/dist/socket.io.min',
+    bs:                 '../thirdparty/bootstrap/js/',
+    ng:                 '../thirdparty/angular-dev/',
+    'socketio-client':  '../thirdparty/socket.io-client/dist/socket.io.min',
   },
   shim: {
     'bootstrap': {

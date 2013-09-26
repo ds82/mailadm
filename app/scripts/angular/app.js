@@ -10,7 +10,8 @@ define([
 ], function( $, angularjs ) {
 
     var app = angularjs.module('app', [
-      'ngResource', 'ngRoute', 'ngAnimate'
+      'ngResource', 'ngRoute',
+      'ngAnimate-animate.css'
     ]);
     return app;
 

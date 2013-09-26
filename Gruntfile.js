@@ -239,7 +239,7 @@ module.exports = function (grunt) {
         },
         exec: {
             less: {
-              command: 'lessc <%= yeoman.app %>/less/style.less <%= yeoman.app %>/style/style.css',
+              command: 'lessc app/less/style.less app/style/style.css',
               stdout: false,
               stderr: false
             }

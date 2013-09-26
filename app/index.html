@@ -22,7 +22,7 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <link rel="stylesheet" href="style/style.css">
         <!-- build:js scripts/vendor/modernizr.js -->
-        <script src="scripts/thirdparty/modernizr/modernizr.js">
+        <script src="thirdparty/modernizr/modernizr.js">
         </script>
         <!-- endbuild -->
         <link rel="stylesheet" href="https://rawgithub.com/daneden/animate.css/master/animate.css">
@@ -129,9 +129,8 @@
                 </div>
             </div>
         -->
-        <div class="container">
-            <div class="hero-unit" ng-view>
-            </div>
+        <div class="container hero-unit">
+            <div ng-view></div>
         </div>
         <!--[if lt IE 7]>
             <p class="chromeframe">
@@ -155,7 +154,7 @@
     </script>
     -->
         <!-- build:js scripts/app.js -->
-        <script data-main="scripts/main" src="scripts/thirdparty/requirejs/require.js">
+        <script data-main="scripts/main" src="thirdparty/requirejs/require.js">
         </script>
         <!-- endbuild -->
     </body>
