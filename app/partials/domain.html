@@ -7,8 +7,10 @@
 	</tr>
 	<tr ng-repeat="row in domains">
 		<td>
-			<a href ng-click="edit(row)"><i class="icon-edit"></i></a>
-			<a href ng-click="delete(row)"><i class="icon-remove"></i></a>
+			<a href ng-click="edit(row)">
+				<i class="glyphicon glyphicon-edit"></i></a>
+			<a href ng-click="delete(row)">
+				<i class="glyphicon glyphicon-remove"></i></a>
 		</td>
 		<td>{{row.domain}}</td>
 		<td>{{row.parent}}</td>
