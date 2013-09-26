@@ -1,5 +1,7 @@
-<h2 ng-show="!user._update">Benutzer hinzufügen</h2>
-<h2 ng-show="user._update">Benutzer bearbeiten</h2>
+<h2 ng-switch="meta.editMode">
+  <span ng-switch-when="true">Benutzer bearbeiten</span>
+  <span ng-switch-when="false">Benutzer hinzufügen</span>
+</h2>
 
 <!-- <pre>{{user | json}}</pre> -->
 
@@ -78,6 +80,7 @@
     </label>
     <div class="col-lg-5">
       <select
+        style="height:250px;"
         class="form-control"
         multiple="multiple"
         ng-model="user.domains"
@@ -91,7 +94,7 @@
     <div class="col-lg-5 col-lg-offset-2">
       <button ng-show="user._update" ng-disabled="!userForm.$dirty || userForm.$invalid " type="submit" class="btn btn-primary">Aktualisieren</button>
       <button ng-show="!user._update" ng-disabled="!userForm.$dirty || userForm.$invalid " type="submit" class="btn btn-primary">Hinzufügen</button>
-      <button ng-click="cancelEditUser()" type="button" class="btn btn-primary">Abbrechen</button>
+      <a href="#/user" class="btn btn-danger">Abbrechen</a>
     </div>
   </div>
 </form>

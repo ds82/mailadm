@@ -1,6 +1,4 @@
-<div 
-  ng-hide="meta.show.userAdd"
->
+<div>
   <h2>Benutzer</h2>
   <div class="alert alert-block alert-info">
     Benutzer repräsentieren Mailkonten. Für sie wird automatisch ein Konto angelegt und eine Zieladresse 
@@ -17,8 +15,8 @@
     </tr>
     <tr ng-repeat="row in data">
       <td>
-        <a href ng-click="edit(row)"><i class="glyphicon glyphicon-edit"></i></a>
-        <a href ng-click="delete(row)"><i class="glyphicon glyphicon-remove"></i></a>
+        <a href="#/user/edit/{{row.email}}" class="glyph-link"><span class="glyphicon glyphicon-edit"></span></a>
+        <a href class="glyph-link" ng-click="delete(row)"><span class="glyphicon glyphicon-remove"></span></a>
       </td>
       <td><input type="checkbox" ng-change="set(row)" ng-model="row.enabled" /></td>
       <td><input type="checkbox" ng-change="set(row)" ng-model="row.is_admin" /></td>
@@ -27,19 +25,14 @@
     </tr>
   </table>
 
-  <a ng-click="addUser()">
+  <a class="btn btn-primary" href="#/user/add">
     <i class="glyphicon glyphicon-plus"/>
     Benutzer hinzufügen
   </a>
 
 </div>
-<div
-  ng-animate="{ show: 'animated bounceInRight' }"
-  ng-show="meta.show.userAdd"
-  ng-controller="UserEditController"
-  ng-include="'partials/user-edit.html'"
->
-</div>
+
+<br /><br />
 
 <pre>
 {{ data | json }}

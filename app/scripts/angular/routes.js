@@ -31,6 +31,14 @@ define(['app'], function( app ) {
         showNavigation: true
       })
 
+      .when('/user/edit/:id', {
+        controller: 'UserEditCtrl',
+        templateUrl: 'partials/user-edit.html',
+        resolve: {},
+        auth: true,
+        showNavigation: true
+      })
+
       .when('/address', {
         controller: 'AddressController',
         templateUrl: 'partials/address.html',
