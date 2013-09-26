@@ -129,11 +129,19 @@ app.post('/login',
 app.get('/user',
   ensureAuthenticated,
   function( req, res ) {
-  
     db.user.query( function( err, data ) {
       res.send( data );
     });
 });
+
+app.get('/user/:id',
+  ensureAuthenticated,
+  function( req, res ) {
+    db.user.get( req.params.id, function( err, data ) {
+      res.send( data );
+    });
+});
+
 
 app.post('/user/:id?',
   ensureAuthenticated,

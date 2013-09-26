@@ -226,7 +226,13 @@ pub.user.query = function( cb ) {
 };
 
 pub.user.get = function( id, cb ) {
-  db.fetch('users', priv.user.fields.nopass, 'email', { email: id }, cb );
+  db.fetch('users',
+    priv.user.fields.nopass,
+    'email',
+    { email: id },
+    function( err, res ) {
+      cb( err, res.pop() );
+    });
 };
 
 pub.user.save = function ( user, cb ) {
