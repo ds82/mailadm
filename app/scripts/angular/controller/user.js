@@ -93,19 +93,20 @@ define([
     }]);
 
 
- app.controller('UserEditController',[
-  '$scope',
-  'UserService',
-  'DomainResource',
+ app.controller('UserEditCtrl',[
+  '$scope', '$routeParams', 'UserService', 'DomainResource',
 
-  function( $scope, UserResource, DomainResource ) {
+  function( $scope, params, User, Domain ) {
 
-    $scope.domains = DomainResource.query();
-    $scope.user = createUser( UserResource );
-    
     $scope.meta = $scope.meta || {};
-    $scope.meta.userCreated = false;
+    $scope.meta.userCreated = false; // ?
+    $scope.meta.editMode = !!params.id;
 
+    $scope.domains = Domain.query();
+    $scope.user = params.id ? 
+      User.get({ id: params.id }) : 
+      createUser( User );
+    
     $scope.edit = function( user ) {
       
       // tell server to update user instead of inserting
