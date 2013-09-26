@@ -9,8 +9,8 @@
 	</tr>
 	<tr ng-repeat="row in addresses">
 		<td>
-			<a href ng-click="edit(row)"><i class="glyphicon glyphicon-edit"></i></a>
-			<a href ng-click="delete(row)"><i class="glyphicon glyphicon-remove"></i></a>
+			<a class="glyph-link" href ng-click="edit(row)"><span class="glyphicon glyphicon-edit"></span></a>
+			<a class="glyph-link" href ng-click="delete(row)"><span class="glyphicon glyphicon-remove"></span></a>
 		</td>
 		<td>{{row.source}}</td>
 		<td>{{row.destination}}</td>
