@@ -1,0 +1,1 @@
+{"$resource":{"badargs":"Expected up to 4 arguments [params, data, success, error], got {0} arguments","badcfg":"Error in resource configuration. Expected response to contain an {0} but got an {1}"}}
