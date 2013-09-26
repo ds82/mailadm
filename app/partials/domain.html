@@ -1,5 +1,5 @@
 <h2>Domain Liste</h2>
-<table class="table table-hover table-striped">
+<table class="table table-bordered table-hover table-striped">
 	<tr>
 		<th>#</th>
 		<th>Domain</th>
@@ -7,10 +7,10 @@
 	</tr>
 	<tr ng-repeat="row in domains">
 		<td>
-			<a href ng-click="edit(row)">
-				<i class="glyphicon glyphicon-edit"></i></a>
-			<a href ng-click="delete(row)">
-				<i class="glyphicon glyphicon-remove"></i></a>
+			<a class="glyph-link" href ng-click="edit(row)">
+				<span class="glyphicon glyphicon-edit"></span></a>
+			<a class="glyph-link" href ng-click="delete(row)">
+				<span class="glyphicon glyphicon-remove"></span></a>
 		</td>
 		<td>{{row.domain}}</td>
 		<td>{{row.parent}}</td>
