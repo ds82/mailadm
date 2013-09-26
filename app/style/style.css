@@ -5917,7 +5917,7 @@ td.visible-print {
 body {
   padding-top: 70px;
 }
-a .glyphicon {
+a.glyph-link .glyphicon {
   color: #333333;
 }
 @charset "UTF-8";
