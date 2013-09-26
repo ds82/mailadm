@@ -1,5 +1,7 @@
 # mailadm #
 
+![mailadm](assets/img/mailadm.png)
+
 Simple webfrontend to manage my mailserver running postfix, dovecot and postgresql.
 
 ## run ##
