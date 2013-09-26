@@ -170,7 +170,36 @@ db.delete = function( table, where, val, cb ) {
 
 pub.domains = {};
 pub.domains.query = function( cb ) {
-  db.fetch( 'domains', ['domain', 'parent'], 'parent,domain', {}, cb );
+  db.fetch('domains',
+      ['domain', 'parent'],
+      'parent,domain',
+      {},
+      function( err, all ) {
+
+        var isParent = {},
+            childs = [];
+
+        // separate parents and childs
+        for( var i = 0, ii = all.length; i < ii; ++i ) {
+
+          if ( !all[i].parent || all[i].domain === all[i].parent ) {
+            all[i].childs = [];
+            isParent[(all[i].domain)] = all[i];
+
+          } else {
+            childs.push( all[i] );
+          }
+        }
+
+        // push childs to parents
+        for( var i = 0, ii = childs.length; i < ii; ++i ) {
+          if ( childs[i].parent ) {
+            isParent[(childs[i].parent)].childs.push( childs[i] );
+          }
+        }
+
+        cb( err, _.values( isParent ));
+      });
 };
 pub.domains.save = function( data, cb ) {
 
