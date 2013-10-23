@@ -4,6 +4,7 @@ define([
   'app',
   'angular/routes',
   'angular/modules',
+  'angular/i18n'
 ], function( $, angularjs, app ) {
   'use strict';
 

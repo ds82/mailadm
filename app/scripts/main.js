@@ -37,7 +37,7 @@ require.config({
       exports: 'angular'
     },
     modules: {
-      deps: ['app']
+      deps: ['app', 'angular/i18n']
     },
     'angular-extensions': {
       deps: ['angularjs']
@@ -48,8 +48,12 @@ require.config({
   }
 });
 
-require(['jquery', 'angular/rdy', 'bootstrap'], function ( $, rdy ) {
-  'use strict';
+require([
+  'jquery',
+  'angular/rdy',
+  'bootstrap'
+], function ( $, rdy ) {
 
+  'use strict';
   return rdy;
 });
