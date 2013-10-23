@@ -6,6 +6,7 @@ var express       = require('express'),
   io              = require('socket.io').listen(server),
   config          = require('./config.json'),
   db              = require('./db/db')( config.pg_connect ),
+  maildir         = require('./maildir'),
   passport        = require('passport'),
   LocalStrategy   = require('passport-local').Strategy;
 
@@ -215,6 +216,25 @@ app.delete('/blocked/:id', ensureAuthenticated,
     db.blocked.delete( req.params.id, function( err, data ) {
       res.send( data );
     });
+});
+
+//
+// MAILDIR
+//
+
+// checks if a maildir exists
+app.get('/maildir/:email', ensureAuthenticated, function( req, res ) {
+
+  var maildirPath = maildir.getPathByEmail( req.params.email );
+  
+  if ( ! maildirPath ) {
+    res.send( 400 );
+  
+  } else {
+    maildir.isMaildir( maildirPath, function( err, data ) {
+      res.send( data );
+    });
+  }
 });
 
 //

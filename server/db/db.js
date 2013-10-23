@@ -228,6 +228,25 @@ pub.domains.delete = function( domain, cb ) {
 // USER
 //
 
+function addMaildirData( users ) {
+  
+  var wasArray = true;
+  // ensure array
+  if ( ! _.isArray( users )) {
+    users = [users];
+    wasArray = false;
+  }
+
+  for( var i = 0, ii = users.length; i < ii; ++i ) {
+    if ( users[i].maildir ) {
+      users[i].maildirCheck = {};
+      users[i].maildirCheck.exists = maildir.dirExists( users[i].maildir );
+      users[i].maildirCheck.isMaildir = maildir.isMaildir( users[i].maildir );
+    }
+  }
+  return ( wasArray ) ? users : users.pop();
+}
+
 priv.user = {};
 priv.user.fields = {};
 
@@ -243,13 +262,8 @@ pub.user.query = function( cb ) {
     'email',
     {},
     function( err, res ) {
-      for( var i = 0, ii = res.length; i < ii; ++i ) {
-        if ( res[i].maildir ) {
-          res[i].maildirCheck = {};
-          res[i].maildirCheck.exists = maildir.dirExists( res[i].maildir );
-          res[i].maildirCheck.isMaildir = maildir.isMaildir( res[i].maildir );
-        }
-      }
+      
+      res = addMaildirData( res );
       cb( err, res );
   });
 };
@@ -260,6 +274,7 @@ pub.user.get = function( id, cb ) {
     'email',
     { email: id },
     function( err, res ) {
+      res = addMaildirData( res );
       cb( err, res.pop() );
     });
 };

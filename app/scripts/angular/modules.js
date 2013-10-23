@@ -11,6 +11,7 @@ define([
   'angular/services/user',
   'angular/services/address',
   'angular/services/blocked',
+  'angular/services/maildir',
 
 
   // CONTROLLER

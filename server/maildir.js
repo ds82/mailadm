@@ -22,14 +22,33 @@ function cmd_exec( cmd, args, cb ) {
   });
 }
 
+mod.getPathByEmail = function( email ) {
+  var split = email.split(/@/);
+  
+  // 2 or something is wrong
+  if ( split.length !== 2 ) {
+    return false;
+  }
+
+  var path = split[1] + '/' + email;
+  return path;
+};
+
 mod.dirExists = function( maildir ) {
   var absPath = path.resolve( config.mailhome, maildir );
   return fs.existsSync( absPath );
 };
 
-mod.isMaildir = function( maildir ) {
-  var mboxPath = path.resolve( config.mailhome, maildir, 'new' );
-  return mod.dirExists( maildir) && fs.existsSync( mboxPath );
+mod.isMaildir = function( maildir, cb ) {
+  var mboxPath = path.resolve( config.mailhome, maildir, 'new' ),
+      exists = mod.dirExists( maildir) && fs.existsSync( mboxPath );
+  
+  console.log( 'isMaildir', maildir, mboxPath, exists );
+
+  if ( cb ) {
+    cb( null, exists );
+  }
+  return exists;
 };
 
 mod.mkMaildir = function( maildir, opts, cb ) {
