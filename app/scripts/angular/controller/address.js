@@ -19,30 +19,23 @@ define([
 
   return app.controller('AddressController', [
     '$scope',
-    'AddressServiceData',
-    'AddressService',
-    'UserServiceData',
-    'DomainServiceData',
+    'AddressResource',
+    'UserResource',
+    'DomainResource',
 
-    function(
-      $scope,
-      addresses,
-      AddressService,
-      users,
-      domains
-    ) {
+    function( $scope, Address, User, Domain ) {
 
       function newAddress() {
-        var address = new AddressService();
+        var address = new Address();
         address.enable_greylisting = true;
         return address;
       }
 
       $scope.meta = {};
-      $scope.addresses = addresses;
+      $scope.addresses = Address.query();
       $scope.address = newAddress();
-      $scope.users = users;
-      $scope.domains = domains;
+      $scope.users = User.query();
+      $scope.domains = Domain.query();
 
       $scope.save = function( address ) {
 
