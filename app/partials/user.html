@@ -5,36 +5,169 @@
     eingetragen. D.h. durch Anlegen eines Benutzers nimmt der Mailserver automatisch
     Mails an die Adresse des Benutzer entgegen.
   </div>
-  <table class="table table-hover table-striped">
+  <table class="table table-hover table-striped table-bordered">
     <tr>
       <th>#</th>
       <th>aktiv</th>
       <th>Administrator</th>
       <th>Benutzer</th>
       <th>Domains</th>
+      <th>Maildir</th>
     </tr>
     <tr ng-repeat="row in data">
       <td>
-        <a href="#/user/edit/{{row.email}}" class="glyph-link"><span class="glyphicon glyphicon-edit"></span></a>
+        <a href ng-click="edit(row)" class="glyph-link"><span class="glyphicon glyphicon-edit"></span></a>
         <a href class="glyph-link" ng-click="delete(row)"><span class="glyphicon glyphicon-remove"></span></a>
       </td>
       <td><input type="checkbox" ng-change="set(row)" ng-model="row.enabled" /></td>
       <td><input type="checkbox" ng-change="set(row)" ng-model="row.is_admin" /></td>
       <td>{{row.email}}</td>
       <td>{{row.domains.join(', ')}}</td>
+      <td>
+        <i
+          class="glyphicon"
+          ng-class="{
+            'glyphicon-inbox': user.maildirCheck.isMaildir,
+            'glyphicon-minus-sign': !user.maildirCheck.isMaildir
+          }"
+        />
+      </td>
     </tr>
   </table>
-
-  <a class="btn btn-primary" href="#/user/edit/">
-    <i class="glyphicon glyphicon-plus"/>
-    Benutzer hinzufügen
-  </a>
 
 </div>
 
 <br /><br />
 
-<pre>
-{{ data | json }}
-{{ domains | json }}
-</pre>
+<div ng-controller="UserEditCtrl">
+  <h2 ng-switch="user._update">
+    <span ng-switch-when="true">Benutzer bearbeiten</span>
+    <span ng-switch-when="false">Benutzer hinzufügen</span>
+  </h2>
+
+  <!-- <pre>{{user | json}}</pre> -->
+
+  <!-- ALERTS -->
+  <div 
+    class="alert alert-block alert-success"
+    ng-show="meta.savedChanges"
+    ng-animate="{ show: 'animated pulse' }"
+  >
+    <button type="button" class="close" ng-click="meta.savedChanges=false">&times;</button>
+    <div ng-switch="meta.savedChanges">
+      <div ng-switch-when="edit">
+        <h4>Benutzer hinzugefügt!</h4>
+        Der Benutzer wurde erfolgreich hinzugefügt!
+      </div>
+      <div ng-switch-when="update">
+        <h4>Benutzer aktualisiert!</h4>
+        Die Änderungen wurden erfolgreich gespeichert!
+      </div>
+    </div>
+  </div>
+
+  <form
+    role="form"
+    name="userForm"
+    class="form-horizontal"
+    ng-submit="save( user )"
+  >
+    <!-- EMAIL -->
+    <div class="form-group">
+      <label class="control-label col-lg-2" for="email">
+        E-Mail
+      </label>
+      <div class="col-lg-5">
+        <input class="form-control" type="text" placeholder="Email" ng-model="user.email" />
+      </div>
+    </div>
+
+    <div ng-show="meta.editMode"
+      class="col-lg-5 col-md-offset-2 alert alert-info">
+      {{ 'USER_EDIT_PASSWORD_INFO' | translate }}
+    </div>
+
+    <!-- PASSWORD -->
+    <div style="clear:both;" class="form-group" ng-class="{ error: !userForm.plaintext1.$valid }">
+      <label class="control-label col-lg-2" for="password">
+        Passwort
+      </label>
+      <div class="col-lg-5">
+        <input
+          class="form-control"
+          type="password"
+          name="plaintext1"
+          placeholder="Passwort"
+          ng-model="user.plaintext1"
+          ng-required="!user._update || user._setpw"
+          ng-change="change( user.plaintext1 )"
+        />
+      </div>
+    </div>
+
+    <div class="form-group" ng-show="user._setpw || !user._update" ng-class="{ error: !userForm.plaintext1.$valid }">
+      <label class="control-label col-lg-2" for="password">
+        Passwort wiederholen
+      </label>
+      <div class="col-lg-5">
+        <input
+          class="form-control"
+          type="password"
+          name="plaintext2"
+          placeholder="Passwort wiederholen"
+          ng-model="user.plaintext2"
+          ng-required="!user._update || user._setpw"
+          ng-change="change( user.plaintext2 )"
+        />
+      </div>
+    </div>
+
+    <!-- DOMAINS -->
+    <div class="form-group">
+      <label class="control-label col-lg-2" for="password">
+        Domains
+      </label>
+      <div class="col-lg-5">
+        <select
+          style="height:250px;"
+          class="form-control"
+          multiple="multiple"
+          ng-model="user.domains"
+          ng-options="d.domain as d.domain for d in domains"
+        ></select>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="form-group">
+      <div class="col-lg-5 col-lg-offset-2">
+        <button 
+          type="button"
+          ng-click="create();"
+          class="btn btn-danger"
+        >Abbrechen</button>
+
+        <button
+          ng-show="user._update"
+          ng-disabled="!userForm.$dirty || userForm.$invalid"
+          type="submit" class="btn btn-primary"
+          
+        >{{ 'SAVE' | translate }}</button>
+
+        <button
+          ng-show="!user._update"
+          ng-disabled="!userForm.$dirty || userForm.$invalid"
+          type="submit"
+          class="btn btn-primary"
+        >{{ 'ADD' | translate }}</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!--
+  <pre>
+  {{ data | json }}
+  {{ domains | json }}
+  </pre>
+-->

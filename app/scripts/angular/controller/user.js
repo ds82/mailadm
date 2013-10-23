@@ -16,31 +16,36 @@ define([
     user.domain = tmp[1];
   }
 
-  function createUser( UserService ) {
+  function createUser( User ) {
 
-    var user = new UserService();
+    var user = new User();
     user._setpw = true;
     user.enabled = true;
     user.is_admin = false;
+    user._update = false;
     return user;
   }
 
   app.controller('UserController',[
     '$scope',
-    'UserService',
-    'UserServiceData',
-    'DomainServiceData',
+    'UserResource',
+    'DomainResource',
 
-    function( $scope, UserService, data, domains ) {
+    function( $scope, User, Domain ) {
 
-      $scope.data = data;
-      $scope.domains = domains;
-      
+      $scope.data = User.query();
+      $scope.domains = Domain.query();
+
       $scope.meta = {};
       $scope.meta.userCreated = false;
       
       $scope.meta.show = {};
       $scope.meta.show.userAdd = false;
+
+      $scope.create = function() {
+        $scope.user = createUser( User );
+      };
+      $scope.create();
 
       $scope.edit = function( user ) {
         
@@ -50,19 +55,6 @@ define([
 
         user._id = user.email;
         $scope.user = user;
-      };
-
-      $scope.save = function( user ) {
-
-        fixupUser( user );
-        user.$save(function( res ) {
-          
-          if ( ! user._update )
-            $scope.data.push( user );
-          
-          $scope.meta.userCreated = true;
-          createUser( $scope.user );
-        });
       };
 
       $scope.delete = function( user ) {
@@ -94,40 +86,40 @@ define([
 
 
  app.controller('UserEditCtrl',[
-  '$scope', '$routeParams', 'UserService', 'DomainResource',
+  '$scope', 'UserResource', 'DomainResource',
 
-  function( $scope, params, User, Domain ) {
+  function( $scope, User, Domain ) {
 
     $scope.meta = $scope.meta || {};
-    $scope.meta.userCreated = false; // ?
-    $scope.meta.editMode = !!params.id;
+    $scope.meta.savedChanges = false; // ?
 
     $scope.domains = Domain.query();
-    $scope.user = params.id ? 
-      User.get({ id: params.id }) : 
-      createUser( User );
     
-    $scope.edit = function( user ) {
-      
-      // tell server to update user instead of inserting
-      user._update = true;
-      user._setpw = false;
-
-      user._id = user.email;
-      $scope.user = user;
-    };
-
     $scope.save = function( user ) {
 
       fixupUser( user );
       user.$save(function( res ) {
+
+        if ( ! user._update ) {
+          $scope.data.push( res );
+          $scope.meta.savedChanges = 'edit';
         
-        if ( ! user._update )
-          $scope.data.push( user );
-        
-        $scope.meta.userCreated = true;
-        createUser( $scope.user );
+        } else {
+          $scope.meta.savedChanges = 'update';
+        }
+        $scope.create();
       });
+    };
+
+    $scope.change = function( pw ) {
+      $scope.user._setpw = !!( pw );
+    };
+
+    $scope.setPw = function( set ) {
+      if ( ! set ) {
+        $scope.user.plaintext2 = '';
+        $scope.user.plaintext1 = '';
+      }
     };
 
     $scope.delete = function( user ) {

@@ -31,17 +31,14 @@
       <input class="form-control" type="text" placeholder="Email" ng-model="user.email" />
     </div>
   </div>
-  <!-- SET PASSWORD -->
-  <div class="form-group" ng-show="user._update">
-    <label class="control-label col-lg-2" for="email">
-      Passwort setzen
-    </label>
-    <div class="col-lg-5">
-      <input class="form-control" type="checkbox" ng-model="user._setpw" />
-    </div>
+
+  <div ng-show="meta.editMode"
+    class="col-lg-5 col-md-offset-2 alert alert-info">
+    {{ 'USER_EDIT_PASSWORD_INFO' | translate }}
   </div>
+
   <!-- PASSWORD -->
-  <div class="form-group" ng-show="user._setpw || !user._update" ng-class="{ error: !userForm.plaintext1.$valid }">
+  <div style="clear:both;" class="form-group" ng-class="{ error: !userForm.plaintext1.$valid }">
     <label class="control-label col-lg-2" for="password">
       Passwort
     </label>
@@ -52,7 +49,8 @@
         name="plaintext1"
         placeholder="Passwort"
         ng-model="user.plaintext1"
-        ng-change="validatePassword( user )"
+        ng-required="!meta.editMode || user._setpw"
+        ng-change="change( user.plaintext1 )"
       />
     </div>
   </div>
@@ -68,7 +66,8 @@
         name="plaintext2"
         placeholder="Passwort wiederholen"
         ng-model="user.plaintext2"
-        ng-change="validatePassword( user )"
+        ng-required="!meta.editMode || user._setpw"
+        ng-change="change( user.plaintext2 )"
       />
     </div>
   </div>
@@ -92,8 +91,18 @@
   <!-- SUBMIT -->
   <div class="form-group">
     <div class="col-lg-5 col-lg-offset-2">
-      <button ng-show="user._update" ng-disabled="!userForm.$dirty || userForm.$invalid " type="submit" class="btn btn-primary">Aktualisieren</button>
-      <button ng-show="!user._update" ng-disabled="!userForm.$dirty || userForm.$invalid " type="submit" class="btn btn-primary">Hinzufügen</button>
+      <button
+        ng-show="meta.editMode"
+        ng-disabled="!userForm.$dirty || userForm.$invalid"
+        type="submit" class="btn btn-primary"
+        
+      >{{ 'SAVE' | translate }}</button>
+      <button
+        ng-show="!meta.editMode"
+        ng-disabled="!userForm.$dirty || userForm.$invalid"
+        type="submit"
+        class="btn btn-primary"
+      >{{ 'ADD' | translate }}</button>
       <a href="#/user" class="btn btn-danger">Abbrechen</a>
     </div>
   </div>

@@ -7,11 +7,7 @@ define(['app'], function( app ) {
       .when('/domain', {
         controller: 'DomainController',
         templateUrl: 'partials/domain.html',
-        resolve: {
-          DomainServiceData: function( DomainServiceLoader ) {
-            return DomainServiceLoader();
-          }
-        },
+        resolve: {},
         auth: true,
         showNavigation: true
       })
@@ -19,14 +15,7 @@ define(['app'], function( app ) {
       .when('/user', {
         controller: 'UserController',
         templateUrl: 'partials/user.html',
-        resolve: {
-          UserServiceData: function( UserServiceLoader ) {
-            return UserServiceLoader();
-          },
-          DomainServiceData: function( DomainServiceLoader ) {
-            return DomainServiceLoader();
-          }
-        },
+        resolve: {},
         auth: true,
         showNavigation: true
       })
@@ -42,17 +31,7 @@ define(['app'], function( app ) {
       .when('/address', {
         controller: 'AddressController',
         templateUrl: 'partials/address.html',
-        resolve: {
-          AddressServiceData: function( AddressServiceLoader ) {
-            return AddressServiceLoader();
-          },
-          UserServiceData: function( UserServiceLoader ) {
-            return UserServiceLoader();
-          },
-          DomainServiceData: function( DomainServiceLoader ) {
-            return DomainServiceLoader();
-          }
-        },
+        resolve: {},
         auth: true,
         showNavigation: true
 
@@ -60,9 +39,7 @@ define(['app'], function( app ) {
       .when('/login', {
         controller: 'LoginController',
         templateUrl: 'partials/login.html',
-        resolve: {
-
-        },
+        resolve: {},
         auth: false,
         showNavigation: false
 
