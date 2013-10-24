@@ -34,6 +34,10 @@ define([
 			$scope.dom = new DomainResource();
 
 			$scope.formatChilds = function( childs ) {
+
+				if ( ! childs ) {
+					return '';
+				}
 				var list = childs.map(function( item ) {
 					return item.domain;
 				});
