@@ -53,11 +53,14 @@ function mkSet( field, value, isLast ) {
 
 function mkValueArray( values, keys ) {
 
-  console.log('mkValueArray', values, keys );
-  var ax = [], remove = [];
-  for( var i = 0; i < keys.length; ++i ) {
-    var key = keys[i];
-    if ( values[key] ) {
+  var ax = [], remove = [],
+      localKeys = keys.slice( 0 );
+
+  console.log('mkValueArray', values, keys, localKeys );
+
+  for( var i = 0; i < localKeys.length; ++i ) {
+    var key = localKeys[i];
+    if ( key in values ) {
       ax.push( values[key] );
     } else {
       remove.push( key );
@@ -65,14 +68,20 @@ function mkValueArray( values, keys ) {
     }
   }
 
-  // remove keys that were not found
+  // remove localKeys that were not found
   for( var i = 0; i < remove.length; ++i ) {
-    var ind = keys.indexOf( remove[i] );
+    var ind = localKeys.indexOf( remove[i] );
     if ( ind > -1 )
-      keys.splice( ind, 1 );
+      localKeys.splice( ind, 1 );
   }
 
-  return ax;
+  var result = { 
+    values: ax,
+    keys: localKeys
+  };
+
+  console.log('mkValueArray', values, localKeys, result );
+  return result;
 }
 
 //
@@ -122,7 +131,7 @@ db.fetch = function( table, fields, order, where, cb ) {
   q += mkWhere( where );
   q += ' ORDER BY ' + order;
 
-  //console.log('q', q );
+  console.log('q', q );
 
   return db.fetchArray( q, cb );
 };
@@ -176,17 +185,21 @@ pub.domains.query = function( cb ) {
       {},
       function( err, all ) {
 
-        var isParent = {},
+        var list = {},
             childs = [];
 
-        // separate parents and childs
+        // mark parents and childs
         for( var i = 0, ii = all.length; i < ii; ++i ) {
 
           if ( !all[i].parent || all[i].domain === all[i].parent ) {
             all[i].childs = [];
-            isParent[(all[i].domain)] = all[i];
+            all[i].isChild = false;
+            list[(all[i].domain)] = all[i];
 
           } else {
+            all[i].isChild = true;
+            // push to childs AND all
+            list[(all[i].domain)] = all[i];
             childs.push( all[i] );
           }
         }
@@ -194,11 +207,11 @@ pub.domains.query = function( cb ) {
         // push childs to parents
         for( var i = 0, ii = childs.length; i < ii; ++i ) {
           if ( childs[i].parent ) {
-            isParent[(childs[i].parent)].childs.push( childs[i] );
+            list[(childs[i].parent)].childs.push( childs[i] );
           }
         }
 
-        cb( err, _.values( isParent ));
+        cb( err, _.values( list ));
       });
 };
 pub.domains.save = function( data, cb ) {
@@ -216,9 +229,9 @@ pub.domains.update = function( data, cb ) {
   
   var domain = data._id || data.domain,
     keys = ['domain','parent'],
-    vals = mkValueArray( data, keys );
+    obj = mkValueArray( data, keys );
 
-  db.update('domains', keys, vals, 'domain', domain, cb );
+  db.update('domains', obj.keys, obj.vals, 'domain', domain, cb );
 };
 pub.domains.delete = function( domain, cb ) {
   db.delete( 'domains', 'domain', domain, cb );
@@ -290,14 +303,14 @@ pub.user.save = function ( user, cb ) {
   // fix up user maildir
   user.maildir = user.domain + '/' + user.email + '/';
 
-  var values = mkValueArray( user, fields );
+  var obj = mkValueArray( user, fields );
 
   if ( user._update ) {
 
     db.update(
       'users',
-      fields,
-      values,
+      obj.keys,
+      obj.values,
       'email',
       user._id,
       cb
@@ -351,7 +364,7 @@ pub.user.auth = function( user, password, cb ) {
 priv.address = {};
 priv.address.fields = {};
 
-priv.address.fields.query = ['source', 'destination', 'enable_greylisting'];
+priv.address.fields.query = ['source', 'destination', 'enable_greylisting', 'enable_policyd'];
 
 pub.address = {};
 pub.address.query = function( cb ) {
@@ -360,12 +373,12 @@ pub.address.query = function( cb ) {
 
 pub.address.save = function( data, cb ) {
 
+  var obj = mkValueArray( data, priv.address.fields.query );
   if ( data._update ) {
-
     db.update(
       'forward',
-      priv.address.fields.query,
-      mkValueArray( data, priv.address.fields.query ),
+      obj.keys,
+      obj.values,
       'source',
       data._id,
       cb
@@ -375,7 +388,7 @@ pub.address.save = function( data, cb ) {
     db.insert(
       'forward',
       priv.address.fields.query,
-      mkValueArray( data, priv.address.fields.query ),
+      obj.values,
       false,
       cb
     );
@@ -386,14 +399,13 @@ pub.address.delete = function( id, cb ) {
   db.delete('forward', 'source', id, cb );
 };
 
-
 //
 // BLOCKED
 //
 
 priv.blocked = {};
 priv.blocked.fields = {};
-priv.blocked.fields.query = ['destination','domain'];
+priv.blocked.fields.query = ['destination','domain','action'];
 
 pub.blocked = {};
 
@@ -408,10 +420,11 @@ pub.blocked.query = function( cb ) {
 };
 
 pub.blocked.insert = function( data, cb ) {
+  var obj = mkValueArray( data, priv.blocked.fields.query );
   db.insert(
     'blocked',
     priv.blocked.fields.query,
-    mkValueArray( data, priv.blocked.fields.query ),
+    obj.values,
     false,
     cb
   );
