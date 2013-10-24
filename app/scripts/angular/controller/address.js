@@ -15,6 +15,14 @@ define([
     var tmp = address.source.split('@');
     address.alias = tmp[0];
     address.domain = tmp[1];
+    return address;
+  }
+
+  function prepareEdit( addr ) {
+    addr._update = true;
+    addr._id = addr.source;
+    addr = splitSource( addr );
+    return addr;
   }
 
   return app.controller('AddressController', [
@@ -27,7 +35,8 @@ define([
 
       function newAddress() {
         var address = new Address();
-        address.enable_greylisting = true;
+        address.enable_greylisting = false;
+        address.enable_policyd = false;
         return address;
       }
 
@@ -37,25 +46,47 @@ define([
       $scope.users = User.query();
       $scope.domains = Domain.query();
 
-      $scope.save = function( address ) {
+      $scope.submit = function( addr ) {
+        $scope.save( addr, function( err, result ) {
+          
+          $scope.meta.addressCreated = true;
+          $scope.address = newAddress();
+        })
+      };
+
+      $scope.save = function( address, cb ) {
 
         address.source = makeSource( address.alias, address.domain );
-        address.$save( function() {
-          
-          if ( !address._update )
+        address.$save( function( res ) {
+
+          console.log('save', res );
+
+          if ( !address._update ) {
             $scope.addresses.push( address );
+          }
+
+          if ( cb ) {
+            cb( null, res );
+          }
         });
-        $scope.meta.addressCreated = true;
-        $scope.address = newAddress();
       };
 
       $scope.edit = function( address ) {
 
-        address._update = true;
-        address._id = address.source;
-        splitSource( address );
-
+        address = prepareEdit( address );
         $scope.address = address;
+      };
+
+      $scope.toggleGreylisting = function( addr ) {
+        addr = prepareEdit( addr );
+        addr.enable_greylisting = !addr.enable_greylisting;
+        $scope.save( addr );
+      };
+
+      $scope.togglePolicyd = function( addr ) {
+        addr = prepareEdit( addr );
+        addr.enable_policyd = !addr.enable_policyd;
+        $scope.save( addr );
       };
 
       $scope.delete = function( address ) {
