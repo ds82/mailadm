@@ -11,6 +11,14 @@ define([
     return alias + '@' + domain;
   }
 
+  function makeDestination( addr ) {
+    console.log('makeDestination', addr );
+    if ( addr._destinationsAsList ) {
+      return addr._destinationsAsList.join(' ');
+    }
+    return '';
+  };
+
   function splitSource( address ) {
     var tmp = address.source.split('@');
     address.alias = tmp[0];
@@ -22,6 +30,7 @@ define([
     addr._update = true;
     addr._id = addr.source;
     addr = splitSource( addr );
+    addr._destinationsAsList = addr.destination.split(/[\s]/);
     return addr;
   }
 
@@ -37,6 +46,7 @@ define([
         var address = new Address();
         address.enable_greylisting = false;
         address.enable_policyd = false;
+        address._destinationsAsList = [''];
         return address;
       }
 
@@ -67,6 +77,7 @@ define([
       $scope.save = function( address, cb ) {
 
         address.source = makeSource( address.alias, address.domain );
+        address.destination = makeDestination( address );
         address.$save( function( res ) {
 
           if ( !address._update ) {
@@ -83,6 +94,10 @@ define([
 
         address = prepareEdit( address );
         $scope.address = address;
+      };
+
+      $scope.addDestination = function( addr ) {
+        addr._destinationsAsList.push('');
       };
 
       $scope.toggleGreylisting = function( addr ) {

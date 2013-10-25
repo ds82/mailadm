@@ -92,14 +92,17 @@
   <div class="form-group">
     <label class="control-label" for="">
       Ziel
+      <a href ng-click="addDestination( address )"><i class="glyphicon glyphicon-plus" /></a>
     </label>
     <div class="">
+      <p ng-repeat="a in address._destinationsAsList track by $index">
       <select
       	class="form-control"
-        ng-model="address.destination"
+        ng-model="address._destinationsAsList[$index]"
         ng-options="u.email as u.email for u in users"
         required
       ></select>
+    </p>
     </div>
   </div>
 
@@ -107,7 +110,9 @@
   <div class="form-group">
       <div class="">
         <label class="checkbox">
-          <input type="checkbox" ng-model="address.enable_greylisting" /> Greylisting aktivieren
+          <input type="checkbox" ng-model="address.enable_greylisting" />
+          <i class="glyphicon glyphicon-refresh" />
+          Greylisting aktivieren
         </label>
     </div>
   </div>
@@ -117,6 +122,7 @@
       <div class="">
         <label class="checkbox">
           <input type="checkbox" ng-model="address.enable_policyd" />
+          <i class="glyphicon glyphicon-eye-open" />
           Policyd aktivieren
         </label>
     </div>
