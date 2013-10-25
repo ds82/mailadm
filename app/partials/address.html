@@ -1,5 +1,16 @@
 <h2>Adressen</h2>
 
+<h3>Domain wählen</h3>
+<p>
+  <select class="form-control"
+    ng-model="selectedDomain"
+    ng-options="d.domain as d.domain for d in domains"
+  >
+    <option value=""> - </option>
+  </select>
+</p>
+
+<h3>Liste der passenden Adressen</h3>
 <table class="table table-bordered table-hover table-striped">
 	<tr>
 		<th>#</th>
@@ -8,18 +19,18 @@
     <th>Adresse</th>
     <th>Ziel</th>
 	</tr>
-	<tr ng-repeat="row in addresses">
+	<tr ng-repeat="row in addresses | filter:filterByDomain">
 		<td>
 			<a class="glyph-link" href ng-click="edit(row)"><span class="glyphicon glyphicon-edit"></span></a>
 			<a class="glyph-link" href ng-click="delete(row)"><span class="glyphicon glyphicon-remove"></span></a>
 		</td>
     <td><a href ng-click="toggleGreylisting( row );"><i class="glyphicon" ng-class="{
       'glyphicon-ok': row.enable_greylisting,
-      'glyphicon-remove': !row.enable_greylisting
+      'glyphicon-ban-circle': !row.enable_greylisting
     }"></i></a></td>
     <td><a href ng-click="togglePolicyd( row )"><i class="glyphicon" ng-class="{
       'glyphicon-ok': row.enable_policyd,
-      'glyphicon-remove': !row.enable_policyd
+      'glyphicon-ban-circle': !row.enable_policyd
     }"></i></a></td>
 		<td>{{row.source}}</td>
 		<td>{{row.destination}}</td>
@@ -43,83 +54,86 @@
   Die Adresse wurde eingetragen und der Mailserver nimmt ab sofort Emails an diese Adresse entgegen.
 </div>
 
-
 <form
 	role="form"
 	name="addressForm"
-	class="form-horizontal"
+	class=""
 	ng-submit="submit( address )"
 >
 	<!-- SOURCE -->
-	<div class="form-group">
-	  <label class="control-label col-lg-2" for="email">
-	  	E-Mail Adresse
-	  </label>
-	  <div class="col-lg-5 input-group">
-	  	<input
-	  		type="text"
-	  		class="form-control"
-	  		placeholder="Alias"
-	  		name="alias"
-	  		ng-model="address.alias"
-	  		ng-pattern="/^([a-z0-9-\.]+|\*)$/"
-	  		required
-	  	/><span class="input-group-addon">@</span>
-	  </div>
-	  <div class="col-lg-5">
-	  	<select
-	  		class="form-control"
-	  		ng-model="address.domain"
-	  		ng-options="d.domain as d.domain for d in domains"
-	  		required
-	  	></select>
-	  </div>
-</div>
-
-<!-- DESTINATION -->
-<div class="form-group">
-  <label class="control-label col-lg-2" for="">
-    Ziel
-  </label>
-  <div class="col-lg-10">
-    <select
-    	class="form-control"
-      ng-model="address.destination"
-      ng-options="u.email as u.email for u in users"
-      required
-    ></select>
+  <div class="form-group row">
+    <label class="control-label col-lg-12 col-md-12" for="email">
+      Adresse
+    </label>
+    <div class="col-lg-6 col-md-6">
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Alias"
+          name="alias"
+          ng-model="address.alias"
+          ng-pattern="/^([a-z0-9-\.]+|\*)$/"
+          required
+        /><span class="input-group-addon">@</span>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+      <select
+        class="form-control"
+        ng-model="address.domain"
+        ng-options="d.domain as d.domain for d in domains"
+        required
+      ></select>
+    </div>
   </div>
-</div>
 
-<!-- GREYLISTING -->
-<div class="form-group">
-    <div class="col-lg-offset-2 col-lg-10">
-      <label class="checkbox">
-        <input type="checkbox" ng-model="address.enable_greylisting" /> Greylisting aktivieren
-      </label>
+  <!-- DESTINATION -->
+  <div class="form-group">
+    <label class="control-label" for="">
+      Ziel
+    </label>
+    <div class="">
+      <select
+      	class="form-control"
+        ng-model="address.destination"
+        ng-options="u.email as u.email for u in users"
+        required
+      ></select>
+    </div>
   </div>
-</div>
 
-<!-- POLICYD -->
-<div class="form-group">
-    <div class="col-lg-offset-2 col-lg-10">
-      <label class="checkbox">
-        <input type="checkbox" ng-model="address.enable_policyd" />
-        Policyd aktivieren
-      </label>
+  <!-- GREYLISTING -->
+  <div class="form-group">
+      <div class="">
+        <label class="checkbox">
+          <input type="checkbox" ng-model="address.enable_greylisting" /> Greylisting aktivieren
+        </label>
+    </div>
   </div>
-</div>
 
-
-<!-- SUBMIT -->
-<div class="form-group">
-    <div class="col-lg-offset-2 col-lg-10">
-    	<button ng-disabled="!addressForm.$dirty || addressForm.$invalid " type="submit" class="btn btn-primary">Hinzufügen</button>
+  <!-- POLICYD -->
+  <div class="form-group">
+      <div class="">
+        <label class="checkbox">
+          <input type="checkbox" ng-model="address.enable_policyd" />
+          Policyd aktivieren
+        </label>
+    </div>
   </div>
-</div>
 
-<pre>{{ address | json }}</pre>
-<pre>{{ users | json }}</pre>
-<pre>{{ domains | json }}</pre>
+  <!-- SUBMIT -->
+  <div class="form-group">
+      <div class="">
+        <button ng-click="" type="button" class="btn btn-danger">Abbrechen</button>
+        <button ng-disabled="!addressForm.$dirty || addressForm.$invalid " type="submit" class="btn btn-success">Hinzufügen</button>
+    </div>
+  </div>
 
 </form>
+
+<!--
+<pre>{{ address    | json }}</pre>
+<pre>{{ addresses  | json }}</pre>
+<pre>{{ domains    | json }}</pre>
+-->

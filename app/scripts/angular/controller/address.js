@@ -45,6 +45,16 @@ define([
       $scope.address = newAddress();
       $scope.users = User.query();
       $scope.domains = Domain.query();
+      $scope.selectedDomain = '-';
+
+      $scope.filterByDomain = function( row ) {
+        
+        if ( $scope.selectedDomain === '-' ) {
+          return false;
+        }
+        var filter = new RegExp( '.*@' + $scope.selectedDomain );
+        return filter.test( row.source ) || filter.test( row.destination );
+      };
 
       $scope.submit = function( addr ) {
         $scope.save( addr, function( err, result ) {
@@ -58,8 +68,6 @@ define([
 
         address.source = makeSource( address.alias, address.domain );
         address.$save( function( res ) {
-
-          console.log('save', res );
 
           if ( !address._update ) {
             $scope.addresses.push( address );
