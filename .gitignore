@@ -1,10 +1,11 @@
+.DS_Store
+
 node_modules
 dist
 .tmp
 .sass-cache
 *.sublime-*
 
-/server/config.json
-/.DS_Store
-/app/components/.DS_Store
-/npm-debug.log
+server/config.json
+app/components/.DS_Store
+npm-debug.log
