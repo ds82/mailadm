@@ -7,19 +7,32 @@ define([
 ], function( $, app ) {
   'use strict';
 
+  function prepareEdit( addr ) {
+    addr._update = true;
+    addr._id = addr.destination;
+    return addr;
+  }
+
   return app.controller('BlockedController', [
     '$scope', 'BlockedResource', 'DomainResource',
     function( $scope, Blocked, Domain ) {
 
       $scope.list = Blocked.query();
       $scope.address = new Blocked();
-
       $scope.domains = Domain.query();
 
+      $scope.submit = function( addr ) {
+        addr.destination = addr.alias + '@' + addr.domain;
+        $scope.save( addr );
+      };
+
       $scope.save = function( address ) {
-        address.destination = address.alias + '@' + address.domain;
+
         address.$save(function( res ) {
-          $scope.list.push( address );
+
+          if ( ! address._update ) {
+            $scope.list.push( address );
+          }
           $scope.address = new Blocked();
         });
       };
@@ -28,6 +41,12 @@ define([
         address.$delete(function( res ) {
           $scope.list.delete( address );
         });
+      };
+
+      $scope.set = function( addr, action ) {
+        addr = prepareEdit( addr );
+        addr.action = action;
+        $scope.save( addr );
       };
   }]);
 
