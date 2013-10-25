@@ -181,7 +181,7 @@ pub.domains = {};
 pub.domains.query = function( cb ) {
   db.fetch('domains',
       ['domain', 'parent'],
-      'parent,domain',
+      'domain,parent',
       {},
       function( err, all ) {
 
