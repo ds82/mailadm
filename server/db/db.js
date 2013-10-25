@@ -419,11 +419,14 @@ pub.blocked.query = function( cb ) {
   );
 };
 
+
+
 pub.blocked.insert = function( data, cb ) {
+  
   var obj = mkValueArray( data, priv.blocked.fields.query );
   db.insert(
     'blocked',
-    priv.blocked.fields.query,
+    obj.keys,
     obj.values,
     false,
     cb
@@ -431,7 +434,16 @@ pub.blocked.insert = function( data, cb ) {
 };
 
 pub.blocked.update = function( data, cb ) {
-
+  
+  var obj = mkValueArray( data, priv.blocked.fields.query );
+  db.update(
+    'blocked',
+    obj.keys,
+    obj.values,
+    'destination',
+    data._id,
+    cb
+  );
 };
 
 pub.blocked.save = function( data, cb ) {
