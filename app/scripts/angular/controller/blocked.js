@@ -7,6 +7,8 @@ define([
 ], function( $, app ) {
   'use strict';
 
+  var defaultAction = 'REJECT';
+
   function prepareEdit( addr ) {
     addr._update = true;
     addr._id = addr.destination;
@@ -23,6 +25,7 @@ define([
 
       $scope.submit = function( addr ) {
         addr.destination = addr.alias + '@' + addr.domain;
+        addr.action = defaultAction;
         $scope.save( addr );
       };
 
