@@ -1,41 +1,46 @@
 define([
-
-	'jquery', 'app', 'config'
+  'jquery', 'app', 'config'
 
 ], function( $, app, config ) {
 
-	app.controller('LoginController', [
-		'$rootScope', '$scope', '$http', '$location',
+  app.controller('LoginController', [
+    '$rootScope', '$scope', '$http', '$location',
 
-		function( $rootScope, $scope, $http, $location ) {
+    function( $rootScope, $scope, $http, $location ) {
 
-			$scope.login = {};
-			$scope.login.failed = false;
+      $scope.login = {};
+      $scope.login.failed = false;
 
-			$scope.submit = function() {
+      var httpConfig = {
+        headers: { 'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8' }
+      };
 
-				$http.post( config.cleanHost + '/login', {
-					
-					username: $scope.login.username,
-					password: $scope.login.password
+      $scope.submit = function( login ) {
 
-				}).success( function( res ) {
+        var credentials = {
+          username: login.username,
+          password: login.password
+        };
 
-					console.log('login-res', res);
-					$rootScope.$broadcast( 'mad.user-login', res );
+        $http.post( config.cleanHost + '/login',
+            $.param( credentials ),
+            httpConfig
+        ).success( function( res ) {
 
-					$scope.login.failed = false;
-					$location.path('/address');
+          $rootScope.$broadcast( 'mad.user-login', res );
 
-				}).error( function( res ) {
+          $scope.login.failed = false;
+          $location.path('/address');
 
-					$scope.login.failed = true;
+        }).error( function( res ) {
 
-				});
-			};
+          $scope.login.failed = true;
 
-			//console.log('routeParams', $location.path() );
-		}
-	]);
+        });
+      };
+
+      //console.log('routeParams', $location.path() );
+    }
+  ]);
 
 });

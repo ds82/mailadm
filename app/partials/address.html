@@ -10,34 +10,36 @@
   </select>
 </p>
 
-<h3>Liste der passenden Adressen</h3>
-<table class="table table-bordered table-hover table-striped">
-	<tr>
-		<th>#</th>
-		<th><i class="glyphicon glyphicon-refresh" /></th>
-    <th><i class="glyphicon glyphicon-eye-open" /></th>
-    <th>Adresse</th>
-    <th>Ziel</th>
-	</tr>
-	<tr ng-repeat="row in addresses | filter:filterByDomain">
-		<td>
-			<a class="glyph-link" href ng-click="edit(row)"><span class="glyphicon glyphicon-edit"></span></a>
-			<a class="glyph-link" href ng-click="delete(row)"><span class="glyphicon glyphicon-remove"></span></a>
-		</td>
-    <td><a href ng-click="toggleGreylisting( row );"><i class="glyphicon" ng-class="{
-      'glyphicon-ok': row.enable_greylisting,
-      'glyphicon-ban-circle': !row.enable_greylisting
-    }"></i></a></td>
-    <td><a href ng-click="togglePolicyd( row )"><i class="glyphicon" ng-class="{
-      'glyphicon-ok': row.enable_policyd,
-      'glyphicon-ban-circle': !row.enable_policyd
-    }"></i></a></td>
-		<td>{{row.source}}</td>
-		<td>{{row.destination}}</td>
-	</tr>
-</table>
+<div data-ng-show="selectedDomain">
+  <h3>Liste der passenden Adressen</h3>
+  <table class="table table-bordered table-hover table-striped">
+  	<tr>
+  		<th>#</th>
+  		<th><i class="glyphicon glyphicon-refresh" /></th>
+      <th><i class="glyphicon glyphicon-eye-open" /></th>
+      <th>Adresse</th>
+      <th>Ziel</th>
+  	</tr>
+  	<tr ng-repeat="row in addresses | filter:filterByDomain">
+  		<td>
+  			<a class="glyph-link" href ng-click="edit(row)"><span class="glyphicon glyphicon-edit"></span></a>
+  			<a class="glyph-link" href ng-click="delete(row)"><span class="glyphicon glyphicon-remove"></span></a>
+  		</td>
+      <td><a href ng-click="toggleGreylisting( row );"><i class="glyphicon" ng-class="{
+        'glyphicon-ok': row.enable_greylisting,
+        'glyphicon-ban-circle': !row.enable_greylisting
+      }"></i></a></td>
+      <td><a href ng-click="togglePolicyd( row )"><i class="glyphicon" ng-class="{
+        'glyphicon-ok': row.enable_policyd,
+        'glyphicon-ban-circle': !row.enable_policyd
+      }"></i></a></td>
+  		<td>{{row.source}}</td>
+  		<td>{{row.destination}}</td>
+  	</tr>
+  </table>
+</div>
 
-<p><br /></p>
+<!-- <p><br /></p> -->
 
 <h2>Adresse hinzufügen/bearbeiten</h2>
 

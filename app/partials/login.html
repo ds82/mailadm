@@ -1,50 +1,50 @@
 <div data-ng-show="login.failed" class="alert alert-block alert-danger">
-	<h4>Warning!</h4>
-	<p>
-		Wrong username and/or password, please try again!
-	</p>
+  <h4>Warning!</h4>
+  <p>
+    Wrong username and/or password, please try again!
+  </p>
 </div>
 
 <div class="well well-lg">
-	<form
-		role="form"
-		class="form-horizontal"
-		data-ng-submit="submit()"
-	>
-		<fieldset>
-			<legend>Anmeldung</legend>
-			<div class="form-group">
-			  <!-- Username -->
-			  <label class="control-label col-lg-4" for="username">Email-Adresse</label>
-			  <div class="col-lg-5">
-					<input
-						type="text"
-						class="form-control"
-						name="username"
-						data-ng-model="login.username"
-						placeholder="user@domain.de"
-					>
-			  </div>
-			</div>
-			<div class="form-group">
-			  <!-- Password-->
-			  <label class="control-label col-lg-4" for="password">Passwort</label>
-			  <div class="col-lg-5">
-					<input
-						class="form-control"
-						data-ng-model="login.password"
-						type="password"
-						name="password"
-						placeholder="Password"
-					>
-			  </div>
-			</div>
-		 
-			<div class="form-group">
-			  <div class="col-lg-5 col-lg-offset-4">
-					<button type="submit" class="btn btn-primary">Login</button>
-			  </div>
-			</div>
-		</fieldset>
-	</form>
+  <form
+    role="form"
+    class="form-horizontal"
+    data-ng-submit="submit( login )"
+  >
+    <fieldset>
+      <legend>Anmeldung</legend>
+      <div class="form-group">
+        <!-- Username -->
+        <label class="control-label col-lg-4" for="username">Email-Adresse</label>
+        <div class="col-lg-5">
+          <input
+            type="text"
+            class="form-control"
+            name="username"
+            data-ng-model="login.username"
+            placeholder="user@domain.de"
+          >
+        </div>
+      </div>
+      <div class="form-group">
+        <!-- Password-->
+        <label class="control-label col-lg-4" for="password">Passwort</label>
+        <div class="col-lg-5">
+          <input
+            class="form-control"
+            data-ng-model="login.password"
+            type="password"
+            name="password"
+            placeholder="Password"
+          >
+        </div>
+      </div>
+     
+      <div class="form-group">
+        <div class="col-lg-5 col-lg-offset-4">
+          <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
 </div>

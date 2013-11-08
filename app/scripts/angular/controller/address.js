@@ -55,7 +55,7 @@ define([
       $scope.address = newAddress();
       $scope.users = User.query();
       $scope.domains = Domain.query();
-      $scope.selectedDomain = '-';
+      $scope.selectedDomain = '';
 
       $scope.filterByDomain = function( row ) {
         
