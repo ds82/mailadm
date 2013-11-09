@@ -4,9 +4,9 @@ define([
 ], function( $, app, config ) {
 
   app.controller('LoginController', [
-    '$rootScope', '$scope', '$http', '$location',
+    '$scope', '$http', '$location', 'UserSession',
 
-    function( $rootScope, $scope, $http, $location ) {
+    function( $scope, $http, $location, Session ) {
 
       $scope.login = {};
       $scope.login.failed = false;
@@ -27,7 +27,8 @@ define([
             httpConfig
         ).success( function( res ) {
 
-          $rootScope.$broadcast( 'mad.user-login', res );
+          console.log( 'user logged in', res );
+          Session.setUser( res );
 
           $scope.login.failed = false;
           $location.path('/address');

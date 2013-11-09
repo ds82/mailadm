@@ -27,7 +27,7 @@ var md5 = function( str ) {
 };
 
 var arr = function( ax ) {
-  console.log('arr called with',ax);
+  //console.log('arr called with',ax);
   return function() {
     return '\'{"' + ax.join('", "') + '"}\'';
   };
@@ -56,7 +56,7 @@ function mkValueArray( values, keys ) {
   var ax = [], remove = [],
       localKeys = keys.slice( 0 );
 
-  console.log('mkValueArray', values, keys, localKeys );
+  //console.log('mkValueArray', values, keys, localKeys );
 
   for( var i = 0; i < localKeys.length; ++i ) {
     var key = localKeys[i];
@@ -64,7 +64,7 @@ function mkValueArray( values, keys ) {
       ax.push( values[key] );
     } else {
       remove.push( key );
-      console.log( '# WARNING, cannot find value for key - the key will be removed!', key );
+      //console.log( '# WARNING, cannot find value for key - the key will be removed!', key );
     }
   }
 
@@ -80,7 +80,7 @@ function mkValueArray( values, keys ) {
     keys: localKeys
   };
 
-  console.log('mkValueArray', values, localKeys, result );
+  //console.log('mkValueArray', values, localKeys, result );
   return result;
 }
 
@@ -111,7 +111,7 @@ function updateOrInsert( update, insert, data, cb ) {
 
 
 db.fetchArray = function( q, cb ) {
-  console.log('fetchArray', q );
+  //console.log('fetchArray', q );
   client.query(
     q,
     function( err, result ) {
@@ -131,7 +131,7 @@ db.fetch = function( table, fields, order, where, cb ) {
   q += mkWhere( where );
   q += ' ORDER BY ' + order;
 
-  console.log('q', q );
+  //console.log('q', q );
 
   return db.fetchArray( q, cb );
 };
@@ -152,7 +152,7 @@ db.insert = function( table, fields, values, check, cb ) {
 
   var q = 'INSERT INTO ' + table + ' ' + f + ' VALUES ' + v;
   
-  console.log('try to execute query', q );
+  //console.log('try to execute query', q );
   client.query( q, cb );
 };
 
@@ -163,13 +163,13 @@ db.update = function( table, fields, values, where, val, cb ) {
     q += mkSet( fields[i], values[i], i+1 === fields.length );
   }
   q += ' WHERE ' + where + ' = ' + mkValue( val );
-  console.log('try to execute query', q );
+  //console.log('try to execute query', q );
   client.query( q, cb );
 };
 
 db.delete = function( table, where, val, cb ) {
   var q = 'DELETE FROM ' + table + ' WHERE ' + where + ' = ' + escapeStrig( val );
-  console.log('try to execute query', q );
+  //console.log('try to execute query', q );
   client.query( q, cb );
 };
 
@@ -295,7 +295,7 @@ pub.user.get = function( id, cb ) {
 pub.user.save = function ( user, cb ) {
 
   var fields = _.extend([], priv.user.fields.nopass);
-  if ( user._setpw ) {
+  if ( user.meta.setpw ) {
     fields = _.extend([], priv.user.fields.query);
     user.password = md5( user.plaintext1 );
   }
@@ -341,7 +341,7 @@ pub.user.auth = function( user, password, cb ) {
   }, function( err, res ) {
 
     var user = {};
-    console.log('user.auth', err, res );
+    //console.log('user.auth', err, res );
 
     if ( res.length && res.length === 1 ) {
       

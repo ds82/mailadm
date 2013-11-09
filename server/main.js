@@ -44,31 +44,30 @@ app.options('*', function(req, res) {
 // PASSPORT TESTING
 //
 
-var users = {};
-
-passport.serializeUser(function(user, done) {
+passport.serializeUser( function(user, done) {
   done(null, user.email);
 });
 
 passport.deserializeUser(function(id, done) {
 
-  console.log( '**** deserializeUser', id, users[id] );
-  if ( users[id] ) {
-    done( null, users[id] );
-  } else {
-    console.log( 'user not found', id );
-    done( 'user not found', null );
-  }
+  //console.log( '**** deserializeUser', id );
+  db.user.get( id, function( err, result ) {
+    if ( err ) done( err, null );
+    else {
+      done( null, result );
+    }
+  })
 });
 
 
 passport.use(new LocalStrategy(
-  function(username, password, done) {
+  
+  function( username, password, done ) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
-
+      console.log( 'try to authenticate ...', username, password );
       db.user.auth( username, password, function( err, result ) {
-        users[(result.email)] = result;
+        console.log( 'auth result', err, result );
         done( null, result );
       });
     });
@@ -78,12 +77,17 @@ passport.use(new LocalStrategy(
 function ensureAuthenticated( req, res, next ) {
   
   // disable auth
-  return next();
+  // return next();
+  if ( ! req.isAuthenticated() ) {
+    console.log( 'isAuthenticated', req.originalUrl, req.isAuthenticated() );
+  }
 
   if ( req.isAuthenticated() ) { 
     return next();
+  } else {
+    res.send( 401 );
+    return;
   }
-  res.send( 401 );
 }
 
 //
@@ -119,11 +123,9 @@ app.delete('/domain/:id',
 //
 // USER
 //
-
 app.post('/login', 
   passport.authenticate('local', {}),
   function( req, res ) {
-    ///console.log('/login', req, res );
     res.send( req.user );
 });
 

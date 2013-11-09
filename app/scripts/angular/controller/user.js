@@ -19,10 +19,13 @@ define([
   function createUser( User ) {
 
     var user = new User();
-    user._setpw = true;
+    
+    user.meta = user.meta || {};
+    user.meta.setpw = true;
+    user.meta.update = false;
+    
     user.enabled = true;
     user.is_admin = false;
-    user._update = false;
     return user;
   }
 
@@ -50,8 +53,9 @@ define([
       $scope.edit = function( user ) {
         
         // tell server to update user instead of inserting
-        user._update = true;
-        user._setpw = false;
+        user.meta = user.meta || {};
+        user.meta.update = true;
+        user.meta.setpw = false;
 
         user._id = user.email;
         $scope.user = user;
@@ -100,7 +104,7 @@ define([
       fixupUser( user );
       user.$save(function( res ) {
 
-        if ( ! user._update ) {
+        if ( ! user.meta.update ) {
           $scope.data.push( res );
           $scope.meta.savedChanges = 'edit';
         
@@ -112,7 +116,7 @@ define([
     };
 
     $scope.change = function( pw ) {
-      $scope.user._setpw = !!( pw );
+      $scope.user.meta.setpw = !!( pw );
     };
 
     $scope.setPw = function( set ) {
@@ -138,11 +142,6 @@ define([
         user.plaintext1.length > 5 &&
         ( user.plaintext1 ===  user.plaintext2 );
     };
-
-
   }]);
-
-
-
 
 });
