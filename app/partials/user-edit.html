@@ -49,13 +49,13 @@
         name="plaintext1"
         placeholder="Passwort"
         ng-model="user.plaintext1"
-        ng-required="!meta.editMode || user._setpw"
+        ng-required="!meta.editMode || user.meta.setpw"
         ng-change="change( user.plaintext1 )"
       />
     </div>
   </div>
 
-  <div class="form-group" ng-show="user._setpw || !user._update" ng-class="{ error: !userForm.plaintext1.$valid }">
+  <div class="form-group" ng-show="user.meta.setpw || !user.meta.update" ng-class="{ error: !userForm.plaintext1.$valid }">
     <label class="control-label col-lg-2" for="password">
       Passwort wiederholen
     </label>
@@ -66,7 +66,7 @@
         name="plaintext2"
         placeholder="Passwort wiederholen"
         ng-model="user.plaintext2"
-        ng-required="!meta.editMode || user._setpw"
+        ng-required="!meta.editMode || user.meta.setpw"
         ng-change="change( user.plaintext2 )"
       />
     </div>

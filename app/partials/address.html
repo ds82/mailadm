@@ -97,10 +97,10 @@
       <a href ng-click="addDestination( address )"><i class="glyphicon glyphicon-plus" /></a>
     </label>
     <div class="">
-      <p ng-repeat="a in address._destinationsAsList track by $index">
+      <p ng-repeat="a in address.destinationsAsList track by $index">
       <select
       	class="form-control"
-        ng-model="address._destinationsAsList[$index]"
+        ng-model="address.destinationsAsList[$index]"
         ng-options="u.email as u.email for u in users"
         required
       ></select>

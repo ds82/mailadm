@@ -12,6 +12,7 @@ define([
     var app = angularjs.module('app', [
       'ngResource',
       'ngRoute',
+      'ngCookies',
       'ngAnimate-animate.css',
       'pascalprecht.translate'
     ]);

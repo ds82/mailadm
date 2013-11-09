@@ -4,73 +4,74 @@
  */
 define([
 
-	'jquery', 'app', 'config'
+  'jquery', 'app', 'config'
 
 ], function( $, app, config ) {
-	"use strict";
+  "use strict";
 
-	app.filter('parentDomain', function() {
-		return function( domains ) {
-			
-			var filtered = [];
-			if ( ! domains ) return filtered;
+  app.filter('parentDomain', function() {
+    return function( domains ) {
+      
+      var filtered = [];
+      if ( ! domains ) return filtered;
 
-			for ( var i = 0; i < domains.length; ++i ) {
-				if ( !domains[i].parent || 
-						domains[i].parent === domains[i].domain ) {
-					filtered.push( domains[i] );
-				}
-			}
-			return filtered;
-		};
-	});
+      for ( var i = 0; i < domains.length; ++i ) {
+        if ( !domains[i].parent || 
+            domains[i].parent === domains[i].domain ) {
+          filtered.push( domains[i] );
+        }
+      }
+      return filtered;
+    };
+  });
 
-	app.controller('DomainController',[
-		'$scope', 'DomainResource',
+  app.controller('DomainController',[
+    '$scope', 'DomainResource',
 
-		function( $scope, DomainResource ) {
+    function( $scope, DomainResource ) {
 
-			$scope.domains = DomainResource.query();
-			$scope.dom = new DomainResource();
+      $scope.domains = DomainResource.query();
+      $scope.dom = new DomainResource();
 
-			$scope.formatChilds = function( childs ) {
+      $scope.formatChilds = function( childs ) {
 
-				if ( ! childs ) {
-					return '';
-				}
-				var list = childs.map(function( item ) {
-					return item.domain;
-				});
-				return list.join(', ');
-			};
+        if ( ! childs ) {
+          return '';
+        }
+        var list = childs.map(function( item ) {
+          return item.domain;
+        });
+        return list.join(', ');
+      };
 
-			$scope.save = function( domain ) {
+      $scope.save = function( domain ) {
 
-				domain.$save( function( res ) {
+        domain.$save( function( res ) {
 
-					if ( ! domain._update ) {
-						$scope.domains.push( domain );
-					}
-					$scope.dom = new DomainResource();
-				});
-			};
+          if ( ! domain.meta.update ) {
+            $scope.domains.push( domain );
+          }
+          $scope.dom = new DomainResource();
+        });
+      };
 
-			$scope.edit = function( domain ) {
+      $scope.edit = function( domain ) {
 
-				// save references
-				domain._id = domain.domain;
-				domain._update = true;
+        // save references
+        domain.meta = domain.meta || {};
+        domain.meta.id = domain.domain;
+        domain.meta.update = true;
 
-				$scope.dom = domain;
-			};
+        $scope.dom = domain;
+      };
 
-			$scope.delete = function( domain ) {
+      $scope.delete = function( domain ) {
 
-				domain.$delete( function( res ) {
-					$scope.domains.delete( domain );
-				});
-			};
+        domain.$delete( function( res ) {
+          $scope.domains.delete( domain );
+        });
+      };
 
-	}]);
+  }]);
 
 });

@@ -40,7 +40,7 @@
 <br /><br />
 
 <div ng-controller="UserEditCtrl">
-  <h2 ng-switch="user._update">
+  <h2 ng-switch="user.meta.update">
     <span ng-switch-when="true">Benutzer bearbeiten</span>
     <span ng-switch-when="false">Benutzer hinzufügen</span>
   </h2>
@@ -99,13 +99,13 @@
           name="plaintext1"
           placeholder="Passwort"
           ng-model="user.plaintext1"
-          ng-required="!user._update || user._setpw"
+          ng-required="!user.meta.update || user.meta.setpw"
           ng-change="change( user.plaintext1 )"
         />
       </div>
     </div>
 
-    <div class="form-group" ng-show="user._setpw || !user._update" ng-class="{ error: !userForm.plaintext1.$valid }">
+    <div class="form-group" ng-show="user.meta.setpw || !user.meta.update" ng-class="{ error: !userForm.plaintext1.$valid }">
       <label class="control-label col-lg-2" for="password">
         Passwort wiederholen
       </label>
@@ -116,7 +116,7 @@
           name="plaintext2"
           placeholder="Passwort wiederholen"
           ng-model="user.plaintext2"
-          ng-required="!user._update || user._setpw"
+          ng-required="!user.meta.update || user.meta.setpw"
           ng-change="change( user.plaintext2 )"
         />
       </div>
@@ -148,14 +148,14 @@
         >Abbrechen</button>
 
         <button
-          ng-show="user._update"
+          ng-show="user.meta.update"
           ng-disabled="!userForm.$dirty || userForm.$invalid"
           type="submit" class="btn btn-primary"
           
         >{{ 'SAVE' | translate }}</button>
 
         <button
-          ng-show="!user._update"
+          ng-show="!user.meta.update"
           ng-disabled="!userForm.$dirty || userForm.$invalid"
           type="submit"
           class="btn btn-primary"

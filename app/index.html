@@ -39,7 +39,7 @@
       </div>
 
       <!-- wrap navigation to override navbar-collapse display -->
-      <div style="display:none;" data-ng-show="showNavigation">
+      <div ng-show="session.isUserLoggedIn()">
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav">
@@ -54,6 +54,7 @@
                   <a ng-href="#/blocked">Blockierte Adressen</a>
               </li>
           </ul>
+          <!-- {{ session.getUser() }} -->
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
               <a href="" class="dropdown-toggle" data-toggle="dropdown">{{user.email}} <b class="caret"></b></a>

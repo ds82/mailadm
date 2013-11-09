@@ -45,13 +45,16 @@ module.exports = function (grunt) {
             }
         },
         express: {
+            options: {
+              port: 9000,
+              hostname: '*'
+            },
             livereload: {
                 options: {
-                    port: 9000,
-                    bases: path.resolve('app'),
-                    monitor: {},
-                    debug: true,
-                    server: path.resolve('./server/main')
+                  bases: path.resolve('./app'),
+                  monitor: {},
+                  debug: true,
+                  server: path.resolve('./server/main')
                 }
             }
         },
@@ -252,7 +255,12 @@ module.exports = function (grunt) {
         'exec:less' 
     ]);
 
-    grunt.registerTask('server', ['livereload-start', 'express', 'watch']);
+    grunt.registerTask('server', [
+      'exec:less',
+      'livereload-start',
+      'express',
+      'watch'
+    ]);
 
     // grunt.registerTask('server', function (target) {
     //     if (target === 'dist') {

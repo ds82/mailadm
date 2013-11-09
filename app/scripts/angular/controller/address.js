@@ -13,8 +13,8 @@ define([
 
   function makeDestination( addr ) {
     console.log('makeDestination', addr );
-    if ( addr._destinationsAsList ) {
-      return addr._destinationsAsList.join(' ');
+    if ( addr.destinationsAsList ) {
+      return addr.destinationsAsList.join(' ');
     }
     return '';
   };
@@ -27,10 +27,13 @@ define([
   }
 
   function prepareEdit( addr ) {
-    addr._update = true;
-    addr._id = addr.source;
+    
+    addr.meta = addr.meta || {};
+
+    addr.meta.update = true;
+    addr.meta.id = addr.source;
     addr = splitSource( addr );
-    addr._destinationsAsList = addr.destination.split(/[\s]/);
+    addr.destinationsAsList = addr.destination.split(/[\s]/);
     return addr;
   }
 
@@ -46,7 +49,7 @@ define([
         var address = new Address();
         address.enable_greylisting = false;
         address.enable_policyd = false;
-        address._destinationsAsList = [''];
+        address.destinationsAsList = [''];
         return address;
       }
 
@@ -80,7 +83,7 @@ define([
         address.destination = makeDestination( address );
         address.$save( function( res ) {
 
-          if ( !address._update ) {
+          if ( !address.meta.update ) {
             $scope.addresses.push( address );
           }
 
@@ -97,7 +100,7 @@ define([
       };
 
       $scope.addDestination = function( addr ) {
-        addr._destinationsAsList.push('');
+        addr.destinationsAsList.push('');
       };
 
       $scope.toggleGreylisting = function( addr ) {
