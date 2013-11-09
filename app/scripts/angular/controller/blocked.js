@@ -29,6 +29,21 @@ define([
         $scope.save( addr );
       };
 
+      $scope.magicAliasEdit = function( addr ) {
+        
+        if ( addr.alias && addr.alias.match(/.*@.*/) ) {
+          var split = addr.alias.split(/@/);
+          //console.log( split[0], split[1] );
+          for( var i = 0, ii = $scope.domains.length; i < ii; ++i ) {
+            
+            if ( $scope.domains[i].domain === split[1] ) {
+              addr.alias = split[0];
+              addr.domain = split[1];
+            }
+          }
+        }
+      };
+
       $scope.save = function( address ) {
 
         address.$save(function( res ) {
