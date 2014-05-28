@@ -1,0 +1,35 @@
+{
+  "name": "bootstrap-switch",
+  "description": "Turn checkboxes and radio buttons in toggle switches.",
+  "version": "3.0.1",
+  "main": [
+    "dist/js/bootstrap-switch.js",
+    "dist/css/bootstrap3/bootstrap-switch.css"
+  ],
+  "ignore": [
+    "docs",
+    "test",
+    "CNAME",
+    "coffeelint.json",
+    "composer.json",
+    "CONTRIBUTING.md",
+    "gulpfile.coffee",
+    "gulpfile.js",
+    "index.html",
+    "package.json"
+  ],
+  "dependencies": {
+    "jquery": ">=1.9.0"
+  },
+  "homepage": "https://github.com/nostalgiaz/bootstrap-switch",
+  "_release": "3.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v3.0.1",
+    "commit": "263e83c39c90c5697265de45b62391b242f1dc0d"
+  },
+  "_source": "git://github.com/nostalgiaz/bootstrap-switch.git",
+  "_target": "~3.0.1",
+  "_originalSource": "bootstrap-switch",
+  "_direct": true
+}
