@@ -19,8 +19,26 @@
         <a href ng-click="edit(row)" class="glyph-link"><span class="glyphicon glyphicon-edit"></span></a>
         <a href class="glyph-link" ng-click="delete(row)"><span class="glyphicon glyphicon-remove"></span></a>
       </td>
-      <td><input type="checkbox" ng-change="set(row)" ng-model="row.enabled" /></td>
-      <td><input type="checkbox" ng-change="set(row)" ng-model="row.is_admin" /></td>
+      <td>
+        <input
+          type="checkbox"
+          bs-switch
+          switch-size="small"
+          switch-on-color="success"
+          switch-off-color="danger"
+          ng-change="set(row)"
+          ng-model="row.enabled"
+      /></td>
+      <td>
+        <input
+          type="checkbox"
+          bs-switch
+          switch-size="small"
+          switch-on-color="success"
+          switch-off-color="danger"
+          ng-change="set(row)"
+          ng-model="row.is_admin"
+        /></td>
       <td>{{row.email}}</td>
       <td>{{row.domains.join(', ')}}</td>
       <td>

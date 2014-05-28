@@ -13,7 +13,8 @@ var app = angular.module('app', [
   'ngRoute',
   'ngCookies',
   'ngAnimate-animate.css',
-  'pascalprecht.translate'
+  'pascalprecht.translate',
+  'frapontillo.bootstrap-switch'
 ]);
 
 module.exports = app;

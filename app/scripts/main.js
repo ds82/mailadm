@@ -51,8 +51,8 @@ Array.prototype.delete = function( item ) {
 
 window.jQuery = require('jquery');
 
-var rdy = require('./angular/rdy');
 require('./bootstrap');
+var rdy = require('./angular/rdy');
 require('./socket');
 
 module.exports = rdy;
