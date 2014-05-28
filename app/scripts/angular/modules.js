@@ -3,25 +3,22 @@
  * modules
  * @author Dennis Sänger, 2013
  */
-define([
-  'angular/misc/401-interceptor',
 
-  // SERVICES
-  'angular/services/domain',
-  'angular/services/user',
-  'angular/services/address',
-  'angular/services/blocked',
-  'angular/services/maildir',
+require('./misc/401-interceptor');
+
+// SERVICES
+require('./services/domain');
+require('./services/user');
+require('./services/address');
+require('./services/blocked');
+require('./services/maildir');
 
 
-  // CONTROLLER
-  'angular/controller/app',
-  'angular/controller/nav',
-  'angular/controller/login',
-  'angular/controller/domain',
-  'angular/controller/user',
-  'angular/controller/address',
-  'angular/controller/blocked'
-], function( ) {
- 
-});
+// CONTROLLER
+require('./controller/app');
+require('./controller/nav');
+require('./controller/login');
+require('./controller/domain');
+require('./controller/user');
+require('./controller/address');
+require('./controller/blocked');

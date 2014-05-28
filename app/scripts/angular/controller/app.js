@@ -2,14 +2,9 @@
  * app
  * @author Dennis Sänger, 2013
  */
-define([
-	'jquery', 'app'
-], function( $, app ) {
-	'use strict';
+ var $   = require('jquery'),
+     app = require('app');
 
-	return app.controller('AppController', [ '$scope', function( $scope ) {
-
-		$scope.appname = 'crm';
-	}]);
-
-});
+return app.controller('AppController', [ '$scope', function( $scope ) {
+  $scope.appname = 'crm';
+}]);

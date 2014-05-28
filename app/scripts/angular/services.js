@@ -3,9 +3,8 @@
  * services
  * @author Dennis Sänger, 2013
  */
-define([
-  'ang/services/domain',
-  'ang/services/user',
-  'ang/services/address',
-  'ang/services/blocked'
-], function() {});
+
+require('ang/services/domain');
+require('ang/services/user');
+require('ang/services/address');
+require('ang/services/blocked');

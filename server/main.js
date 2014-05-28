@@ -10,8 +10,6 @@ var express       = require('express'),
   passport        = require('passport'),
   LocalStrategy   = require('passport-local').Strategy;
 
-
-
 var allowCrossDomain = function( req, res, next ) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -20,7 +18,6 @@ var allowCrossDomain = function( req, res, next ) {
     next();
   }
 };
-//app.listen(9000);
 
 app.configure(function() {
   app.use( express.static(__dirname + '/../app') );
@@ -61,7 +58,7 @@ passport.deserializeUser(function(id, done) {
 
 
 passport.use(new LocalStrategy(
-  
+
   function( username, password, done ) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
@@ -75,17 +72,18 @@ passport.use(new LocalStrategy(
 ));
 
 function ensureAuthenticated( req, res, next ) {
-  
+
   // disable auth
   // return next();
   if ( ! req.isAuthenticated() ) {
     console.log( 'isAuthenticated', req.originalUrl, req.isAuthenticated() );
   }
 
-  if ( req.isAuthenticated() ) { 
+  if ( req.isAuthenticated() ) {
     return next();
   } else {
     res.send( 401 );
+    res.end();
     return;
   }
 }
@@ -93,7 +91,7 @@ function ensureAuthenticated( req, res, next ) {
 //
 // DOMAIN
 //
-app.get('/domain', 
+app.get('/domain',
   ensureAuthenticated,
   function( req, res ) {
 
@@ -103,7 +101,7 @@ app.get('/domain',
     });
 });
 
-app.post('/domain/:id', 
+app.post('/domain/:id',
   ensureAuthenticated,
   function( req, res ) {
 
@@ -123,7 +121,7 @@ app.delete('/domain/:id',
 //
 // USER
 //
-app.post('/login', 
+app.post('/login',
   passport.authenticate('local', {}),
   function( req, res ) {
     res.send( req.user );
@@ -172,7 +170,7 @@ app.delete('/user/:id',
 app.get('/address',
   ensureAuthenticated,
   function( req, res ) {
-  
+
     db.address.query( function( err, data ) {
       res.send( data );
     });
@@ -228,10 +226,10 @@ app.delete('/blocked/:id', ensureAuthenticated,
 app.get('/maildir/:email', ensureAuthenticated, function( req, res ) {
 
   var maildirPath = maildir.getPathByEmail( req.params.email );
-  
+
   if ( ! maildirPath ) {
     res.send( 400 );
-  
+
   } else {
     maildir.isMaildir( maildirPath, function( err, data ) {
       res.send( data );
@@ -251,3 +249,10 @@ exports = module.exports = server;
 exports.use = function() {
   app.use.apply(app, arguments);
 };
+
+if ( require.main === module ) {
+  console.log( '== listen on 0.0.0.0:9000' );
+  app.listen( 9000 );
+}
+
+exports.app = app;

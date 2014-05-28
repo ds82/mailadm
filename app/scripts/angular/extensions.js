@@ -1,8 +1,6 @@
-define([
-  'ng/angular-resource',
-  'ng/angular-route',
-  'ng/angular-animate',
-  'ng/angular-cookies',
-  '3rd/yom-nganimate/animate',
-  '3rd/angular-translate/angular-translate'
-], function() {});
+require('thirdparty/angular/angular-resource');
+require('thirdparty/angular/angular-route');
+require('thirdparty/angular/angular-animate');
+require('thirdparty/angular/angular-cookies');
+require('thirdparty/yom-nganimate/animate');
+require('thirdparty/angular-translate/angular-translate');

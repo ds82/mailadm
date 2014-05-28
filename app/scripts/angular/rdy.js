@@ -1,21 +1,19 @@
-define([
-  'jquery',
-  'angularjs',
-  'app',
-  'angular/routes',
-  'angular/modules',
-  'angular/i18n'
-], function( $, angularjs, app ) {
-  'use strict';
+'use strict';
 
-  $(document).ready(function() {
+var $       = require('jquery'),
+    ng      = require('angularjs'),
+    app     = require('app'),
+    routes  = require('./routes'),
+    modules = require('./modules'),
+    i18n    = require('./i18n');
 
-    console.log('bootstrapping angular...');
-    var $html = $('html');
-    $html.addClass('ng-app="app"');
-    // @todo make it dynamic
-    angularjs.bootstrap( $html, ['app'] );
-  });
+// $(document).ready(function() {
 
-  return app;
-});
+//   console.log('bootstrapping angular...');
+//   var $html = $('html');
+//   $html.addClass('ng-app="app"');
+//   // @todo make it dynamic
+//   angularjs.bootstrap( $html, ['app'] );
+// });
+
+module.exports = app;

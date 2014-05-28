@@ -1,3 +1,1 @@
-define([
-  'bs/modal'
-], function() {});
+require('thirdparty/bootstrap/js/modal');

@@ -3,41 +3,39 @@
  * user
  * @author Dennis Sänger, 2013
  */
-define([
-  'jquery', 'app', 'config'
-], function( $, app, config ) {
+ var $      = require('jquery'),
+     app    = require('app'),
+     config = require('config');
  
-  // @todo Refactor name, should be UserResource
-  app.factory('UserResource', [
-    '$resource',
-    function( $resource ) {
-      return $resource( config.host + '/user/:id', { id: '@email' }, {
-        query: {
-          method:'GET',
-          isArray: true
-        }
-      });
-  }]);
+// @todo Refactor name, should be UserResource
+app.factory('UserResource', [
+  '$resource',
+  function( $resource ) {
+    return $resource( config.host + '/user/:id', { id: '@email' }, {
+      query: {
+        method:'GET',
+        isArray: true
+      }
+    });
+}]);
 
-  app.factory('UserSession', ['$cookieStore', function( $cookieStore ) {
+app.factory('UserSession', ['$cookieStore', function( $cookieStore ) {
 
-    var service = {};
+  var service = {};
 
-    service.setUser = function( user ) {
-      $cookieStore.put( 'user', JSON.stringify( user ));
-    };
+  service.setUser = function( user ) {
+    $cookieStore.put( 'user', JSON.stringify( user ));
+  };
 
-    service.isUserLoggedIn = function() {
-      return ( $cookieStore.get( 'user' ) != null );
-    };
+  service.isUserLoggedIn = function() {
+    return ( $cookieStore.get( 'user' ) != null );
+  };
 
-    service.getUser = function() {
-      var str = $cookieStore.get( 'user' );
-      return ( str ) ? JSON.parse( str ) : {};
-    };
+  service.getUser = function() {
+    var str = $cookieStore.get( 'user' );
+    return ( str ) ? JSON.parse( str ) : {};
+  };
 
-    return service;
+  return service;
 
-  }]);
-
-});
+}]);

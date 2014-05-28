@@ -1,0 +1,18 @@
+{
+  "name": "mailadm",
+  "version": "0.0.1",
+  "main": "app/index.html",
+  "authors": [
+    "Dennis Sänger <mailadm@mail.ds82.de>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/thirdparty",
+    "test",
+    "tests"
+  ]
+}

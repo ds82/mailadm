@@ -1,4 +1,2 @@
-define([
-  'app',
-  'i18n/de_DE'
-], function() {});
+require( 'app' );
+require( '../i18n/de_DE' );

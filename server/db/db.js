@@ -1,6 +1,5 @@
 'use strict';
-
-var 
+var
   pub       = {},
   priv      = {},
   _         = require('underscore'),
@@ -38,14 +37,14 @@ function escapeStrig( str ) {
 }
 
 function mkValue( val, map ) {
-  
+
   map = map || fnMap;
   var type = typeof( val );
   return map[type]( val );
 }
 
 function mkSet( field, value, isLast ) {
-  
+
   var s = field + ' = ' + mkValue( value );
   if ( !isLast ) s += ', ';
   return s;
@@ -75,7 +74,7 @@ function mkValueArray( values, keys ) {
       localKeys.splice( ind, 1 );
   }
 
-  var result = { 
+  var result = {
     values: ax,
     keys: localKeys
   };
@@ -85,13 +84,13 @@ function mkValueArray( values, keys ) {
 }
 
 //
-// TODO 
+// TODO
 // + what if cond is custom where string
-// 
+//
 function mkWhere( cond ) {
 
   if ( Object.keys( cond ).length === 0 ) return '';
-  
+
   var q = ' WHERE ';
   for ( var k in cond ) {
     q += k + ' = ' + mkValue( cond[k] ) + ' AND ';
@@ -103,7 +102,7 @@ function mkWhere( cond ) {
 function updateOrInsert( update, insert, data, cb ) {
   if ( data._update ) {
     return update( data, cb );
-  
+
   } else {
     return insert( data, cb );
   }
@@ -115,7 +114,7 @@ db.fetchArray = function( q, cb ) {
   client.query(
     q,
     function( err, result ) {
-      
+
       result = result || [];
 
       if ( err ) console.log('ERROR', err );
@@ -127,7 +126,7 @@ db.fetch = function( table, fields, order, where, cb ) {
 
   var f = fields.join(', '),
     q = 'SELECT '+ f +' FROM '+ table;
-    
+
   q += mkWhere( where );
   q += ' ORDER BY ' + order;
 
@@ -151,7 +150,7 @@ db.insert = function( table, fields, values, check, cb ) {
 
 
   var q = 'INSERT INTO ' + table + ' ' + f + ' VALUES ' + v;
-  
+
   //console.log('try to execute query', q );
   client.query( q, cb );
 };
@@ -218,7 +217,7 @@ pub.domains.save = function( data, cb ) {
 
   if ( data._update )
     pub.domains.update( data, cb );
-  else 
+  else
     pub.domains.add( data, cb );
 };
 pub.domains.add = function( data, cb ) {
@@ -226,7 +225,7 @@ pub.domains.add = function( data, cb ) {
   db.insert('domains', ['domain','parent'], [data.domain,data.parent], false, cb );
 };
 pub.domains.update = function( data, cb ) {
-  
+
   var domain = data._id || data.domain,
     keys = ['domain','parent'],
     obj = mkValueArray( data, keys );
@@ -242,7 +241,7 @@ pub.domains.delete = function( domain, cb ) {
 //
 
 function addMaildirData( users ) {
-  
+
   var wasArray = true;
   // ensure array
   if ( ! _.isArray( users )) {
@@ -268,14 +267,14 @@ priv.user.fields.nopass = _.filter( priv.user.fields.query, function( f ) { retu
 
 pub.user = {};
 pub.user.query = function( cb ) {
-  
+
   db.fetch(
     'users',
     priv.user.fields.nopass,
     'email',
     {},
     function( err, res ) {
-      
+
       res = addMaildirData( res );
       cb( err, res );
   });
@@ -299,7 +298,7 @@ pub.user.save = function ( user, cb ) {
     fields = _.extend([], priv.user.fields.query);
     user.password = md5( user.plaintext1 );
   }
-  
+
   // fix up user maildir
   user.maildir = user.domain + '/' + user.email + '/';
 
@@ -317,7 +316,7 @@ pub.user.save = function ( user, cb ) {
     );
 
   } else {
-    
+
     maildir.mkMaildir( user.maildir, {}, function( err, res ) {
       db.insert(
         'users',
@@ -334,21 +333,21 @@ pub.user.delete = function( id, cb ) {
 };
 
 pub.user.auth = function( user, password, cb ) {
-  
+
   db.fetch('users', priv.user.fields.query, 'email', {
     'email': user,
     'password': md5( password )
   }, function( err, res ) {
 
     var user = {};
-    //console.log('user.auth', err, res );
+    console.log('user.auth', err, res );
 
     if ( res.length && res.length === 1 ) {
-      
+
       user = res.shift();
       // remove password form result
       user.password = '';
-      
+
       cb( null, user );
 
     } else {
@@ -422,7 +421,7 @@ pub.blocked.query = function( cb ) {
 
 
 pub.blocked.insert = function( data, cb ) {
-  
+
   var obj = mkValueArray( data, priv.blocked.fields.query );
   db.insert(
     'blocked',
@@ -434,7 +433,7 @@ pub.blocked.insert = function( data, cb ) {
 };
 
 pub.blocked.update = function( data, cb ) {
-  
+
   var obj = mkValueArray( data, priv.blocked.fields.query );
   db.update(
     'blocked',
@@ -461,7 +460,7 @@ pub.blocked.delete = function( id, cb ) {
 };
 
 var connect = function( auth ) {
-  
+
   client = new pg.Client( auth );
   client.connect(function ( res ) {
     console.log('connected to pg');

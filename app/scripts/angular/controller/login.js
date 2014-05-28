@@ -1,47 +1,44 @@
-define([
-  'jquery', 'app', 'config'
+var $      = require('jquery'),
+    app    = require('app'),
+    config = require('config');
 
-], function( $, app, config ) {
+app.controller('LoginController', [
+  '$scope', '$http', '$location', 'UserSession',
 
-  app.controller('LoginController', [
-    '$scope', '$http', '$location', 'UserSession',
+  function( $scope, $http, $location, Session ) {
 
-    function( $scope, $http, $location, Session ) {
+    $scope.login = {};
+    $scope.login.failed = false;
 
-      $scope.login = {};
-      $scope.login.failed = false;
+    var httpConfig = {
+      headers: { 'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8' }
+    };
 
-      var httpConfig = {
-        headers: { 'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8' }
+    $scope.submit = function( login ) {
+
+      var credentials = {
+        username: login.username,
+        password: login.password
       };
 
-      $scope.submit = function( login ) {
+      $http.post( config.cleanHost + '/login',
+          $.param( credentials ),
+          httpConfig
+      ).success( function( res ) {
 
-        var credentials = {
-          username: login.username,
-          password: login.password
-        };
+        console.log( 'user logged in', res );
+        Session.setUser( res );
 
-        $http.post( config.cleanHost + '/login',
-            $.param( credentials ),
-            httpConfig
-        ).success( function( res ) {
+        $scope.login.failed = false;
+        $location.path('/address');
 
-          console.log( 'user logged in', res );
-          Session.setUser( res );
+      }).error( function( res ) {
 
-          $scope.login.failed = false;
-          $location.path('/address');
+        $scope.login.failed = true;
 
-        }).error( function( res ) {
+      });
+    };
 
-          $scope.login.failed = true;
-
-        });
-      };
-
-      //console.log('routeParams', $location.path() );
-    }
-  ]);
-
-});
+    //console.log('routeParams', $location.path() );
+  }
+]);

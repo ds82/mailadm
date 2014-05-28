@@ -1,3 +1,5 @@
+'use strict';
+
 //
 // JS Extensions
 //
@@ -15,45 +17,42 @@ Array.prototype.delete = function( item ) {
   else return this;
 };
 
+// require.config({
+//   baseUrl: 'scripts/',
+//   paths: {
+//     '3rd':              '../thirdparty',
+//     jquery:             '../thirdparty/jquery/jquery',
+//     angularjs:          '../thirdparty/angular-dev/angular',
+//     app:                'angular/app',
+//     bs:                 '../thirdparty/bootstrap/js/',
+//     ng:                 '../thirdparty/angular-dev/',
+//     'socketio-client':  '../thirdparty/socket.io-client/dist/socket.io.min',
+//   },
+//   shim: {
+//     'bootstrap': {
+//       deps: ['jquery'],
+//       exports: 'jquery'
+//     },
+//     'angularjs': {
+//       deps: ['jquery'],
+//       exports: 'angular'
+//     },
+//     modules: {
+//       deps: ['app', 'angular/i18n']
+//     },
+//     'angular-extensions': {
+//       deps: ['angularjs']
+//     },
+//     'socketio-client': {
+//       exports: 'io'
+//     }
+//   }
+// });
 
-require.config({
-  baseUrl: 'scripts/',
-  paths: {
-    '3rd':              '../thirdparty',
-    jquery:             '../thirdparty/jquery/jquery',
-    angularjs:          '../thirdparty/angular-dev/angular',
-    app:                'angular/app',
-    bs:                 '../thirdparty/bootstrap/js/',
-    ng:                 '../thirdparty/angular-dev/',
-    'socketio-client':  '../thirdparty/socket.io-client/dist/socket.io.min',
-  },
-  shim: {
-    'bootstrap': {
-      deps: ['jquery'],
-      exports: 'jquery'
-    },
-    'angularjs': {
-      deps: ['jquery'],
-      exports: 'angular'
-    },
-    modules: {
-      deps: ['app', 'angular/i18n']
-    },
-    'angular-extensions': {
-      deps: ['angularjs']
-    },
-    'socketio-client': {
-      exports: 'io'
-    }
-  }
-});
+window.jQuery = require('jquery');
 
-require([
-  'jquery',
-  'angular/rdy',
-  'bootstrap'
-], function ( $, rdy ) {
+var rdy = require('./angular/rdy');
+require('./bootstrap');
+require('./socket');
 
-  'use strict';
-  return rdy;
-});
+module.exports = rdy;

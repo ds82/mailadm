@@ -3,20 +3,16 @@
  * socket
  * @author Dennis Sänger, 2013
  */
-define([
-	'config',
-	'socketio-client'
-], function( config, io ) {
- 
-	console.log( 'io', io );
 
-	var Module = {},
-		host = config.host.replace(/\\/,'');
-	
-	var socket = io.connect( host );
-	socket.on('connected', function() {
-		console.log( 'connected to socket.io server', socket );
-	});
+var config   = require('./config'),
+    io       = require('socketio-client');
 
-	return Module;
+var mod = {},
+    host = config.host.replace(/\\/,'');
+
+var socket = io.connect( host );
+socket.on('connected', function() {
+  console.log( 'connected to socket.io server', socket );
 });
+
+module.exports = mod;

@@ -2,39 +2,32 @@
  * 401
  * @author Dennis Sänger, 2013
  */
-define([
-	'jquery', 'app', 'config'
-], function( $, app, config ) {
+ var $      = require('jquery'),
+     app    = require('app'),
+     config = require('config');
 
+app.config(function ($routeProvider, $locationProvider, $httpProvider) {
 
-	app.config(function ($routeProvider, $locationProvider, $httpProvider) {
+  var interceptor = [
+    '$rootScope', '$q', '$location', '$injector',
+    function ( scope, $q, $location, injector ) {
 
-		var interceptor = [
-			
-			'$rootScope', '$q', '$location', '$injector',
-			
-			function ( scope, $q, $location, injector ) {
+      function success( response ) {
+        return response;
+      }
 
-				function success( response ) {
-					return response;
-				}
+      function error( response ) {
+        var status = response.status;
 
-				function error( response ) {
-					var status = response.status;
+        if (status == 401) {
+          $location.path('/login');
+        }
+        return $q.reject(response);
+      }
 
-					if (status == 401) {
-						$location.path('/login');
-					}
-					return $q.reject(response);
-				}
-
-				return function (promise) {
-					return promise.then(success, error);
-				}
-		}];
-
-		$httpProvider.responseInterceptors.push(interceptor);
-
-	});
-
+      return function (promise) {
+        return promise.then(success, error);
+      }
+  }];
+  $httpProvider.responseInterceptors.push(interceptor);
 });

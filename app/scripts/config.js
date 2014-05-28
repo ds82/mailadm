@@ -3,16 +3,12 @@
  * config
  * @author Dennis Sänger, 2013
  */
-define([
-
-], function() {
  
-	var Module = {},
-      host = window.location.host;
-	Module.host = 'http://' + host.replace(/:[0-9]+/, '\\$&');
-	Module.cleanHost = 'http://'+host;
+var mod = {},
+host = window.location.host;
+mod.host = 'http://' + host.replace(/:[0-9]+/, '\\$&');
+mod.cleanHost = 'http://'+host;
 
-  console.log( 'config', Module );
+console.log( 'config', mod );
 
-	return Module;
-});
+module.exports = mod;
