@@ -26,6 +26,8 @@
     <!-- endbuild -->
   </head>
   <body ng-controller="AppController">
+    
+    <!-- main nav -->
     <nav ng-controller="NavController" class="navbar-inverse navbar-fixed-top navbar navbar-default" role="navigation">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -39,7 +41,7 @@
       </div>
 
       <!-- wrap navigation to override navbar-collapse display -->
-      <div ng-show="session.isUserLoggedIn()">
+      <div class="ng-cloak" ng-show="session.isUserLoggedIn()">
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav">
@@ -70,8 +72,8 @@
       </div>
     </nav>
 
-    <div class="container hero-unit">
-        <div ng-view></div>
+    <div class="container-fluid" style="padding: 0 15px;">
+      <div ng-view></div>
     </div>
     <!--[if lt IE 7]>
         <p class="chromeframe">

@@ -1,0 +1,108 @@
+<!-- sub nav -->
+<nav class="navbar navbar-default navbar-fixed-top subnavbar" role="navigation">
+  <div class="container-fluid" style="padding: 0 15px;">
+
+    <ul class="nav navbar-nav navbar-left">
+      <li>
+        
+      </li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+<!--         <button 
+          type="button"
+          ng-click="create();"
+          class="btn btn-danger navbar-btn"
+        >Abbrechen</button> -->
+      </li>
+      <li>
+        <button type="button" class="btn btn-success navbar-btn">Hinzufügen</button>
+      </li>
+    </ul>
+
+  </div>
+</nav><!-- //sub nav -->
+
+<!-- contextmenu -->
+<div contextmenu="meta.contextmenu" class="dropdown contextmenu">
+  <ul class="dropdown-menu" role="menu">
+    
+    <li role="presentation" class="dropdown-header">
+      {{ meta.contextmenu.$item.email }}
+    </li>
+    <li role="presentation">
+      <a role="menuitem" tabindex="-1" href
+         ng-href="#/user/{{ meta.contextmenu.$item.email }}/edit"
+      >
+        <span>Bearbeiten</span>
+      </a>
+    </li>
+    <li role="presentation">
+      <a role="menuitem" tabindex="-1" href 
+        ng-click="delete( meta.contextmenu.$item )"
+      >
+        <span>Löschen</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<div>
+  <h2>Benutzer</h2>
+  <div class="alert alert-block alert-info">
+    Benutzer repräsentieren Mailkonten. Für sie wird automatisch ein Konto angelegt und eine Zieladresse 
+    eingetragen. D.h. durch Anlegen eines Benutzers nimmt der Mailserver automatisch
+    Mails an die Adresse des Benutzer entgegen.
+  </div>
+  <table class="table table-hover table-striped table-bordered" contextmenu-container="meta.contextmenu">
+    <tr>
+      <th>aktiv</th>
+      <th>Administrator</th>
+      <th>Benutzer</th>
+      <th>Domains</th>
+      <th>Maildir</th>
+    </tr>
+    <tr ng-repeat="row in data" contextmenu-item="row">
+      <td>
+        <input
+          type="checkbox"
+          bs-switch
+          switch-size="small"
+          switch-on-color="success"
+          switch-off-color="danger"
+          ng-change="set(row)"
+          ng-model="row.enabled"
+      /></td>
+      <td>
+        <input
+          type="checkbox"
+          bs-switch
+          switch-size="small"
+          switch-on-color="success"
+          switch-off-color="danger"
+          ng-change="set(row)"
+          ng-model="row.is_admin"
+        /></td>
+      <td>{{row.email}}</td>
+      <td>{{row.domains.join(', ')}}</td>
+      <td>
+        <i
+          class="glyphicon"
+          ng-class="{
+            'glyphicon-inbox': user.maildirCheck.isMaildir,
+            'glyphicon-minus-sign': !user.maildirCheck.isMaildir
+          }"
+        />
+      </td>
+    </tr>
+  </table>
+
+</div>
+
+<!--
+  <pre>
+  {{ data | json }}
+  {{ domains | json }}
+  </pre>
+-->

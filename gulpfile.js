@@ -8,7 +8,7 @@ var less       = require('gulp-less');
 var refresh    = require('gulp-livereload');
 var uglify     = require('gulp-uglify');
 
-var server     = require('./server/main');
+//var server     = require('./server/main');
 
 var notify     = require('gulp-notify');
 var growl      = require('gulp-notify-growl')();

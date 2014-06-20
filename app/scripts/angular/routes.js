@@ -14,16 +14,38 @@ app.config( function( $routeProvider ) {
     
     .when('/user', {
       controller: 'UserController',
-      templateUrl: 'partials/user.html',
+      templateUrl: 'partials/user/list.html',
       resolve: {},
       auth: true,
       showNavigation: true
     })
 
-    .when('/user/edit/:id', {
+    .when('/user/:id/edit', {
       controller: 'UserEditCtrl',
-      templateUrl: 'partials/user-edit.html',
-      resolve: {},
+      templateUrl: 'partials/user/edit.html',
+      resolve: {
+        isNew: function() {
+          return false;
+        },
+        userData: ['$route', 'UserResource', function( $route, UserResource ) {
+          return UserResource.get({ id: $route.current.params.id }).$promise;
+        }],
+        domainData: ['DomainResource', function( DomainResource ) {
+          return DomainResource.query().$promise;
+        }]
+      },
+      auth: true,
+      showNavigation: true
+    })
+
+    .when('/user/create', {
+      controller: 'UserEditCtrl',
+      templateUrl: 'partials/user/edit.html',
+      resolve: {
+        isNew: function() {
+          return true;
+        }
+      },
       auth: true,
       showNavigation: true
     })

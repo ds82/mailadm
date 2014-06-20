@@ -10,7 +10,22 @@
 // import bootstrap files
 @import "bootstrap.less";
 
-body { padding-top: 70px; }
+body { padding-top: 105px; }
+
+.ng-cloak {
+  display: none;
+}
+
+.subnavbar {
+  top: 51px;
+
+  .navbar-right li {
+    margin-left: 5px;
+  }
+  .navbar-left li {
+    margin-right: 5px;
+  }
+}
 
 // [ng-hide] {
 //   display: none;
@@ -26,5 +41,7 @@ a.glyph-link .glyphicon {
 
 // animations
 @import "../thirdparty/yom-nganimate/animate.less";
+
+@import "contextmenu.less";
 
 // import customized files

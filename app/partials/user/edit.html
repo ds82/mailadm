@@ -1,0 +1,136 @@
+<!-- sub nav -->
+<nav class="navbar navbar-default navbar-fixed-top subnavbar" role="navigation">
+  <div class="container-fluid" style="padding: 0 15px;">
+
+    <ul class="nav navbar-nav navbar-left">
+      <li>
+        
+      </li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <button 
+          type="button"
+          ng-click="create();"
+          class="btn btn-danger navbar-btn"
+        >Abbrechen</button>
+      </li>
+      <li>
+        <button
+          ng-if="user.meta.update"
+          ng-disabled="!userForm.$dirty || userForm.$invalid"
+          type="submit" class="btn btn-success navbar-btn"
+          
+        >{{ 'SAVE' | translate }}</button>
+        <button
+          ng-if="!user.meta.update"
+          ng-disabled="!userForm.$dirty || userForm.$invalid"
+          type="submit"
+          class="btn btn-success navbar-btn"
+        >{{ 'ADD' | translate }}</button>
+      </li>
+    </ul>
+
+  </div>
+</nav><!-- //sub nav -->
+
+<h2 ng-switch="meta.isNew">
+  <span ng-switch-when="false">Benutzer bearbeiten</span>
+  <span ng-switch-when="true">Benutzer hinzufügen</span>
+</h2>
+
+<!-- <pre>{{user | json}}</pre> -->
+
+<!-- ALERTS -->
+<div 
+  class="alert alert-block alert-success"
+  ng-show="meta.savedChanges"
+  ng-animate="{ show: 'animated pulse' }"
+>
+  <button type="button" class="close" ng-click="meta.savedChanges=false">&times;</button>
+  <div ng-switch="meta.savedChanges">
+    <div ng-switch-when="edit">
+      <h4>Benutzer hinzugefügt!</h4>
+      Der Benutzer wurde erfolgreich hinzugefügt!
+    </div>
+    <div ng-switch-when="update">
+      <h4>Benutzer aktualisiert!</h4>
+      Die Änderungen wurden erfolgreich gespeichert!
+    </div>
+  </div>
+</div>
+
+<form
+    role="form"
+    name="userForm"
+    class="form-horizontal"
+    ng-submit="save( user )"
+  >
+    <!-- EMAIL -->
+    <div class="form-group">
+      <label class="control-label col-lg-2" for="email">
+        E-Mail
+      </label>
+      <div class="col-lg-5">
+        <input class="form-control" type="text" placeholder="Email" ng-model="user.email" />
+      </div>
+    </div>
+
+    <div ng-show="meta.editMode"
+      class="col-lg-5 col-md-offset-2 alert alert-info">
+      {{ 'USER_EDIT_PASSWORD_INFO' | translate }}
+    </div>
+
+    <!-- PASSWORD -->
+    <div style="clear:both;" class="form-group" ng-class="{ error: !userForm.plaintext1.$valid }">
+      <label class="control-label col-lg-2" for="password">
+        Passwort
+      </label>
+      <div class="col-lg-5">
+        <input
+          class="form-control"
+          type="password"
+          name="plaintext1"
+          placeholder="Passwort"
+          ng-model="user.plaintext1"
+          ng-required="!user.meta.update || user.meta.setpw"
+          ng-change="change( user.plaintext1 )"
+        />
+      </div>
+    </div>
+
+    <div class="form-group" ng-show="user.meta.setpw || !user.meta.update" ng-class="{ error: !userForm.plaintext1.$valid }">
+      <label class="control-label col-lg-2" for="password">
+        Passwort wiederholen
+      </label>
+      <div class="col-lg-5">
+        <input
+          class="form-control"
+          type="password"
+          name="plaintext2"
+          placeholder="Passwort wiederholen"
+          ng-model="user.plaintext2"
+          ng-required="!user.meta.update || user.meta.setpw"
+          ng-change="change( user.plaintext2 )"
+        />
+      </div>
+    </div>
+
+    <!-- DOMAINS -->
+    <div class="form-group">
+      <label class="control-label col-lg-2" for="password">
+        Domains
+      </label>
+      <div class="col-lg-5">
+        <select
+          style="height:250px;"
+          class="form-control"
+          multiple="multiple"
+          ng-model="user.domains"
+          ng-options="d.domain as d.domain for d in domains"
+        ></select>
+      </div>
+    </div>
+
+  </form>

@@ -87,14 +87,14 @@ app.controller('UserController',[
 
 
 app.controller('UserEditCtrl',[
-'$scope', 'UserResource', 'DomainResource',
-
-function( $scope, User, Domain ) {
+'$scope', 'UserResource', 'DomainResource', 'isNew', 'userData', 'domainData',
+function( $scope, User, Domain, isNew, userData, domainData ) {
 
   $scope.meta = $scope.meta || {};
-  $scope.meta.savedChanges = false; // ?
+  $scope.meta.isNew = isNew;
 
-  $scope.domains = Domain.query();
+  $scope.domains = domainData;
+  $scope.user = userData;
   
   $scope.save = function( user ) {
 
