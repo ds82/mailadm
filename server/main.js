@@ -261,8 +261,12 @@ exports.use = function() {
 };
 
 if ( require.main === module ) {
-  console.log( '== listen on 0.0.0.0:9000' );
-  app.listen( 9000 );
+  var port   = process.env.PORT   || 9000,
+      listen = process.env.LISTEN || '0.0.0.0';
+
+  app.listen( port, listen, function() {
+    console.log( '== listen on', listen, port );
+  });
 }
 
 exports.app = app;
