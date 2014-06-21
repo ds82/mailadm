@@ -224,6 +224,19 @@ pub.domains.add = function( data, cb ) {
 
   db.insert('domains', ['domain','parent'], [data.domain,data.parent], false, cb );
 };
+
+pub.domains.get = function( id, cb ) {
+  db.fetch('domains',
+    ['domain', 'parent'],
+    'domain,parent',
+    { domain: id },
+    function( err, data ) {
+      cb( err, data.pop() );
+    }
+  );
+};
+
+
 pub.domains.update = function( data, cb ) {
 
   var domain = data._id || data.domain,

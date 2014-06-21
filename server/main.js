@@ -101,6 +101,16 @@ app.get('/domain',
     });
 });
 
+app.get('/domain/:id',
+  ensureAuthenticated,
+  function( req, res ) {
+
+  db.domains.get( req.params.id, function( err, data ) {
+    res.send( data );
+  });
+});
+
+
 app.post('/domain/:id',
   ensureAuthenticated,
   function( req, res ) {
