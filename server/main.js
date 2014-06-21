@@ -1,14 +1,15 @@
 'use strict';
 
-var express       = require('express'),
-  app             = express(),
-  server          = require('http').createServer(app),
-  io              = require('socket.io').listen(server),
-  config          = require('./config.json'),
-  db              = require('./db/db')( config.pg_connect ),
-  maildir         = require('./maildir'),
-  passport        = require('passport'),
-  LocalStrategy   = require('passport-local').Strategy;
+var argv            = require('yargs').argv,
+    express         = require('express'),
+    app             = express(),
+    server          = require('http').createServer(app),
+    io              = require('socket.io').listen(server),
+    config          = require('./config.json'),
+    db              = require('./db/db')( config.pg_connect ),
+    maildir         = require('./maildir'),
+    passport        = require('passport'),
+    LocalStrategy   = require('passport-local').Strategy;
 
 var allowCrossDomain = function( req, res, next ) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -20,6 +21,7 @@ var allowCrossDomain = function( req, res, next ) {
 };
 
 app.configure(function() {
+  app.use( express.compress() );
   app.use( express.static(__dirname + '/../app') );
   app.use( allowCrossDomain );
   app.use( express.bodyParser() );
@@ -260,13 +262,17 @@ exports.use = function() {
   app.use.apply(app, arguments);
 };
 
-if ( require.main === module ) {
-  var port   = process.env.PORT   || 9000,
-      listen = process.env.LISTEN || '0.0.0.0';
+argv.daemon;
+if ( require.main === module || argv.daemon ) {
+  var port   = argv.port   || process.env.PORT   || 9000,
+      listen = argv.listen || process.env.LISTEN || '0.0.0.0';
 
+  console.log( 'start in standalone/daemon mode...', listen, port );
   app.listen( port, listen, function() {
     console.log( '== listen on', listen, port );
   });
 }
+
+console.log( 'argv', argv );
 
 exports.app = app;

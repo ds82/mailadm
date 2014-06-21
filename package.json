@@ -11,23 +11,25 @@
     "gulp-notify": "^1.2.5",
     "gulp-notify-growl": "^1.0.1",
     "gulp-rename": "^1.2.0",
-    "gulp-uglify": "^0.2.1",
+    "gulp-uglify": "^0.3.1",
     "less": "^1.7.2",
     "node-spritesheet": "~0.4.1",
     "optimist": "^0.6.1",
-    "tiny-lr": "0.0.5"
+    "tiny-lr": "0.0.5",
+    "yargs": "^1.2.5"
   },
   "engines": {
     "node": ">=0.8.0"
   },
   "dependencies": {
     "bookshelf": "^0.6.10",
+    "colors": "~0.6.2",
     "express": "~3.4.0",
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
     "pg": "~2.1.0",
     "socket.io": "~0.9.14",
     "underscore": "~1.5.1",
-    "colors": "~0.6.2"
+    "yargs": "^1.2.5"
   }
 }

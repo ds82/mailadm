@@ -1,3 +1,4 @@
+var argv       = require('yargs').argv;
 var colors     = require('colors');
 var argv       = require('optimist').argv;
 var gulp       = require('gulp');
@@ -37,7 +38,7 @@ var defaultRequire = [
 var browserifyOpts = {
   common: {
     outfile: 'main.js',
-    debug: !gulp.env.production,
+    debug: !argv.production,
     require: defaultRequire,
     exclude: []
   }
@@ -53,7 +54,7 @@ gulp.task('browserify:common', function() {
   return gulp.src('./app/scripts/main.js')
       .pipe(rename( opts.outfile ))
       .pipe(browserify( opts ))
-      //.pipe(gulpif( !!gulp.env.production, uglify()))
+      //.pipe(gulpif( !!argv.production, uglify()))
       .on('error', function( err ) {
         console.log( err );
       })
