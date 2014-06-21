@@ -53,6 +53,6 @@ window.jQuery = require('jquery');
 
 require('./bootstrap');
 var rdy = require('./angular/rdy');
-require('./socket');
+//require('./socket');
 
 module.exports = rdy;
