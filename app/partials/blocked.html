@@ -1,60 +1,37 @@
-<h2>Blockierte und erlaubte Adressen</h2>
+<!-- sub nav -->
+<nav class="navbar navbar-fixed-top subnavbar" role="navigation">
+  <div class="container" style="padding: 0 15px;">
 
-<div class="alert alert-info">
-  Hier können Email-Adressen explizit erlaubt oder blockiert werden.
-  <br /><br />
-  Wird eine
-  Adresse explizit erlaubt (<i class="glyphicon glyphicon-ok"/>), werden Emails
-  an diese Adresse immer angenommen. Sie durchwandern weder das Greylisting,
-  noch den Policy Dienst oder sonst eine Maßnahme zur Abwehr von Spam. Dies
-  ist auch für Adressen nützlich von denen man weiß, dass der Absender einen
-  fehlerhaft konfigurierten Mailserver nutzt und man einen REJECT durch den 
-  lokalen Mailserver vermeiden möchte.
-  <br /><br />
-  Wird eine Adresse explizit blockiert (<i class="glyphicon glyphicon-ban-circle"/>)
-  werden Emails an diese Adresse immer abgelehnt. Ohne vorherige Prüfung.
-  Dies ist z.B. nützlich für Adressen die in die Hand von Spambots gefallen 
-  sind und für die unter keinen Umständen noch Emails angenommen werden sollen.
-  <br /><br />
-  Eine weitere Form des Blockierens, ist das 'Verwerfen' (<i class="glyphicon glyphicon-trash"/>).
-  Im Unterschied zum blockieren, erhält der Absender bei dieser Options keine Rückmeldung
-  darüber, dass die Email nicht angenommen wurde. Der Mailserver tut so, als würde
-  er die Email annehmen, verwirft sie aber sofort. Der Absender geht dann davon aus,
-  die Email sei zugestellt worden.
-</div>
+    <ul class="nav navbar-nav navbar-left">
+      <li>
+        
+      </li>
+    </ul>
 
-<table class="table table-bordered table-hover table-striped">
-  <tr>
-    <th>#</th>
-    <th>Adresse</th>
-    <th>Status</th>
-  </tr>
-  <tr ng-repeat="row in list">
-    <td>
-      <a href ng-click="delete(row)"><i class="glyphicon glyphicon-remove"></i></a>
-    </td>
-    <td>{{row.destination}}</td>
-    <td>
-      <a href
-        ng-click="set( row, 'OK' )"
-      ><i class="glyphicon glyphicon-ok"
-        ng-class="{ sheer: row.action !== 'OK' }"
-      ></i></a>
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <button
+         type="button"
+         class="btn btn-danger navbar-btn"
+        >
+          <span class="fa fa-ban" />
+          Cancel
+        </button>
+      </li>
+      <li>
+      <button 
+        ng-disabled="!blockedForm.$dirty || blockedForm.$invalid "
+        ng-click="submit( address )"
+        class="btn btn-primary navbar-btn"
+      >
+        <span class="fa fa-plus" />
+        Add
+      </button>
+      </li>
+    </ul>
 
-      <a href ng-click="set( row, 'REJECT' )"
-      ><i class="glyphicon glyphicon-ban-circle"
-        ng-class="{ sheer: row.action !== 'REJECT' }"
-      ></i></a>
-
-      <a href ng-click="set( row, 'DISCARD' )"
-      ><i class="glyphicon glyphicon-trash"
-        ng-class="{ sheer: row.action !== 'DISCARD' }"
-      ></i></a>
-    </td>
-  </tr>
-</table>
-
-<p><br /></p>
+  </div>
+</nav><!-- //sub nav -->
 
 <h2>Blockierte Adresse hinzufügen</h2>
 
@@ -65,7 +42,8 @@
   ng-submit="submit( address )"
 >
   <!-- DESTINATION -->
-  <div class="row form-group">    <label class="control-label col-lg-2" for="email">
+  <div class="row form-group">
+    <label class="control-label col-lg-2" for="email">
       E-Mail Adresse
     </label>
     <div class="clearfix"></div>
@@ -90,17 +68,89 @@
       ></select>
     </div>
   </div>
-
-  <!-- SUBMIT -->
-  <div class="form-group row">
-      <div class="col-lg-12 col-md-12">
-        <button ng-click="" type="button" class="btn btn-danger">Abbrechen</button>
-        <button 
-          ng-disabled="!blockedForm.$dirty || blockedForm.$invalid "
-          type="submit"
-          class="btn btn-primary"
-        >Hinzufügen</button>
-    </div>
-  </div>
-
 </form>
+
+<p><br /></p>
+
+<div class="row">
+  <div class="col-md-6 col-sm-12">
+    <h2>Blockierte und erlaubte Adressen</h2>
+  </div>
+  <div class="col-md-6 col-sm-12 headline-box">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search" ng-model="meta.search" />
+        <span class="input-group-addon"><span class="fa fa-search" /></span>
+      </div>
+  </div>
+</div>
+
+<div class="alert alert-info blocked-info" ng-hide="meta.hideInfo">
+  <button ng-click="meta.hideInfo=true;" type="button" class="close" aria-hidden="true">&times;</button>
+  Hier können Email-Adressen explizit erlaubt oder blockiert werden.
+  <br /><br />
+  Wird eine
+  Adresse explizit erlaubt (<i class="glyphicon glyphicon-ok"/>), werden Emails
+  an diese Adresse immer angenommen. Sie durchwandern weder das Greylisting,
+  noch den Policy Dienst oder sonst eine Maßnahme zur Abwehr von Spam. Dies
+  ist auch für Adressen nützlich von denen man weiß, dass der Absender einen
+  fehlerhaft konfigurierten Mailserver nutzt und man einen REJECT durch den 
+  lokalen Mailserver vermeiden möchte.
+  <br /><br />
+  Wird eine Adresse explizit blockiert (<i class="glyphicon glyphicon-ban-circle"/>)
+  werden Emails an diese Adresse immer abgelehnt. Ohne vorherige Prüfung.
+  Dies ist z.B. nützlich für Adressen die in die Hand von Spambots gefallen 
+  sind und für die unter keinen Umständen noch Emails angenommen werden sollen.
+  <br /><br />
+  Eine weitere Form des Blockierens, ist das 'Verwerfen' (<i class="glyphicon glyphicon-trash"/>).
+  Im Unterschied zum blockieren, erhält der Absender bei dieser Options keine Rückmeldung
+  darüber, dass die Email nicht angenommen wurde. Der Mailserver tut so, als würde
+  er die Email annehmen, verwirft sie aber sofort. Der Absender geht dann davon aus,
+  die Email sei zugestellt worden.
+</div>
+
+<!-- contextmenu -->
+<div contextmenu="meta.contextmenu" class="dropdown contextmenu">
+  <ul class="dropdown-menu" role="menu">
+    
+    <li role="presentation" class="dropdown-header">
+      {{ meta.contextmenu.$item.destination }}
+    </li>
+    <li role="presentation">
+
+    </li>
+    <li role="presentation">
+      <a role="menuitem" tabindex="-1" href 
+        ng-click="delete( meta.contextmenu.$item )"
+      >
+        <span>Delete</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<table class="table table-bordered table-hover table-striped" contextmenu-container="meta.contextmenu">
+  <tr>
+    <th>Adresse</th>
+    <th>Status</th>
+  </tr>
+  <tr ng-repeat="row in list | filter:meta.search" contextmenu-item="row">
+    <td>{{row.destination}}</td>
+    <td>
+      <a href
+        ng-click="set( row, 'OK' )"
+      ><i class="glyphicon glyphicon-ok"
+        ng-class="{ sheer: row.action !== 'OK' }"
+      ></i></a>
+
+      <a href ng-click="set( row, 'REJECT' )"
+      ><i class="glyphicon glyphicon-ban-circle"
+        ng-class="{ sheer: row.action !== 'REJECT' }"
+      ></i></a>
+
+      <a href ng-click="set( row, 'DISCARD' )"
+      ><i class="glyphicon glyphicon-trash"
+        ng-class="{ sheer: row.action !== 'DISCARD' }"
+      ></i></a>
+    </td>
+  </tr>
+</table>

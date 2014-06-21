@@ -11,11 +11,38 @@ app.config( function( $routeProvider ) {
       auth: true,
       showNavigation: true
     })
-    
+
+    .when('/domain/:id/edit', {
+      controller: 'DomainEditCtrl',
+      templateUrl: 'partials/domain/edit.html',
+      resolve: {
+        data: ['$route', 'DomainResource', function( $route, resource ) {
+          return resource.get({ id: $route.current.params.id }).$promise;
+        }]
+      },
+      auth: true,
+      showNavigation: true
+    })
+
+    .when('/domain/new', {
+      controller: 'DomainEditCtrl',
+      templateUrl: 'partials/domain/edit.html',
+      resolve: {
+        data: ['DomainResource', function( resource ) {
+          var domain = new resource();
+          domain.$new = true;
+          return domain;
+        }]
+      },
+      auth: true,
+      showNavigation: true
+    })
+
     .when('/user', {
       controller: 'UserController',
       templateUrl: 'partials/user/list.html',
-      resolve: {},
+      resolve: {
+      },
       auth: true,
       showNavigation: true
     })

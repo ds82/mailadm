@@ -1,54 +1,71 @@
-<h2>Domain Liste</h2>
-<table class="table table-bordered table-hover table-striped">
-	<tr>
-		<th>#</th>
-		<th>Domain</th>
-		<th>Subdomains</th>
-	</tr>
-	<tr ng-repeat="row in domains">
-		<td>
-			<a class="glyph-link" href ng-click="edit(row)">
-				<span class="glyphicon glyphicon-edit"></span></a>
-			<a class="glyph-link" href ng-click="delete(row)">
-				<span class="glyphicon glyphicon-remove"></span></a>
-		</td>
-		<td>{{row.domain}}</td>
-		<td>{{formatChilds(row.childs)}}</td>
-	</tr>
+<!-- sub nav -->
+<nav class="navbar navbar-default navbar-fixed-top subnavbar" role="navigation">
+  <div class="container" style="padding: 0 15px;">
+
+    <ul class="nav navbar-nav navbar-left">
+      <li>
+        
+      </li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        &nbsp;
+      </li>
+      <li>
+        <button type="button" class="btn btn-primary navbar-btn">Add Domain</button>
+      </li>
+    </ul>
+
+  </div>
+</nav><!-- //sub nav -->
+
+<!-- contextmenu -->
+<div contextmenu="meta.contextmenu" class="dropdown contextmenu">
+  <ul class="dropdown-menu" role="menu">
+    
+    <li role="presentation" class="dropdown-header">
+      {{ meta.contextmenu.$item.domain }}
+    </li>
+    <li role="presentation">
+      <a role="menuitem" tabindex="-1" href
+         ng-href="#/domain/{{ meta.contextmenu.$item.domain }}/edit"
+      >
+        <span class="fa fa-edit" />
+        <span>Edit</span>
+      </a>
+    </li>
+    <li role="presentation">
+      <a tabindex="-1" href 
+        ng-click="delete( meta.contextmenu.$item )"
+      >
+        <span class="fa fa-trash-o" />
+        <span>Delete</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+<div class="row">
+  <div class="col-md-6 col-sm-12">
+    <h2>List of domains</h2>
+  </div>
+  <div class="col-md-6 col-sm-12 headline-box">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search" ng-model="meta.search" />
+        <span class="input-group-addon"><span class="fa fa-search" /></span>
+      </div>
+  </div>
+</div>
+
+<table class="table table-bordered table-hover table-striped" contextmenu-container="meta.contextmenu">
+  <tr>
+    <th>Domain</th>
+    <th>Subdomains</th>
+  </tr>
+  <tr ng-repeat="row in domains | filter:meta.search" contextmenu-item="row">
+    <td>{{row.domain}}</td>
+    <td>{{formatChilds(row.childs)}}</td>
+  </tr>
 </table>
-
-<p><br /></p>
-
-<h2>Domain hinzufügen</h2>
-<form name="domain" class="form-horizontal" ng-submit="save( dom )">
-	<div class="form-group">
-		<label class="control-label col-lg-2" for="domain">
-			Domain
-		</label>
-		<div class="col-lg-5">
-			<input class="form-control" type="text" placeholder="Domain" ng-model="dom.domain">
-		</div>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-lg-2" for="domain">
-			Hauptdomain
-		</label>
-		<div class="col-lg-5">
-			<select
-				class="form-control"
-				ng-model="dom.parent"
-				ng-options="d.domain as d.domain for d in domains | parentDomain"
-			></select>
-		</div>
-	</div>
-	<div class="form-group">
-		<div class="col-lg-5 col-lg-offset-2">
-			<button ng-show="dom.meta.update" type="submit" class="btn btn-primary">Aktualisieren</button>
-			<button ng-hide="dom.meta.update" type="submit" class="btn btn-primary">Hinzufügen</button>
-		</div>
-	</div>
-</form>
-
-<pre>
-{{ domains | json }}
-</pre>

@@ -7,7 +7,7 @@
 require('./misc/401-interceptor');
 
 // DIRECTIVES
-require('./directive/contextmenu');
+
 
 // SERVICES
 require('./services/domain');

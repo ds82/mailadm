@@ -71,3 +71,9 @@ app.controller('DomainController',[
     };
 
 }]);
+
+app.controller('DomainEditCtrl', ['$scope', 'data', function( $scope, data ) {
+  
+  $scope.model = {};
+  $scope.model.dom = data;
+}]);

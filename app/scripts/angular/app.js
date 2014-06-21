@@ -12,9 +12,10 @@ var app = angular.module('app', [
   'ngResource',
   'ngRoute',
   'ngCookies',
-  'ngAnimate-animate.css',
+  'ngAnimate',
   'pascalprecht.translate',
-  'frapontillo.bootstrap-switch'
+  'frapontillo.bootstrap-switch',
+  'io.dennis.contextmenu'
 ]);
 
 module.exports = app;

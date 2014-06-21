@@ -1,5 +1,5 @@
 <!-- sub nav -->
-<nav class="navbar navbar-default navbar-fixed-top subnavbar" role="navigation">
+<nav class="navbar navbar-fixed-top subnavbar" role="navigation">
   <div class="container" style="padding: 0 15px;">
 
     <ul class="nav navbar-nav navbar-left">
@@ -9,15 +9,9 @@
     </ul>
 
     <ul class="nav navbar-nav navbar-right">
+      <li></li>
       <li>
-<!--         <button 
-          type="button"
-          ng-click="create();"
-          class="btn btn-danger navbar-btn"
-        >Abbrechen</button> -->
-      </li>
-      <li>
-        <button type="button" class="btn btn-success navbar-btn">Hinzufügen</button>
+        <button type="button" class="btn btn-primary navbar-btn">Add User</button>
       </li>
     </ul>
 
@@ -35,14 +29,14 @@
       <a role="menuitem" tabindex="-1" href
          ng-href="#/user/{{ meta.contextmenu.$item.email }}/edit"
       >
-        <span>Bearbeiten</span>
+        <span>Edit</span>
       </a>
     </li>
     <li role="presentation">
       <a role="menuitem" tabindex="-1" href 
         ng-click="delete( meta.contextmenu.$item )"
       >
-        <span>Löschen</span>
+        <span>Delete</span>
       </a>
     </li>
   </ul>
@@ -57,43 +51,19 @@
   </div>
   <table class="table table-hover table-striped table-bordered" contextmenu-container="meta.contextmenu">
     <tr>
-      <th>aktiv</th>
-      <th>Administrator</th>
+      <th>&nbsp;</th>
       <th>Benutzer</th>
       <th>Domains</th>
-      <th>Maildir</th>
+      <th>&nbsp;</th>
     </tr>
     <tr ng-repeat="row in data" contextmenu-item="row">
-      <td>
-        <input
-          type="checkbox"
-          bs-switch
-          switch-size="small"
-          switch-on-color="success"
-          switch-off-color="danger"
-          ng-change="set(row)"
-          ng-model="row.enabled"
-      /></td>
-      <td>
-        <input
-          type="checkbox"
-          bs-switch
-          switch-size="small"
-          switch-on-color="success"
-          switch-off-color="danger"
-          ng-change="set(row)"
-          ng-model="row.is_admin"
-        /></td>
+      <td class="col-center">
+        <span class="fa fa-star" ng-show="row.is_admin" />
+      </td>
       <td>{{row.email}}</td>
       <td>{{row.domains.join(', ')}}</td>
-      <td>
-        <i
-          class="glyphicon"
-          ng-class="{
-            'glyphicon-inbox': user.maildirCheck.isMaildir,
-            'glyphicon-minus-sign': !user.maildirCheck.isMaildir
-          }"
-        />
+      <td class="col-center">
+        <span class="fa fa-warning" ng-show="!user.maildirCheck.isMaildir" />
       </td>
     </tr>
   </table>
