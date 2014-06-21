@@ -1,1 +1,9 @@
+# actually all deps in thridparty should be ignored
+# until all deps (possible) use bower, specific packages are ignored
+
 angular/
+angular-route/
+angular-resource/
+angular-cookies/
+angular-animate/
+font-awesome/
