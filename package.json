@@ -28,6 +28,7 @@
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
     "pg": "~2.1.0",
+    "sequelize": "^1.7.9",
     "socket.io": "~0.9.14",
     "underscore": "~1.5.1",
     "yargs": "^1.2.5"

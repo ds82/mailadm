@@ -1,4 +1,51 @@
 'use strict';
+var config = require('../config.json');
+var Sequelize = require('sequelize'),
+    sequelize = new Sequelize( config.db.db, config.db.user, config.db.password, {
+      host: config.db.host,
+      dialect: 'postgres',
+      schema: 'public',
+      define: {
+        freezeTableName: true
+      }
+    });
+
+var crypto = require('crypto');
+
+
+var db = {};
+db._model = {};
+db._views = {};
+db._q = Sequelize.Promise;
+db._collection = {};
+db.sql = sequelize;
+
+db._model.users = sequelize.define('users', {
+  email: { type: Sequelize.STRING(80), primaryKey: true },
+  password: Sequelize.STRING(32),
+  enabled: Sequelize.BOOLEAN,
+  is_admin: Sequelize.BOOLEAN,
+  access: Sequelize.ARRAY(Sequelize.STRING(200))
+}, {
+  tableName: 'users',
+  createdAt: false,
+  updatedAt: false,
+  freezeTableName: true,
+  //schema: 'public',
+  
+ instanceMethods: {
+  auth: function( password ) {
+    var hash = crypto.createHash('md5').update( password ).digest('hex');
+    return ( password === hash );
+  }
+ }
+});
+
+// db._model.users.findAll().then(function( users ) {
+//  console.log( JSON.stringify( users ));
+// });
+
+// OLD, WITHOUT ORM MAPPER
 var
   pub       = {},
   priv      = {},
