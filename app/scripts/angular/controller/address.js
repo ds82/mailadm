@@ -36,13 +36,27 @@ function prepareEdit( addr ) {
   return addr;
 }
 
-return app.controller('AddressController', [
+
+app.filter('splitBySpace', function() {
+  return function( input ) {
+    input = input || [];
+    return input.split( ' ' ).join(', ');
+  }
+});
+
+app.controller('AddressListCtrl', ['$scope', 'data', function( $scope, data ) {
+  $scope.list = data;
+
+}]);
+ 
+app.controller('AddressEditCtrl', [
   '$scope',
   'AddressResource',
   'UserResource',
   'DomainResource',
+  'address',
 
-  function( $scope, Address, User, Domain ) {
+  function( $scope, Address, User, Domain, address ) {
 
     function newAddress() {
       var address = new Address();
@@ -54,7 +68,7 @@ return app.controller('AddressController', [
 
     $scope.meta = {};
     $scope.addresses = Address.query();
-    $scope.address = newAddress();
+    $scope.address = address;
     $scope.users = User.query();
     $scope.domains = Domain.query();
     $scope.selectedDomain = '';

@@ -78,13 +78,31 @@ app.config( function( $routeProvider ) {
     })
 
     .when('/address', {
-      controller: 'AddressController',
-      templateUrl: 'partials/address.html',
-      resolve: {},
+      controller: 'AddressListCtrl',
+      templateUrl: 'partials/address/list.html',
+      resolve: {
+        data: ['AddressResource', function( resource ) {
+          return resource.query().$promise;
+        }]
+      },
       auth: true,
       showNavigation: true
 
     })
+
+    .when('/address/:id/edit', {
+      controller: 'AddressEditCtrl',
+      templateUrl: 'partials/address/edit.html',
+      resolve: {
+        address: ['$route', 'AddressResource', function( $route, resource ) {
+          return resource.get({ id: $route.current.params.id }).$promise;
+        }]
+      },
+      auth: true,
+      showNavigation: true
+
+    })
+
     .when('/login', {
       controller: 'LoginController',
       templateUrl: 'partials/login.html',

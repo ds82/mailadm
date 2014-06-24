@@ -1,4 +1,34 @@
-<h2>Adressen</h2>
+<!-- sub nav -->
+<nav class="navbar navbar-fixed-top subnavbar" role="navigation">
+  <div class="container">
+
+    <ul class="nav navbar-nav navbar-left">
+      <li>
+        
+      </li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <button
+          ng-click=""
+          type="button"
+          class="btn btn-danger navbar-btn"
+        ><span class="fa fa-remove" /> Abbrechen</button>
+      </li>
+      <li>
+        <button
+          ng-disabled="!addressForm.$dirty || addressForm.$invalid "
+          type="submit"
+          class="btn btn-primary navbar-btn"
+        ><span class="fa fa-plus" /> Add</button>
+      </li>
+    </ul>
+
+  </div>
+</nav><!-- //sub nav -->
+
+<!-- <h2>Adressen</h2>
 
 <h3>Domain wählen</h3>
 <p>
@@ -37,13 +67,11 @@
       <td>{{row.destination}}</td>
     </tr>
   </table>
-</div>
+</div> -->
 
 <!-- <p><br /></p> -->
 
-<h2>Adresse hinzufügen/bearbeiten</h2>
-
-<!-- <pre>{{user | json}}</pre> -->
+<h2>Edit address</h2>
 
 <!-- ALERTS -->
 <div 
@@ -67,7 +95,7 @@
     <label class="control-label col-lg-12 col-md-12" for="email">
       Adresse
     </label>
-    <div class="col-lg-6 col-md-6">
+    <div class="col-md-5">
       <div class="input-group">
         <input
           type="text"
@@ -80,13 +108,16 @@
         /><span class="input-group-addon">@</span>
       </div>
     </div>
-    <div class="col-lg-6 col-md-6">
+    <div class="col-md-5">
       <select
         class="form-control"
         ng-model="address.domain"
         ng-options="d.domain as d.domain for d in domains"
         required
       ></select>
+    </div>
+    <div class="col-md-2">
+
     </div>
   </div>
 
@@ -127,14 +158,6 @@
           <i class="glyphicon glyphicon-eye-open" />
           Policyd aktivieren
         </label>
-    </div>
-  </div>
-
-  <!-- SUBMIT -->
-  <div class="form-group">
-      <div class="">
-        <button ng-click="" type="button" class="btn btn-danger">Abbrechen</button>
-        <button ng-disabled="!addressForm.$dirty || addressForm.$invalid " type="submit" class="btn btn-success">Hinzufügen</button>
     </div>
   </div>
 
