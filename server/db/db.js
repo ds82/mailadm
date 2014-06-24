@@ -13,14 +13,14 @@ var Sequelize = require('sequelize'),
 var crypto = require('crypto');
 
 
-var db = {};
-db._model = {};
-db._views = {};
-db._q = Sequelize.Promise;
-db._collection = {};
-db.sql = sequelize;
+var sequelDb = {};
+sequelDb._model = {};
+sequelDb._views = {};
+sequelDb._q = Sequelize.Promise;
+sequelDb._collection = {};
+sequelDb.sql = sequelize;
 
-db._model.users = sequelize.define('users', {
+sequelDb._model.users = sequelize.define('users', {
   email: { type: Sequelize.STRING(80), primaryKey: true },
   password: Sequelize.STRING(32),
   enabled: Sequelize.BOOLEAN,
@@ -41,8 +41,33 @@ db._model.users = sequelize.define('users', {
  }
 });
 
-// db._model.users.findAll().then(function( users ) {
+sequelDb._model.forward = sequelize.define('forward', {
+  source:             { type: Sequelize.STRING(80), primaryKey: true },
+  destination:        Sequelize.TEXT,
+  enable_greylisting: Sequelize.BOOLEAN,
+  enable_policyd:     Sequelize.BOOLEAN,
+
+}, {
+  tableName: 'forward',
+  createdAt: false,
+  updatedAt: false,
+  freezeTableName: true,
+  //schema: 'public',
+  
+ instanceMethods: {
+ }
+});
+
+// sequelDb._model.users.findAll().then(function( users ) {
 //  console.log( JSON.stringify( users ));
+// });
+
+// sequelDb._model.forward.findAll().then(function( data ) {
+//  console.log( JSON.stringify( data ));
+// });
+
+// sequelDb._model.forward.find('mail@dennis.io').then(function( data ) {
+//  console.log( JSON.stringify( data ));
 // });
 
 // OLD, WITHOUT ORM MAPPER
@@ -528,4 +553,5 @@ var connect = function( auth ) {
   return pub;
 };
 
-module.exports = connect;
+module.exports.legacy = connect;
+module.exports.db = sequelDb;

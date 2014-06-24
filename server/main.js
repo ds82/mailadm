@@ -6,7 +6,9 @@ var argv            = require('yargs').argv,
     server          = require('http').createServer(app),
     io              = require('socket.io').listen(server),
     config          = require('./config.json'),
-    db              = require('./db/db')( config.pg_connect ),
+    dbmod           = require('./db/db'),
+    db              = dbmod.legacy( config.pg_connect ),
+    sequel          = dbmod.db,
     maildir         = require('./maildir'),
     passport        = require('passport'),
     LocalStrategy   = require('passport-local').Strategy;
@@ -188,6 +190,16 @@ app.get('/address',
     db.address.query( function( err, data ) {
       res.send( data );
     });
+});
+
+app.get('/address/:id',
+  ensureAuthenticated,
+  function( req, res ) {
+
+  console.log( '/address/:id', req.params.id );
+  sequel._model.forward.find( req.params.id ).then(function( data ) {
+    res.send( data );
+  });
 });
 
 app.post('/address/:id?',
