@@ -82,9 +82,11 @@ function ensureAuthenticated( req, res, next ) {
   }
 
   if ( req.isAuthenticated() ) {
+    res.header( 'authenticated', true );
     return next();
   } else {
-    res.send( 401 );
+
+    res.status( 401 );
     res.end();
     return;
   }
