@@ -19,7 +19,8 @@ app.factory('UserResource', [
     });
 }]);
 
-app.factory('UserSession', ['$cookieStore', function( $cookieStore ) {
+app.factory('UserSession', ['$cookieStore', '$location',
+function( $cookieStore, $location ) {
 
   var service = {};
 
@@ -28,12 +29,21 @@ app.factory('UserSession', ['$cookieStore', function( $cookieStore ) {
   };
 
   service.isUserLoggedIn = function() {
-    return ( $cookieStore.get( 'user' ) != null );
+    //console.log( 'service.isUserLoggedIn', $location.path(), $cookieStore.get( 'user' ));
+    var atLogin = $location.path().match(/\/?login.*/);
+    return !atLogin && angular.isDefined( $cookieStore.get( 'user' ));
   };
 
   service.getUser = function() {
-    var str = $cookieStore.get( 'user' );
-    return ( str ) ? JSON.parse( str ) : {};
+    var str = $cookieStore.get( 'user' ),
+        data;
+    
+    try {
+      data = JSON.parse( str );
+    } catch ( e ) {
+      data = {};
+    }
+    return data;
   };
 
   return service;
