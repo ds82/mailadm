@@ -93,7 +93,7 @@
   <!-- SOURCE -->
   <div class="form-group row">
     <label class="control-label col-lg-12 col-md-12" for="email">
-      Adresse
+      Source
     </label>
     <div class="col-md-5">
       <div class="input-group">
@@ -117,47 +117,49 @@
       ></select>
     </div>
     <div class="col-md-2">
+      <button 
+        class="btn"
+        type="button"
+        ng-model="address.enable_greylisting"
+        btn-toggle
+        data-toggle="tooltip"
+        data-placement="top"
+        title="enable greylisting"
+      ><span class="fa fa-repeat" /></button>
 
+      <button 
+        class="btn"
+        type="button"
+        ng-model="address.enable_policyd"
+        btn-toggle
+        data-toggle="tooltip"
+        data-placement="top"
+        title="enable policyd"
+      ><span class="fa fa-eye" /></button>
     </div>
   </div>
 
   <!-- DESTINATION -->
-  <div class="form-group">
-    <label class="control-label" for="">
-      Ziel
-      <a href ng-click="addDestination( address )"><i class="glyphicon glyphicon-plus" /></a>
+  <div class="form-group row">
+    <label class="control-label col-md-12" for="">
+      Target
     </label>
-    <div class="">
-      <p ng-repeat="a in address.destinationsAsList track by $index">
-      <select
-        class="form-control"
-        ng-model="address.destinationsAsList[$index]"
-        ng-options="u.email as u.email for u in users"
-        required
-      ></select>
-    </p>
-    </div>
-  </div>
-
-  <!-- GREYLISTING -->
-  <div class="form-group">
-      <div class="">
-        <label class="checkbox">
-          <input type="checkbox" ng-model="address.enable_greylisting" />
-          <i class="glyphicon glyphicon-refresh" />
-          Greylisting aktivieren
-        </label>
-    </div>
-  </div>
-
-  <!-- POLICYD -->
-  <div class="form-group">
-      <div class="">
-        <label class="checkbox">
-          <input type="checkbox" ng-model="address.enable_policyd" />
-          <i class="glyphicon glyphicon-eye-open" />
-          Policyd aktivieren
-        </label>
+    <div class="col-md-10" ng-repeat="alias in address.alias">
+      <div class="input-group">
+        <span class="input-group-btn">
+          <button class="btn btn-danger" type="button">
+            <span class="fa fa-times" />
+          </button>
+        </span><input
+          type="text"
+          class="form-control"
+          placeholder="Destination"
+          name="alias"
+          ng-model="alias"
+          ng-pattern="/^([a-z0-9-\.]+|\*)$/"
+          required
+        />
+      </div>
     </div>
   </div>
 
