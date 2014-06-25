@@ -187,7 +187,7 @@ app.get('/address',
   ensureAuthenticated,
   function( req, res ) {
 
-    db.address.query( function( err, data ) {
+    sequel._model.forward.findAll().then(function( data ) {
       res.send( data );
     });
 });
