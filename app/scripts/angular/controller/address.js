@@ -77,7 +77,12 @@ app.controller('AddressEditCtrl', [
     $scope.domains = domains;
 
     $scope.save = function( address ) {
-      console.log( 'save', address, address.destination );
+
+      address.$save(function( res ) {
+        console.log( 'DONE' );
+      }, function( err ) {
+        console.log( 'ERR' );
+      });
     };
 
     $scope.destination = {};
