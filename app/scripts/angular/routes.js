@@ -96,6 +96,9 @@ app.config( function( $routeProvider ) {
       resolve: {
         address: ['$route', 'AddressResource', function( $route, resource ) {
           return resource.get({ id: $route.current.params.id }).$promise;
+        }],
+        domains: ['DomainResource', function( resource ) {
+          return resource.query().$promise;
         }]
       },
       auth: true,

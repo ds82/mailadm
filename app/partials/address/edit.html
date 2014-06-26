@@ -14,12 +14,13 @@
           ng-click=""
           type="button"
           class="btn btn-danger navbar-btn"
-        ><span class="fa fa-remove" /> Abbrechen</button>
+        ><span class="fa fa-times" /> Cancel</button>
       </li>
       <li>
         <button
           ng-disabled="!addressForm.$dirty || addressForm.$invalid "
-          type="submit"
+          type="button"
+          ng-click="save( address )"
           class="btn btn-primary navbar-btn"
         ><span class="fa fa-plus" /> Add</button>
       </li>
@@ -101,8 +102,8 @@
           type="text"
           class="form-control"
           placeholder="Alias"
-          name="alias"
-          ng-model="address.alias"
+          name="source"
+          ng-model="address.$alias"
           ng-pattern="/^([a-z0-9-\.]+|\*)$/"
           required
         /><span class="input-group-addon">@</span>
@@ -111,7 +112,7 @@
     <div class="col-md-5">
       <select
         class="form-control"
-        ng-model="address.domain"
+        ng-model="address.$domain"
         ng-options="d.domain as d.domain for d in domains"
         required
       ></select>
@@ -144,23 +145,31 @@
     <label class="control-label col-md-12" for="">
       Target
     </label>
-    <div class="col-md-10" ng-repeat="alias in address.alias">
+    <div class="col-md-10 margin-bottom-sm"
+        ng-repeat="(i, dest) in address.destination track by $index">
       <div class="input-group">
         <span class="input-group-btn">
-          <button class="btn btn-danger" type="button">
+          <button ng-click="destination.remove(i)" class="btn btn-danger" type="button">
             <span class="fa fa-times" />
           </button>
         </span><input
           type="text"
           class="form-control"
           placeholder="Destination"
-          name="alias"
-          ng-model="alias"
-          ng-pattern="/^([a-z0-9-\.]+|\*)$/"
-          required
-        />
+          ng-model="address.destination[i]"
+          name="destination"
+          
+        >
+<!--ng-pattern="/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/gi"-->
+
       </div>
     </div>
   </div>
 
 </form>
+
+<!-- 
+<pre>{{ address |json }}</pre>
+
+<pre>{{ domains |json }}</pre>
+ -->

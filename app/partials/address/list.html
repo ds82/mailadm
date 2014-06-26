@@ -87,7 +87,7 @@
       {{ row.source }}
     </td>
     <td>
-      {{ row.destination | splitBySpace }}
+      {{ row.destination.join(', ') }}
     </td>
   </tr>
 </table>

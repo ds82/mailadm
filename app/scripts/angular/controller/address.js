@@ -4,6 +4,7 @@
  * @author Dennis Sänger, 2013
  */
 var $   = require('jquery'),
+    $u  = require('underscore'),
     app = require('app');
 
 function makeSource( alias, domain ) {
@@ -51,86 +52,112 @@ app.controller('AddressListCtrl', ['$scope', 'data', function( $scope, data ) {
  
 app.controller('AddressEditCtrl', [
   '$scope',
-  'AddressResource',
-  'UserResource',
-  'DomainResource',
+  // 'AddressResource',
+  // 'UserResource',
+  // 'DomainResource',
   'address',
+  'domains',
 
-  function( $scope, Address, User, Domain, address ) {
+  function( $scope, address, domains ) {
 
-    function newAddress() {
-      var address = new Address();
-      address.enable_greylisting = false;
-      address.enable_policyd = false;
-      address.destinationsAsList = [''];
-      return address;
-    }
-
-    $scope.meta = {};
-    $scope.addresses = Address.query();
     $scope.address = address;
-    $scope.users = User.query();
-    $scope.domains = Domain.query();
-    $scope.selectedDomain = '';
+    var split = $scope.address.source.split( '@' );
+    $scope.address.$alias = split[0];
+    $scope.address.$domain = split[1];
 
-    $scope.filterByDomain = function( row ) {
-      
-      if ( $scope.selectedDomain === '-' ) {
-        return false;
+    $scope.$watchCollection( 'address.destination', function( list ) {
+      if ( list ) {
+        var hasEmpty = $u.contains( list, '' );
+        if ( !hasEmpty ) {
+          $scope.address.destination.push('');
+        }
       }
-      var filter = new RegExp( '.*@' + $scope.selectedDomain );
-      return filter.test( row.source ) || filter.test( row.destination );
+    });
+
+    $scope.domains = domains;
+
+    $scope.save = function( address ) {
+      console.log( 'save', address, address.destination );
     };
 
-    $scope.submit = function( addr ) {
-      $scope.save( addr, function( err, result ) {
+    $scope.destination = {};
+    $scope.destination.remove = function( entry ) {
+      $scope.address.destination.splice( entry, 1 );
+    };
+
+    // function newAddress() {
+    //   var address = new Address();
+    //   address.enable_greylisting = false;
+    //   address.enable_policyd = false;
+    //   address.destinationsAsList = [''];
+    //   return address;
+    // }
+
+    // $scope.meta = {};
+    // $scope.addresses = Address.query();
+    // $scope.address = address;
+    // $scope.users = User.query();
+    // $scope.domains = Domain.query();
+    // $scope.selectedDomain = '';
+
+    // $scope.filterByDomain = function( row ) {
+      
+    //   if ( $scope.selectedDomain === '-' ) {
+    //     return false;
+    //   }
+    //   var filter = new RegExp( '.*@' + $scope.selectedDomain );
+    //   return filter.test( row.source ) || filter.test( row.destination );
+    // };
+
+    // $scope.submit = function( addr ) {
+    //   $scope.save( addr, function( err, result ) {
         
-        $scope.meta.addressCreated = true;
-        $scope.address = newAddress();
-      })
-    };
+    //     $scope.meta.addressCreated = true;
+    //     $scope.address = newAddress();
+    //   })
+    // };
 
-    $scope.save = function( address, cb ) {
+    // $scope.save = function( address, cb ) {
 
-      address.source = makeSource( address.alias, address.domain );
-      address.destination = makeDestination( address );
-      address.$save( function( res ) {
+    //   address.source = makeSource( address.alias, address.domain );
+    //   address.destination = makeDestination( address );
+    //   address.$save( function( res ) {
 
-        if ( !address.meta.update ) {
-          $scope.addresses.push( address );
-        }
+    //     if ( !address.meta.update ) {
+    //       $scope.addresses.push( address );
+    //     }
 
-        if ( cb ) {
-          cb( null, res );
-        }
-      });
-    };
+    //     if ( cb ) {
+    //       cb( null, res );
+    //     }
+    //   });
+    // };
 
-    $scope.edit = function( address ) {
+    // $scope.edit = function( address ) {
 
-      address = prepareEdit( address );
-      $scope.address = address;
-    };
+    //   address = prepareEdit( address );
+    //   $scope.address = address;
+    // };
 
-    $scope.addDestination = function( addr ) {
-      addr.destinationsAsList.push('');
-    };
+    // $scope.addDestination = function( addr ) {
+    //   addr.destinationsAsList.push('');
+    // };
 
-    $scope.toggleGreylisting = function( addr ) {
-      addr = prepareEdit( addr );
-      addr.enable_greylisting = !addr.enable_greylisting;
-      $scope.save( addr );
-    };
+    // $scope.toggleGreylisting = function( addr ) {
+    //   addr = prepareEdit( addr );
+    //   addr.enable_greylisting = !addr.enable_greylisting;
+    //   $scope.save( addr );
+    // };
 
-    $scope.togglePolicyd = function( addr ) {
-      addr = prepareEdit( addr );
-      addr.enable_policyd = !addr.enable_policyd;
-      $scope.save( addr );
-    };
+    // $scope.togglePolicyd = function( addr ) {
+    //   addr = prepareEdit( addr );
+    //   addr.enable_policyd = !addr.enable_policyd;
+    //   $scope.save( addr );
+    // };
 
-    $scope.delete = function( address ) {
-      address.$delete( function() {
-        $scope.addresses.delete( address );
-      });
-    };
+    // $scope.delete = function( address ) {
+    //   address.$delete( function() {
+    //     $scope.addresses.delete( address );
+    //   });
+    // };
 }]);
