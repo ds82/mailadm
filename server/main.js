@@ -11,7 +11,8 @@ var argv            = require('yargs').argv,
     sequel          = dbmod.db,
     maildir         = require('./maildir'),
     passport        = require('passport'),
-    LocalStrategy   = require('passport-local').Strategy;
+    LocalStrategy   = require('passport-local').Strategy,
+    nstoreSession   = require('nstore-session');
 
 var allowCrossDomain = function( req, res, next ) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -29,7 +30,7 @@ app.configure(function() {
   app.use( express.bodyParser() );
   app.use( express.cookieParser() );
   app.use( express.methodOverride() );
-  app.use( express.session({ secret: 'keyboard cat' }) );
+  app.use( express.session({ secret: 'keyboard cat', store: new nstoreSession() } ));
   // Initialize Passport!  Also use passport.session() middleware, to support
   // persistent login sessions (recommended).
   app.use( passport.initialize() );

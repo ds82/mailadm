@@ -31,6 +31,7 @@
     "sequelize": "^1.7.9",
     "socket.io": "~0.9.14",
     "underscore": "~1.5.1",
-    "yargs": "^1.2.5"
+    "yargs": "^1.2.5",
+    "nstore-session": "git://github.com/ds82/nstore-session.git#40df9de00092e9d73fa9df46d0bba42b254ac401"
   }
 }
