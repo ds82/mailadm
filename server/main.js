@@ -9,6 +9,7 @@ var argv            = require('yargs').argv,
     dbmod           = require('./db/db'),
     db              = dbmod.legacy( config.pg_connect ),
     sequel          = dbmod.db,
+    model           = dbmod.extensions,
     maildir         = require('./maildir'),
     passport        = require('passport'),
     LocalStrategy   = require('passport-local').Strategy,
@@ -188,7 +189,7 @@ app.get('/address',
   ensureAuthenticated,
   function( req, res ) {
 
-    sequel._model.forward.findAll().then(function( data ) {
+    model.address.find( req.query.search ).then(function( data ) {
       res.send( data );
     });
 });
@@ -208,8 +209,8 @@ app.post('/address/:id?',
   ensureAuthenticated,
   function( req, res ) {
 
-    db.address.save( req.body, function( err, data ) {
-      res.send( req.body );
+    model.address.save( req.body ).then(function( data ) {
+      res.send( data );
     });
 });
 

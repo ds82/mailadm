@@ -58,6 +58,11 @@ sequelDb._model.forward = sequelize.define('forward', {
  }
 });
 
+var extensions = {};
+['address'].forEach(function( module ) {
+  extensions[module] = require( './' + module ).init( sequelDb );
+});
+
 // sequelDb._model.users.findAll().then(function( users ) {
 //  console.log( JSON.stringify( users ));
 // });
@@ -555,3 +560,4 @@ var connect = function( auth ) {
 
 module.exports.legacy = connect;
 module.exports.db = sequelDb;
+module.exports.extensions = extensions;
