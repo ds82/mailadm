@@ -45,8 +45,43 @@ app.filter('splitBySpace', function() {
   }
 });
 
-app.controller('AddressListCtrl', ['$scope', 'data', function( $scope, data ) {
+app.controller('AddressListCtrl', ['AddressResource', '$scope', 'data',
+function( Address, $scope, data ) {
   $scope.list = data;
+
+  $scope.meta ={};
+  $scope.meta.isLoading = false;
+  $scope.meta.search = '';
+  $scope.meta.filter = {};
+
+  function makeQuery() {
+    var query = '',
+        filter = $scope.meta.filter || {},
+        search = $scope.meta.search || '';
+
+    for( var k in filter ) {
+      var list = filter[k] || [];
+      for( var i = 0, ii = list.length; i < ii; ++i ) {
+        query += '#' + k + '=' + list[i] + ' ';
+      }
+    }
+
+    return query + search;
+  }
+
+  var search = function() {
+
+    $scope.meta.isLoading = true;
+    var query = makeQuery();
+    $scope.list = [];
+
+    Address.query({ search: query }, function( data ) {
+      $scope.list = data;
+      $scope.meta.isLoading = false;
+    });
+  };
+
+  $scope.search = $u.debounce( search, 500 );
 
 }]);
  

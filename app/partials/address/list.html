@@ -35,14 +35,21 @@
   <div class="col-md-6 col-sm-12">
     <div class="form-group h2-box">
       <div class="input-group">
-        <input 
-          placeholder="Suche"
-          type="text"
-          class="form-control"
-          ng-model="meta.search"
-          ng-change="search( meta.search )"
-          autofocus="autofocus"
-        >
+        <div class="search-with-tags">
+          <div class="tags">
+            <!-- <span class="label label-info">Tag</span> -->
+          </div>
+          <div class="search">
+            <input 
+              placeholder="Suche"
+              type="text"
+              class="form-control-invisible"
+              ng-model="meta.search"
+              ng-change="search( meta.search )"
+              autofocus="autofocus"
+            >
+          </div>
+        </div>
         <span class="input-group-addon">
           <i class="fa fa-search"></i>
         </span>

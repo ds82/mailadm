@@ -68,6 +68,49 @@ a.glyph-link .glyphicon {
   text-align: center;
 }
 
+.form-control-invisible {
+  border: 0;
+  outline: 0;
+  &:focus {
+    outline: 0;
+  }
+}
+
+.input-group {
+  .search-with-tags:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .search-with-tags:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+}
+
+.search-with-tags {
+  .form-control();
+  display: table;
+  width: 100%;
+  
+  .tags, .search {
+    display: table-cell;
+  }
+  .tags {
+    width: 1px;
+    span:last-child {
+      margin-right: 5px;
+    }
+  }
+  .search, input {
+    width: 100%;
+  }
+}
+
+
+
+
+
 pre {
   font-size: (@font-size-base + 3);
 }
