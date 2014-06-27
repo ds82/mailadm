@@ -12,7 +12,7 @@
     "gulp-notify-growl": "^1.0.1",
     "gulp-rename": "^1.2.0",
     "gulp-uglify": "^0.3.1",
-    "less": "^1.7.2",
+    "less": "^1.7.3",
     "node-spritesheet": "~0.4.1",
     "optimist": "^0.6.1",
     "tiny-lr": "0.0.5",
