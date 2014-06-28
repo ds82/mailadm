@@ -56,7 +56,7 @@
         </div>
         <div class="search-with-tags">
           <div class="tags">
-            <a class="label label-info" ng-repeat="(filter, values) in meta.filter">
+            <a href class="label label-info" ng-repeat="(filter, values) in meta.filter">
               &times; {{ filter }}: {{ values.join(', ') }}
             </a>
           </div>
@@ -74,7 +74,9 @@
           </div>
         </div>
         <span class="input-group-addon">
-          <i class="fa fa-search"></i>
+          <a href ng-click="search( meta.search )">
+            <i class="fa fa-search"></i>
+          </a>
         </span>
       </div>
     </div>
@@ -106,7 +108,7 @@
 </div>
 
 <!-- table -->
-<table class="table table-striped table-bordered" contextmenu-container="meta.contextmenu">
+<table class="table table-striped table-hover table-bordered" contextmenu-container="meta.contextmenu">
   <tr>
     <th>
       Source
@@ -127,4 +129,4 @@
 </table>
 
 
-<pre>{{ list | json }}</pre>
+<!-- <pre>{{ list | json }}</pre> -->
