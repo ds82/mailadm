@@ -69,8 +69,10 @@ module.exports.init = function( db ) {
     address.destination = $u.unique( address.destination );
 
     console.log( 'address.save', address );
-
-    return db._model.forward.update( address, { source: address.source });
+    return db._model.forward.findOrCreate({ source: address.source })
+      .then(function( forward ) {
+        return forward.updateAttributes( address );
+      });
   };
 
 

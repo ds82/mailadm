@@ -36,6 +36,13 @@ body { padding-top: 125px; }
   .navbar-left li {
     margin-right: 5px;
   }
+
+  .navbar-nav > li > a.btn {
+    padding: 10px 15px;
+    &:hover {
+      background-color: @brand-primary;
+    }
+  }
 }
 
 .h2-box {
@@ -101,7 +108,7 @@ a.glyph-link .glyphicon {
   .tags {
     width: 1px;
     a {
-      margin-right: 3px;
+      margin-right: 2px;
       font-size: 14px;
       padding: 8px 6px;
       color: #fff;
@@ -113,6 +120,7 @@ a.glyph-link .glyphicon {
   }
   .search, input {
     width: 100%;
+    padding: 0;
   }
 }
 

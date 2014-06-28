@@ -106,6 +106,22 @@ app.config( function( $routeProvider ) {
 
     })
 
+    .when('/address/create', {
+      controller: 'AddressEditCtrl',
+      templateUrl: 'partials/address/edit.html',
+      resolve: {
+        address: ['AddressResource', function( resource ) {
+          return new resource();
+        }],
+        domains: ['DomainResource', function( resource ) {
+          return resource.query().$promise;
+        }]
+      },
+      auth: true,
+      showNavigation: true
+
+    })
+
     .when('/login', {
       controller: 'LoginController',
       templateUrl: 'partials/login.html',

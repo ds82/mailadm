@@ -170,6 +170,10 @@ app.controller('AddressEditCtrl', [
   function( $scope, address, domains ) {
 
     $scope.address = address;
+    $scope.address.source = $scope.address.source || '';
+    $scope.address.destination = $scope.address.destination || [];
+
+
     var split = $scope.address.source.split( '@' );
     $scope.address.$alias = split[0];
     $scope.address.$domain = split[1];
@@ -186,7 +190,7 @@ app.controller('AddressEditCtrl', [
     $scope.domains = domains;
 
     $scope.save = function( address ) {
-
+      $scope.address.source = $scope.address.$alias + '@' + $scope.address.$domain;
       address.$save(function( res ) {
         console.log( 'DONE' );
       }, function( err ) {

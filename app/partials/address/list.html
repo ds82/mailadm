@@ -11,14 +11,12 @@
     <ul class="nav navbar-nav navbar-right">
       <li></li>
       <li>
-      <button 
-        ng-disabled="!blockedForm.$dirty || blockedForm.$invalid "
-        ng-click="submit( address )"
-        class="btn btn-primary navbar-btn"
-      >
-        <span class="fa fa-plus" />
-        Add
-      </button>
+        <a 
+          ng-href="#/address/create"
+          class="btn btn-primary navbar-btn">
+            <span class="fa fa-plus" />
+            Add
+        </a>
       </li>
     </ul>
 
