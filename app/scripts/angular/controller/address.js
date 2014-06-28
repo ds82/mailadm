@@ -161,22 +161,23 @@ function( Address, $scope, data ) {
  
 app.controller('AddressEditCtrl', [
   '$scope',
-  // 'AddressResource',
-  // 'UserResource',
-  // 'DomainResource',
   'address',
   'domains',
 
   function( $scope, address, domains ) {
 
     $scope.address = address;
-    $scope.address.source = $scope.address.source || '';
-    $scope.address.destination = $scope.address.destination || [];
+    
+    function init() {
+      $scope.address.source = $scope.address.source || '';
+      $scope.address.destination = $scope.address.destination || [];
 
 
-    var split = $scope.address.source.split( '@' );
-    $scope.address.$alias = split[0];
-    $scope.address.$domain = split[1];
+      var split = $scope.address.source.split( '@' );
+      $scope.address.$alias = split[0];
+      $scope.address.$domain = split[1];
+    }
+    init();
 
     $scope.$watchCollection( 'address.destination', function( list ) {
       if ( list ) {
@@ -192,6 +193,7 @@ app.controller('AddressEditCtrl', [
     $scope.save = function( address ) {
       $scope.address.source = $scope.address.$alias + '@' + $scope.address.$domain;
       address.$save(function( res ) {
+        init();
         console.log( 'DONE' );
       }, function( err ) {
         console.log( 'ERR' );
@@ -203,79 +205,4 @@ app.controller('AddressEditCtrl', [
       $scope.address.destination.splice( entry, 1 );
     };
 
-    // function newAddress() {
-    //   var address = new Address();
-    //   address.enable_greylisting = false;
-    //   address.enable_policyd = false;
-    //   address.destinationsAsList = [''];
-    //   return address;
-    // }
-
-    // $scope.meta = {};
-    // $scope.addresses = Address.query();
-    // $scope.address = address;
-    // $scope.users = User.query();
-    // $scope.domains = Domain.query();
-    // $scope.selectedDomain = '';
-
-    // $scope.filterByDomain = function( row ) {
-      
-    //   if ( $scope.selectedDomain === '-' ) {
-    //     return false;
-    //   }
-    //   var filter = new RegExp( '.*@' + $scope.selectedDomain );
-    //   return filter.test( row.source ) || filter.test( row.destination );
-    // };
-
-    // $scope.submit = function( addr ) {
-    //   $scope.save( addr, function( err, result ) {
-        
-    //     $scope.meta.addressCreated = true;
-    //     $scope.address = newAddress();
-    //   })
-    // };
-
-    // $scope.save = function( address, cb ) {
-
-    //   address.source = makeSource( address.alias, address.domain );
-    //   address.destination = makeDestination( address );
-    //   address.$save( function( res ) {
-
-    //     if ( !address.meta.update ) {
-    //       $scope.addresses.push( address );
-    //     }
-
-    //     if ( cb ) {
-    //       cb( null, res );
-    //     }
-    //   });
-    // };
-
-    // $scope.edit = function( address ) {
-
-    //   address = prepareEdit( address );
-    //   $scope.address = address;
-    // };
-
-    // $scope.addDestination = function( addr ) {
-    //   addr.destinationsAsList.push('');
-    // };
-
-    // $scope.toggleGreylisting = function( addr ) {
-    //   addr = prepareEdit( addr );
-    //   addr.enable_greylisting = !addr.enable_greylisting;
-    //   $scope.save( addr );
-    // };
-
-    // $scope.togglePolicyd = function( addr ) {
-    //   addr = prepareEdit( addr );
-    //   addr.enable_policyd = !addr.enable_policyd;
-    //   $scope.save( addr );
-    // };
-
-    // $scope.delete = function( address ) {
-    //   address.$delete( function() {
-    //     $scope.addresses.delete( address );
-    //   });
-    // };
 }]);
