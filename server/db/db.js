@@ -43,7 +43,7 @@ sequelDb._model.users = sequelize.define('users', {
 
 sequelDb._model.forward = sequelize.define('forward', {
   source:             { type: Sequelize.STRING(80), primaryKey: true },
-  dest:               Sequelize.ARRAY(Sequelize.STRING(80)),
+  destination:        Sequelize.ARRAY(Sequelize.STRING(80)),
   enable_greylisting: Sequelize.BOOLEAN,
   enable_policyd:     Sequelize.BOOLEAN,
 

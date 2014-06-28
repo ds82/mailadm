@@ -45,6 +45,44 @@ app.filter('splitBySpace', function() {
   }
 });
 
+
+app.directive('setFocus', [function() {
+  return {
+    restrict: 'A',
+    scope: {
+      setFocus: '='
+    },
+    link: function( $scope, $element, $attrs ) {
+      
+      $scope.setFocus = function() {
+        $element.focus();
+      };
+    }
+  };
+}]);
+
+app.directive('onSpace', [function() {
+  return {
+    restrict: 'A',
+    scope: false,
+    require: 'ngModel',
+    link: function( $scope, $element, $attrs, ngModelCtrl ) {
+      var fn = $scope.$eval( $attrs.onSpace );
+
+      //console.log( 'onSpace', fn );
+
+      $element.on('keydown', function( ev ) {
+        if ( ev.keyCode === 32 ) {
+          //console.log( 'SPACE!', $scope[$attrs.onSpace], $scope, $attrs.onSpace );
+          $scope.$apply(function() {
+            fn( ngModelCtrl.$viewValue );
+          });
+        }
+      });
+    }
+  };
+}]);
+
 app.controller('AddressListCtrl', ['AddressResource', '$scope', 'data',
 function( Address, $scope, data ) {
   $scope.list = data;
@@ -75,13 +113,49 @@ function( Address, $scope, data ) {
     var query = makeQuery();
     $scope.list = [];
 
+    console.log( 'search...', query );
     Address.query({ search: query }, function( data ) {
       $scope.list = data;
       $scope.meta.isLoading = false;
     });
   };
 
-  $scope.search = $u.debounce( search, 500 );
+  $scope.search = function( what ) {
+    var foundFilter = what.match(/#/);
+    
+    if ( foundFilter ) {
+      console.log( 'found filter, not searching ..', foundFilter );
+    
+    } else {
+      $u.debounce( search, 500 )();
+    }
+    //$u.debounce( search, 500 )();
+  };
+
+  $scope.filter = {};
+  $scope.filter.add = function( key ) {
+    var lastChar = $scope.meta.search[$scope.meta.search.length];
+    if ( $scope.meta.search.length && lastChar && lastChar !== ' ' ) {
+      $scope.meta.search += ' ';
+    }
+    $scope.meta.search += '#' + key + '=';
+    $scope.filter.focusSerch();
+  };
+
+  var regexp = new RegExp(/#([a-z]+)=([a-zA-Z0-9-_@\.]+)/);
+  $scope.filter.check = function( what ) {
+    var filter = regexp.exec( what );
+    console.log( 'filter.check', what, filter );
+    if ( filter ) {
+      $scope.meta.filter[( filter[1] )]
+          = $scope.meta.filter[( filter[1] )] || [];
+      $scope.meta.filter[( filter[1] )].push( filter[2] );
+      $scope.meta.search = $scope.meta.search.replace( regexp, '' );
+
+      console.log( 'found filter:', filter, $scope.meta.filter );
+      search();
+    }
+  };
 
 }]);
  

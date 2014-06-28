@@ -78,28 +78,37 @@ a.glyph-link .glyphicon {
 
 .input-group {
   .search-with-tags:first-child {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
   }
   .search-with-tags:last-child {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
   }
 
 }
 
 .search-with-tags {
   .form-control();
+  border-radius: 0;
   display: table;
   width: 100%;
+  padding: 10px;
   
   .tags, .search {
     display: table-cell;
   }
   .tags {
     width: 1px;
-    span:last-child {
-      margin-right: 5px;
+    a {
+      margin-right: 3px;
+      font-size: 14px;
+      padding: 8px 6px;
+      color: #fff;
+      cursor: pointer;
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
   .search, input {
@@ -107,6 +116,13 @@ a.glyph-link .glyphicon {
   }
 }
 
+.dropdown-menu > li > a {
+  text-align: left;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+}
 
 
 
