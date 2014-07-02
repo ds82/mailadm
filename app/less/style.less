@@ -22,9 +22,16 @@ body { padding-top: 125px; }
   display: none;
 }
 
+.navbar-fixed-top {
+  z-index: 1000;
+  .dropdown-menu {
+  }
+}
+
 .subnavbar {
   top: 61px;
   background-color: @gray-lighter;
+  z-index: 950;
 
   > .container {
     padding: 0 10px;
