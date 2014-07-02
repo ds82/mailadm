@@ -123,12 +123,39 @@ app.config( function( $routeProvider ) {
     })
 
     .when('/login', {
-      controller: 'LoginController',
+      controller: 'LoginCtrl',
       templateUrl: 'partials/login.html',
-      resolve: {},
+      resolve: {
+        logout: function() {
+          return false;
+        }
+      },
       auth: false,
       showNavigation: false
+    })
 
+    .when('/profile', {
+      controller: 'ProfileCtrl',
+      templateUrl: 'partials/profile.html',
+      resolve: {
+        logout: function() {
+          return false;
+        }
+      },
+      auth: false,
+      showNavigation: false
+    })
+
+    .when('/logout', {
+      controller: 'LoginCtrl',
+      templateUrl: 'partials/login.html',
+      resolve: {
+        logout: function() {
+          return true;
+        }
+      },
+      auth: false,
+      showNavigation: false
     })
 
     .when('/blocked', {

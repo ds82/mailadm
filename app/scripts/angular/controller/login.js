@@ -2,10 +2,16 @@ var $      = require('jquery'),
     app    = require('app'),
     config = require('config');
 
-app.controller('LoginController', [
-  '$scope', '$http', '$location', 'UserSession',
+app.controller('LoginCtrl', [
+  '$scope', '$http', '$location', 'UserSession', 'logout',
 
-  function( $scope, $http, $location, Session ) {
+  function( $scope, $http, $location, Session, logout ) {
+
+    if ( logout ) {
+      Session.logout();
+      return;
+    }
+
 
     $scope.login = {};
     $scope.login.failed = false;

@@ -28,6 +28,10 @@ function( $cookieStore, $location ) {
     $cookieStore.put( 'user', JSON.stringify( user ));
   };
 
+  service.logout = function() {
+    return;
+  };
+
   service.isUserLoggedIn = function() {
     //console.log( 'service.isUserLoggedIn', $location.path(), $cookieStore.get( 'user' ));
     var atLogin = $location.path().match(/\/?login.*/);
