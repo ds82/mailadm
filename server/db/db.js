@@ -18,7 +18,8 @@ sequelDb._model = {};
 sequelDb._views = {};
 sequelDb._q = Sequelize.Promise;
 sequelDb._collection = {};
-sequelDb.sql = sequelize;
+sequelDb.sequel = sequelize;
+sequelDb.clazz = Sequelize;
 
 sequelDb._model.users = sequelize.define('users', {
   email: { type: Sequelize.STRING(80), primaryKey: true },
@@ -46,7 +47,6 @@ sequelDb._model.forward = sequelize.define('forward', {
   destination:        Sequelize.ARRAY(Sequelize.STRING(80)),
   enable_greylisting: Sequelize.BOOLEAN,
   enable_policyd:     Sequelize.BOOLEAN,
-
 }, {
   tableName: 'forward',
   createdAt: false,
@@ -59,7 +59,7 @@ sequelDb._model.forward = sequelize.define('forward', {
 });
 
 var extensions = {};
-['address'].forEach(function( module ) {
+['user', 'address'].forEach(function( module ) {
   extensions[module] = require( './' + module ).init( sequelDb );
 });
 
@@ -87,9 +87,9 @@ var
 
 var fnMap = {
   // call the function
-  'function': function( val ) { return val.call({}) },
+  'function': function( val ) { return val.call({}); },
   // assume its an array
-  'object': function( val ) { return arr( val )() },
+  'object': function( val ) { return arr( val )(); },
   // just escape the string
   'string': function( val ) { return escapeStrig( val ) },
   'boolean': function( val ) { return val },
