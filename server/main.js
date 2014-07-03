@@ -69,8 +69,9 @@ passport.use(new LocalStrategy(
     // asynchronous verification, for effect...
     process.nextTick(function () {
       console.log( 'try to authenticate ...', username, password );
-      db.user.auth( username, password, function( err, result ) {
-        console.log( 'auth result', err, result );
+      var auth = model.user.auth( username, password );
+      auth.then(function( result ) {
+        console.log( 'auth result', result.dataValues );
         done( null, result );
       });
     });
