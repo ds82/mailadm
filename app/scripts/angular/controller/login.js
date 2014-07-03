@@ -7,11 +7,8 @@ app.controller('LoginCtrl', [
 
   function( $scope, $http, $location, Session, logout ) {
 
-    if ( logout ) {
-      Session.logout();
-      return;
-    }
-
+    $scope.meta = {};
+    $scope.meta.isLoading = false;
 
     $scope.login = {};
     $scope.login.failed = false;
@@ -22,6 +19,9 @@ app.controller('LoginCtrl', [
 
     $scope.submit = function( login ) {
 
+      console.log( 'login..' );
+
+      $scope.meta.isLoading = true;
       var credentials = {
         username: login.username,
         password: login.password
@@ -42,6 +42,8 @@ app.controller('LoginCtrl', [
 
         $scope.login.failed = true;
 
+      }).finally(function() {
+        $scope.meta.isLoading = false;
       });
     };
 
