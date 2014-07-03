@@ -8,6 +8,7 @@ require('./misc/401-interceptor');
 
 // DIRECTIVES
 require('./directives/btnToggle.js');
+require('./directives/laddaButton.js');
 
 // SERVICES
 require('./services/domain');
