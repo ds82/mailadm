@@ -1,0 +1,24 @@
+{
+  "name": "boilerplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dennis Sänger <boilerplate-15@mail.ds82.de>",
+  "license": "MIT",
+  "dependencies": {
+    "angular": "^1.3.14",
+    "angular-strap": "^2.2.0",
+    "bootstrap": "^3.3.2",
+    "browserify": "^9.0.3",
+    "express": "^4.12.2",
+    "tiny-di": "0.0.6"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-less": "^3.0.1",
+    "jasmine": "^2.2.1"
+  }
+}
