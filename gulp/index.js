@@ -11,6 +11,7 @@ files
   .forEach(function(file) { require('./tasks/' + file); });
 
 gulp.task('default', [
+  'dist',
   'browserify:common',
   'browserify:bundle',
   'less'
