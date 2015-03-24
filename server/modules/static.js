@@ -1,11 +1,12 @@
 'use strict';
 
-var path = require('path');
+var path    = require('path');
+var express = require('express');
 
 module.exports = Static;
 
-Static.$inject = ['express', 'app', 'config'];
-function Static(express, app, config) {
+Static.$inject = ['app', 'config'];
+function Static(app, config) {
 
   var appDir = path.join(config.appRoot, 'app');
   var distDir = path.join(config.appRoot, 'dist');
