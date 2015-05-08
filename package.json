@@ -1,19 +1,24 @@
 {
-  "name": "boilerplate",
+  "name": "mailadm",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Dennis Sänger <boilerplate-15@mail.ds82.de>",
+  "author": "Dennis Sänger <mailadm-15@mail.ds82.de>",
   "license": "MIT",
+  "browser": {
+    "jquery": "jquery/jquery.min.js",
+    "flatui-pro": "flatui-pro/dist/js/flat-ui-pro.js"
+  },
   "dependencies": {
     "angular": "^1.3.14",
-    "angular-strap": "^2.2.0",
     "bootstrap": "^3.3.2",
     "browserify": "^9.0.3",
     "express": "^4.12.2",
+    "font-awesome": "^4.3.0",
+    "jquery": "^1.9.1",
     "tiny-di": "0.0.6"
   },
   "devDependencies": {

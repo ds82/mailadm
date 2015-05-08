@@ -24,3 +24,7 @@ gulp.task('browserify:common', function() {
     .pipe(buffer())
     .pipe(gulp.dest('./dist/js/'));
 });
+
+gulp.task('browserify:watch', function() {
+  gulp.watch(['./app/**/*.js'], ['browserify:bundle']);
+});
