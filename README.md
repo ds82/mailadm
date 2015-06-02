@@ -1,11 +1,16 @@
 # mailadm #
 
+*rewrite in progress*
+
+<!--
 ![mailadm](assets/img/mailadm.png)
+-->
 
 > A webfrontend to manage and monitor your mailserver.
 
 Simple webfrontend to manage my mailserver running postfix, dovecot and postgresql.
-Currently it's just a little side-project and and barely useful for somebody except me. If the project grows more stable and gets more features, this may change.
+Currently it's just a little side-project and and barely useful for somebody except me.
+If the project grows more stable and gets more features, this may change.
 
 ## Requirements ##
 
@@ -25,4 +30,4 @@ Currently it's just a little side-project and and barely useful for somebody exc
 
 ## Todo ##
 
-too much :/
+* provide required servers/services as docker images

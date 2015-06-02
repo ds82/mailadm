@@ -1,37 +1,33 @@
 {
   "name": "mailadm",
-  "version": "0.0.2",
-  "browser": {},
-  "devDependencies": {
-    "gulp": "^3.8.1",
-    "gulp-browserify": "^0.5.0",
-    "gulp-if": "^1.0.0",
-    "gulp-less": "^1.2.3",
-    "gulp-livereload": "^1.3.1",
-    "gulp-notify": "^1.2.5",
-    "gulp-notify-growl": "^1.0.1",
-    "gulp-rename": "^1.2.0",
-    "gulp-uglify": "^0.3.1",
-    "less": "^1.7.3",
-    "node-spritesheet": "~0.4.1",
-    "optimist": "^0.6.1",
-    "tiny-lr": "0.0.5",
-    "yargs": "^1.2.5"
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "engines": {
-    "node": ">=0.8.0"
+  "author": "Dennis Sänger <mailadm-15@mail.ds82.de>",
+  "license": "MIT",
+  "browser": {
+    "jquery": "jquery/dist/jquery.min.js",
+    "flatui-pro": "flatui-pro/dist/js/flat-ui-pro.js"
   },
   "dependencies": {
-    "bookshelf": "^0.6.10",
-    "colors": "~0.6.2",
-    "express": "~3.4.0",
-    "passport": "~0.1.17",
-    "passport-local": "~0.1.6",
-    "pg": "~2.1.0",
-    "sequelize": "^1.7.9",
-    "socket.io": "~0.9.14",
-    "underscore": "~1.5.1",
-    "yargs": "^1.2.5",
-    "nstore-session": "git://github.com/ds82/nstore-session.git#40df9de00092e9d73fa9df46d0bba42b254ac401"
+    "angular": "^1.4.0",
+    "angular-new-router": "^0.5.3",
+    "bootstrap": "^3.3.2",
+    "browserify": "^9.0.3",
+    "express": "^4.12.2",
+    "font-awesome": "^4.3.0",
+    "jquery": "^1.9.1",
+    "sequelize": "^3.1.1",
+    "tiny-di": "^0.1.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-less": "^3.0.1",
+    "jasmine": "^2.2.1",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
   }
 }

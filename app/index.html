@@ -1,104 +1,139 @@
-<!doctype html>
-  <!--[if lt IE 7]>
-    <html class="no-js lt-ie9 lt-ie8 lt-ie7">
-  <![endif]-->
-  <!--[if IE 7]>
-    <html class="no-js lt-ie9 lt-ie8">
-  <![endif]-->
-  <!--[if IE 8]>
-    <html class="no-js lt-ie9">
-  <![endif]-->
-  <!--[if gt IE 8]>
-  <!-->
-  <html class="no-js" ng-app="app">
-  <!--<![endif]-->
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>mailadm</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <link rel="stylesheet" href="style/style.css">
-    <!-- build:js scripts/vendor/modernizr.js -->
-    <script src="thirdparty/modernizr/modernizr.js">
-    </script>
-    <!-- endbuild -->
-  </head>
-  <body ng-controller="AppController">
-    
-    <!-- main nav -->
-    <nav
-      ng-controller="NavController"
-      class="navbar-fixed-top navbar navbar-default"
-      role="navigation"
-    >
-      <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">
-            <span class="fa fa-inbox"></span>
-            mailadm
-          </a>
-        </div>
+    <meta name="author" content="">
+    <link rel="icon" href="dist/favicon.ico">
 
-        <!-- wrap navigation to override navbar-collapse display -->
-        <div class="ng-cloak" ng-show="session.isUserLoggedIn()">
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                <li><a ng-href="#/user">User</a></li>
-                <li class="divider-vertical"></li>
-                <li><a ng-href="#/domain">Domains</a></li>
-                <li class="divider-vertical"></li>
-                <li>
-                    <a ng-href="#/address">Adressen</a>
-                </li>
-                <li>
-                    <a ng-href="#/blocked">Blockierte Adressen</a>
-                </li>
-            </ul>
-            <!-- {{ session.getUser() }} -->
-            <ul class="nav navbar-nav navbar-right">
-              <li class="dropdown">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown">
-                  {{user.email}} <b class="caret"></b>
+    <title>mailadm</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="dist/css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body ng-controller="AppCtrl as app">
+
+<div class="iconbar iconbar-stick-left">
+            <ul>
+              <li class="">
+                <a href="#fakelink">
+                  <span class="fa fa-envelope"></span>
                 </a>
-                <ul class="dropdown-menu">
-                  <li><a href="#/profile">Profile</a></li>
-                  <li><a href="#/logout">Logout</a></li>
-                </ul>
+              </li>
+              <li><a href="#fakelink" class="fui-calendar"></a></li>
+              <li><a href="#fakelink" class="fui-chat"></a></li>
+              <li><a href="#fakelink" class="fui-mail"></a></li>
+              <li>
+                <a href="#fakelink" class="fui-gear">
+                  <span class="iconbar-unread">1</span>
+                </a>
               </li>
             </ul>
-          </div><!-- /.navbar-collapse -->
+          </div>
+
+    <!-- <div class="navbar navbar&#45;inverse navbar&#45;fixed&#45;top" role="navigation"> -->
+    <!--   <div class="container"> -->
+    <!--     <div class="navbar&#45;header"> -->
+    <!--       <button type="button" class="navbar&#45;toggle" data&#45;toggle="collapse" data&#45;target=".navbar&#45;collapse"> -->
+    <!--         <span class="sr&#45;only">Toggle navigation</span> -->
+    <!--       </button> -->
+    <!--       <a class="navbar&#45;brand" href="#">mailadm</a> -->
+    <!--     </div> -->
+    <!--     <div class="navbar&#45;collapse collapse"> -->
+    <!--       <ul class="nav navbar&#45;nav"> -->
+    <!--         <li class="active"><a href="#">Home</a></li> -->
+    <!--         <li><a href="#about">About</a></li> -->
+    <!--         <li><a href="#contact">Contact</a></li> -->
+    <!--         <li class="dropdown"> -->
+    <!--           <a href="#" class="dropdown&#45;toggle" data&#45;toggle="dropdown" aria&#45;expanded="false">Dropdown <b class="caret"></b></a> -->
+    <!--           <ul class="dropdown&#45;menu"> -->
+    <!--             <li><a href="#">Action</a></li> -->
+    <!--             <li><a href="#">Another action</a></li> -->
+    <!--             <li><a href="#">Something else here</a></li> -->
+    <!--             <li class="divider"></li> -->
+    <!--             <li class="dropdown&#45;header">Nav header</li> -->
+    <!--             <li><a href="#">Separated link</a></li> -->
+    <!--             <li><a href="#">One more separated link</a></li> -->
+    <!--           </ul> -->
+    <!--         </li> -->
+    <!--       </ul> -->
+    <!--       <ul class="nav navbar&#45;nav navbar&#45;right"> -->
+    <!--         <li><a href="../navbar/">Default</a></li> -->
+    <!--         <li class="active"><a href="./">Static top</a></li> -->
+    <!--         <li><a href="../navbar&#45;fixed&#45;top/">Fixed top</a></li> -->
+    <!--       </ul> -->
+    <!--     </div><!&#45;&#45;/.nav&#45;collapse &#45;&#45;> -->
+    <!--   </div> -->
+    <!-- </div> -->
+
+
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="#">Home</a></li>
+            <li role="presentation"><a href="#">About</a></li>
+            <li role="presentation"><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">{{ app.APP_NAME }}</h3>
+      </div>
+
+      <div class="jumbotron">
+        <h1>Jumbotron heading</h1>
+        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+        <p>
+          <a class="btn btn-lg btn-success" href="#" role="button">
+            <span class="fa fa-usd"></span>
+            Sign up today
+          </a>
+        </p>
+      </div>
+
+      <div class="row marketing">
+        <div class="col-lg-6">
+          <h4>Subheading</h4>
+          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+          <h4>Subheading</h4>
+          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+          <h4>Subheading</h4>
+          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+        </div>
+
+        <div class="col-lg-6">
+          <h4>Subheading</h4>
+          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+          <h4>Subheading</h4>
+          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+          <h4>Subheading</h4>
+          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
         </div>
       </div>
-    </nav>
 
-    <div class="container" style="padding: 0 15px;">
-      <div ng-view></div>
-    </div>
-    <!--[if lt IE 7]>
-        <p class="chromeframe">
-            You are using an
-            <strong>
-                outdated
-            </strong>
-            browser. Please
-            <a href="http://browsehappy.com/">upgrade your browser</a>
-            or
-            <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a>
-            to improve your experience.
-        </p>
-    <![endif]-->
-    <!-- build:js scripts/app.js -->
-    <script src="dist/js/main.js"></script>
-    <!-- endbuild -->
+
+
+
+    </div> <!-- /container -->
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- <script src="dist/js/ie10&#45;viewport&#45;bug&#45;workaround.js"></script> -->
+
+    <script src="dist/js/common.js"></script>
+    <script src="dist/js/flat-ui-pro.js"></script>
+    <script src="dist/js/bundle.js"></script>
   </body>
 </html>
+

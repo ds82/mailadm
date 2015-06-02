@@ -1,53 +1,54 @@
-/*! 
- * This file is basically the original bootstrap.less file, with
- * adjusted paths and without including variables.less and mixins.ess
- */
+// bootstrap variables & mixins
+@import "../../node_modules/bootstrap/less/variables.less";
+@import "../../node_modules/bootstrap/less/mixins.less";
 
-// Reset
-@import "../thirdparty/bootstrap/less/normalize.less";
-@import "../thirdparty/bootstrap/less/print.less";
+// our variables & mixins (to override bootstrap defaults)
+@import "./variables.less";
+@import "./mixins.less";
+
+// Reset and dependencies
+@import "../../node_modules/bootstrap/less/normalize.less";
+@import "../../node_modules/bootstrap/less/print.less";
+@import "../../node_modules/bootstrap/less/glyphicons.less";
 
 // Core CSS
-@import "../thirdparty/bootstrap/less/scaffolding.less";
-@import "../thirdparty/bootstrap/less/type.less";
-@import "../thirdparty/bootstrap/less/code.less";
-@import "../thirdparty/bootstrap/less/grid.less";
-@import "../thirdparty/bootstrap/less/tables.less";
-@import "../thirdparty/bootstrap/less/forms.less";
-@import "../thirdparty/bootstrap/less/buttons.less";
+@import "../../node_modules/bootstrap/less/scaffolding.less";
+@import "../../node_modules/bootstrap/less/type.less";
+@import "../../node_modules/bootstrap/less/code.less";
+@import "../../node_modules/bootstrap/less/grid.less";
+@import "../../node_modules/bootstrap/less/tables.less";
+@import "../../node_modules/bootstrap/less/forms.less";
+@import "../../node_modules/bootstrap/less/buttons.less";
 
 // Components
-@import "../thirdparty/bootstrap/less/component-animations.less";
-@import "../thirdparty/bootstrap/less/glyphicons.less";
-@import "../thirdparty/bootstrap/less/dropdowns.less";
-@import "../thirdparty/bootstrap/less/button-groups.less";
-@import "../thirdparty/bootstrap/less/input-groups.less";
-@import "../thirdparty/bootstrap/less/navs.less";
-@import "../thirdparty/bootstrap/less/navbar.less";
-@import "../thirdparty/bootstrap/less/breadcrumbs.less";
-@import "../thirdparty/bootstrap/less/pagination.less";
-@import "../thirdparty/bootstrap/less/pager.less";
-@import "../thirdparty/bootstrap/less/labels.less";
-@import "../thirdparty/bootstrap/less/badges.less";
-@import "../thirdparty/bootstrap/less/jumbotron.less";
-@import "../thirdparty/bootstrap/less/thumbnails.less";
-@import "../thirdparty/bootstrap/less/alerts.less";
-@import "../thirdparty/bootstrap/less/progress-bars.less";
-@import "../thirdparty/bootstrap/less/media.less";
-@import "../thirdparty/bootstrap/less/list-group.less";
-@import "../thirdparty/bootstrap/less/panels.less";
-@import "../thirdparty/bootstrap/less/wells.less";
-@import "../thirdparty/bootstrap/less/close.less";
+@import "../../node_modules/bootstrap/less/component-animations.less";
+@import "../../node_modules/bootstrap/less/dropdowns.less";
+@import "../../node_modules/bootstrap/less/button-groups.less";
+@import "../../node_modules/bootstrap/less/input-groups.less";
+@import "../../node_modules/bootstrap/less/navs.less";
+@import "../../node_modules/bootstrap/less/navbar.less";
+@import "../../node_modules/bootstrap/less/breadcrumbs.less";
+@import "../../node_modules/bootstrap/less/pagination.less";
+@import "../../node_modules/bootstrap/less/pager.less";
+@import "../../node_modules/bootstrap/less/labels.less";
+@import "../../node_modules/bootstrap/less/badges.less";
+@import "../../node_modules/bootstrap/less/jumbotron.less";
+@import "../../node_modules/bootstrap/less/thumbnails.less";
+@import "../../node_modules/bootstrap/less/alerts.less";
+@import "../../node_modules/bootstrap/less/progress-bars.less";
+@import "../../node_modules/bootstrap/less/media.less";
+@import "../../node_modules/bootstrap/less/list-group.less";
+@import "../../node_modules/bootstrap/less/panels.less";
+@import "../../node_modules/bootstrap/less/responsive-embed.less";
+@import "../../node_modules/bootstrap/less/wells.less";
+@import "../../node_modules/bootstrap/less/close.less";
 
 // Components w/ JavaScript
-@import "../thirdparty/bootstrap/less/modals.less";
-@import "../thirdparty/bootstrap/less/tooltip.less";
-@import "../thirdparty/bootstrap/less/popovers.less";
-@import "../thirdparty/bootstrap/less/carousel.less";
+@import "../../node_modules/bootstrap/less/modals.less";
+@import "../../node_modules/bootstrap/less/tooltip.less";
+@import "../../node_modules/bootstrap/less/popovers.less";
+@import "../../node_modules/bootstrap/less/carousel.less";
 
 // Utility classes
-@import "../thirdparty/bootstrap/less/utilities.less";
-@import "../thirdparty/bootstrap/less/responsive-utilities.less";
-
-
-@import "../thirdparty/bootstrap-switch/css/bootstrap3/bootstrap-switch.less";
+@import "../../node_modules/bootstrap/less/utilities.less";
+@import "../../node_modules/bootstrap/less/responsive-utilities.less";
