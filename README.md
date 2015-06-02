@@ -1,6 +1,10 @@
 # mailadm #
 
+*rewrite in progress*
+
+<!--
 ![mailadm](assets/img/mailadm.png)
+-->
 
 > A webfrontend to manage and monitor your mailserver.
 
