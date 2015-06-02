@@ -9,7 +9,7 @@
   "author": "Dennis Sänger <mailadm-15@mail.ds82.de>",
   "license": "MIT",
   "browser": {
-    "jquery": "jquery/jquery.min.js",
+    "jquery": "jquery/dist/jquery.min.js",
     "flatui-pro": "flatui-pro/dist/js/flat-ui-pro.js"
   },
   "dependencies": {
