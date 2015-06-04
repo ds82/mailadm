@@ -1,3 +1,3 @@
 'use strict';
 
-require('./mailadm.forward');
+require('./forward');
