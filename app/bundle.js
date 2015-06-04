@@ -1,4 +1,4 @@
 'use strict';
 
-require('../modules');
+require('./modules');
 require('./app');

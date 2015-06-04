@@ -8,7 +8,7 @@ var source = require('vinyl-source-stream');
 gulp.task('browserify:bundle', function() {
   var common = new Brify();
   return common
-    .add('./app/js/bundle')
+    .add('./app/bundle')
     .bundle()
     .pipe(source('bundle.js'))
     .pipe(buffer())
@@ -18,7 +18,7 @@ gulp.task('browserify:bundle', function() {
 gulp.task('browserify:common', function() {
   var common = new Brify();
   return common
-    .add('./app/js/common')
+    .add('./app/common')
     .bundle()
     .pipe(source('common.js'))
     .pipe(buffer())
