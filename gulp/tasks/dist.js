@@ -16,6 +16,15 @@ gulp.task('dist:flatui-js', function() {
     .pipe(gulp.dest('dist/js/'));
 });
 
-gulp.task('dist', ['dist:fonts', 'dist:flatui-js'], function() {
+gulp.task('dist:module-partials', function() {
+  gulp.src(['./app/modules/**/*.html'])
+    .pipe(gulp.dest('dist/modules/'));
+});
+
+gulp.task('dist', [
+  'dist:module-partials',
+  'dist:fonts',
+  'dist:flatui-js'
+], function() {
 
 });
